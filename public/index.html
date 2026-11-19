@@ -9,6 +9,7 @@
   <title>Gammee APP - Social Network</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     html, body {
       background-color: #f0f2f5;
@@ -37,6 +38,7 @@
 
     <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
       <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
+      <div id="authInfo" class="hidden bg-blue-50 border border-blue-300 text-blue-800 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
 
       <!-- LOGIN FORM -->
       <form id="loginForm" class="space-y-3.5">
@@ -59,18 +61,38 @@
         </div>
       </form>
 
-      <!-- SIGN UP FORM -->
+      <!-- SIGN UP FORM (STEP 1: SEND OTP) -->
       <form id="signupForm" class="hidden space-y-3.5">
         <h2 class="text-xl font-bold text-center text-gray-800">Create New Account</h2>
         <input type="text" id="signupName" placeholder="Full Name" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="email" id="signupEmail" placeholder="Enter your email" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="password" id="signupPassword" placeholder="New Password (at least 6 characters)" required minlength="6" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
-          Sign Up
+        <button type="submit" id="sendOtpBtn" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
+          Send Verification Code (OTP)
         </button>
         <div class="text-center pt-2">
           <button type="button" id="openLoginBtn" class="text-[#1877F2] font-semibold text-sm hover:underline cursor-pointer">
             Already have an account? Log In
+          </button>
+        </div>
+      </form>
+
+      <!-- OTP VERIFICATION FORM (STEP 2: VERIFY 6-DIGIT CODE) -->
+      <form id="otpForm" class="hidden space-y-3.5">
+        <h2 class="text-xl font-bold text-center text-gray-800">Verify Your Email</h2>
+        <p class="text-xs text-gray-600 text-center">
+          Enter the 6-digit code sent to <span id="otpTargetEmail" class="font-bold text-gray-800"></span>
+        </p>
+        <input type="text" id="otpInput" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP" required class="w-full px-4 py-3 text-center tracking-[0.4em] text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <button type="submit" id="verifyOtpBtn" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
+          Verify & Create Account
+        </button>
+        <div class="flex justify-between text-xs pt-1">
+          <button type="button" id="resendOtpBtn" class="text-[#1877F2] font-semibold hover:underline cursor-pointer">
+            Resend Code
+          </button>
+          <button type="button" id="backToSignupBtn" class="text-gray-500 hover:underline cursor-pointer">
+            Change Email
           </button>
         </div>
       </form>
@@ -464,18 +486,12 @@
 
   <!-- UI HELPERS -->
   <script>
-    function setAuthMode(mode) {
-      const errBox = document.getElementById('authError');
-      if (errBox) errBox.classList.add('hidden');
-      const loginForm = document.getElementById('loginForm');
-      const signupForm = document.getElementById('signupForm');
-      if (mode === 'signup') {
-        loginForm.classList.add('hidden');
-        signupForm.classList.remove('hidden');
-      } else {
-        signupForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-      }
+    function showAuthScreen(mode) {
+      document.getElementById('authError').classList.add('hidden');
+      document.getElementById('authInfo').classList.add('hidden');
+      document.getElementById('loginForm').classList.toggle('hidden', mode !== 'login');
+      document.getElementById('signupForm').classList.toggle('hidden', mode !== 'signup');
+      document.getElementById('otpForm').classList.toggle('hidden', mode !== 'otp');
     }
 
     function toggleMobileSearch() {
@@ -492,14 +508,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const openSignupBtn = document.getElementById('openSignupBtn');
-      const openLoginBtn = document.getElementById('openLoginBtn');
-      if (openSignupBtn) openSignupBtn.addEventListener('click', () => setAuthMode('signup'));
-      if (openLoginBtn) openLoginBtn.addEventListener('click', () => setAuthMode('login'));
+      document.getElementById('openSignupBtn').addEventListener('click', () => showAuthScreen('signup'));
+      document.getElementById('openLoginBtn').addEventListener('click', () => showAuthScreen('login'));
+      document.getElementById('backToSignupBtn').addEventListener('click', () => showAuthScreen('signup'));
     });
   </script>
 
-  <!-- FIREBASE LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
@@ -521,6 +536,14 @@
       measurementId: "G-JBRGN9K1TW"
     };
 
+    const EMAILJS_PUBLIC_KEY = "bTMttOLrBa11bFIn6";
+    const EMAILJS_SERVICE_ID = "service_igsnp4g";
+    const EMAILJS_TEMPLATE_ID = "template_sflmmc8";
+
+    if (window.emailjs) {
+      window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -532,6 +555,10 @@
     let allPosts = [];
     let activeChatPartner = null;
     let editingPostId = null;
+
+    let pendingSignup = null;
+    let generatedOtp = null;
+    let otpExpiresAt = 0;
 
     const REACTIONS = [
       { key: 'like', emoji: '👍', label: 'Like' },
@@ -548,6 +575,57 @@
       const errBox = document.getElementById('authError');
       errBox.textContent = msg;
       errBox.classList.remove('hidden');
+      document.getElementById('authInfo').classList.add('hidden');
+    }
+
+    function showAuthInfo(msg) {
+      const infoBox = document.getElementById('authInfo');
+      infoBox.textContent = msg;
+      infoBox.classList.remove('hidden');
+      document.getElementById('authError').classList.add('hidden');
+    }
+
+    function createSixDigitOtp() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    async function dispatchEmailOtp(toEmail, toName, otpCode) {
+      if (!window.emailjs) {
+        throw new Error("EmailJS library failed to load.");
+      }
+
+      const expiryDate = new Date(Date.now() + 15 * 60 * 1000);
+      const formattedTime = expiryDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        email: toEmail,
+        to_email: toEmail,
+        to_name: toName,
+        passcode: otpCode,
+        otp_code: otpCode,
+        time: formattedTime
+      });
+    }
+
+    async function beginOtpFlow() {
+      if (!pendingSignup) return;
+      const btn = document.getElementById('sendOtpBtn');
+      btn.disabled = true;
+      btn.textContent = "Sending OTP...";
+
+      try {
+        generatedOtp = createSixDigitOtp();
+        otpExpiresAt = Date.now() + 15 * 60 * 1000;
+        await dispatchEmailOtp(pendingSignup.email, pendingSignup.name, generatedOtp);
+        document.getElementById('otpTargetEmail').textContent = pendingSignup.email;
+        showAuthScreen('otp');
+        showAuthInfo(`6-digit OTP sent to ${pendingSignup.email}. Valid for 15 minutes.`);
+      } catch (err) {
+        showAuthError("Failed to send OTP: " + (err.text || err.message || err));
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Verification Code (OTP)";
+      }
     }
 
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
@@ -555,13 +633,47 @@
       const name = document.getElementById('signupName').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
       const password = document.getElementById('signupPassword').value;
+      pendingSignup = { name, email, password };
+      await beginOtpFlow();
+    });
+
+    document.getElementById('resendOtpBtn').addEventListener('click', async () => {
+      await beginOtpFlow();
+    });
+
+    document.getElementById('otpForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const enteredCode = document.getElementById('otpInput').value.trim();
+      if (!pendingSignup || !generatedOtp) {
+        showAuthError("Session expired. Please start sign up again.");
+        return;
+      }
+      if (Date.now() > otpExpiresAt) {
+        showAuthError("OTP code expired. Click Resend Code.");
+        return;
+      }
+      if (enteredCode !== generatedOtp) {
+        showAuthError("Invalid 6-digit OTP code!");
+        return;
+      }
+
+      const btn = document.getElementById('verifyOtpBtn');
+      btn.disabled = true;
+      btn.textContent = "Creating Account...";
+
       try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        const avatar = getAvatar(name, null);
-        await updateProfile(cred.user, { displayName: name, photoURL: avatar });
-        await saveUserToDB(cred.user, name, avatar);
+        const cred = await createUserWithEmailAndPassword(auth, pendingSignup.email, pendingSignup.password);
+        const avatar = getAvatar(pendingSignup.name, null);
+        await updateProfile(cred.user, { displayName: pendingSignup.name, photoURL: avatar });
+        await saveUserToDB(cred.user, pendingSignup.name, avatar, true);
+        pendingSignup = null;
+        generatedOtp = null;
+        document.getElementById('otpInput').value = '';
       } catch (err) {
-        showAuthError("Sign up error: " + err.message);
+        showAuthError("Account creation failed: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Verify & Create Account";
       }
     });
 
@@ -579,17 +691,18 @@
     document.getElementById('googleLoginBtn').addEventListener('click', async () => {
       try {
         const result = await signInWithPopup(auth, googleProvider);
-        await saveUserToDB(result.user, result.user.displayName, result.user.photoURL);
+        await saveUserToDB(result.user, result.user.displayName, result.user.photoURL, true);
       } catch (err) {
         showAuthError("Google Sign-In: " + err.message);
       }
     });
 
-    async function saveUserToDB(user, name, avatar) {
+    async function saveUserToDB(user, name, avatar, emailVerified = true) {
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name || user.email.split('@')[0],
         email: user.email,
+        emailVerified,
         avatar: getAvatar(name, avatar),
         lastSeen: serverTimestamp()
       }, { merge: true });
@@ -607,7 +720,7 @@
         document.getElementById('mainApp').classList.remove('hidden');
 
         updateHeaderAndSidebarUI(displayName, user.email, avatar, currentUserDoc.bio || "Gammee APP Member");
-        await saveUserToDB(user, displayName, avatar);
+        await saveUserToDB(user, displayName, avatar, true);
 
         listenToUsers();
         listenToPosts();
@@ -618,6 +731,7 @@
         currentUser = null;
         document.getElementById('mainApp').classList.add('hidden');
         document.getElementById('authScreen').classList.remove('hidden');
+        showAuthScreen('login');
       }
     });
 

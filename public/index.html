@@ -37,18 +37,18 @@
         <h2 class="text-xl font-bold text-center text-gray-800">Seeni (Log In)</h2>
         <input type="email" id="loginEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="password" id="loginPassword" placeholder="Jecha Iccitii (Password)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition">
+        <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition cursor-pointer">
           Seeni
         </button>
 
-        <button type="button" onclick="loginWithGoogle()" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition">
+        <button type="button" id="googleLoginBtn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" />
           <span>Google dhaan Seeni</span>
         </button>
 
         <hr class="my-4" />
         <div class="text-center">
-          <button type="button" onclick="toggleAuthMode('signup')" class="bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition">
+          <button type="button" id="openSignupBtn" class="bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition cursor-pointer">
             Account Haaraa Uumi
           </button>
         </div>
@@ -60,11 +60,11 @@
         <input type="text" id="signupName" placeholder="Maqaa Guutuu" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg transition">
+        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg transition cursor-pointer">
           Galmaa'i (Sign Up)
         </button>
         <div class="text-center pt-2">
-          <button type="button" onclick="toggleAuthMode('login')" class="text-[#1877F2] font-semibold text-sm hover:underline">
+          <button type="button" id="openLoginBtn" class="text-[#1877F2] font-semibold text-sm hover:underline cursor-pointer">
             Duraan account qabdaa? Seeni
           </button>
         </div>
@@ -102,7 +102,7 @@
           <img id="navUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-gray-300" />
           <span id="navUserName" class="font-semibold text-sm hidden md:block"></span>
         </div>
-        <button onclick="logoutUser()" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold transition" title="Ba'i">
+        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer" title="Ba'i">
           <i class="fa-solid fa-right-from-bracket"></i> Ba'i
         </button>
       </div>
@@ -211,6 +211,30 @@
     </div>
   </div>
 
+  <!-- UI BUTTON HANDLER (NON-MODULE SO IT ALWAYS WORKS) -->
+  <script>
+    function setAuthMode(mode) {
+      const errBox = document.getElementById('authError');
+      if (errBox) errBox.classList.add('hidden');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      if (mode === 'signup') {
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+      } else {
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const openSignupBtn = document.getElementById('openSignupBtn');
+      const openLoginBtn = document.getElementById('openLoginBtn');
+      if (openSignupBtn) openSignupBtn.addEventListener('click', () => setAuthMode('signup'));
+      if (openLoginBtn) openLoginBtn.addEventListener('click', () => setAuthMode('login'));
+    });
+  </script>
+
   <!-- FIREBASE SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -231,7 +255,7 @@
       messagingSenderId: "745967883527",
       appId: "1:745967883527:web:8adb8a16486857bd70a1a2",
       measurementId: "G-JBRGN9K1TW"
-    };[cite: 5]
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -240,17 +264,6 @@
 
     let currentUser = null;
     let allPosts = [];
-
-    window.toggleAuthMode = (mode) => {
-      document.getElementById('authError').classList.add('hidden');
-      if (mode === 'signup') {
-        document.getElementById('loginForm').classList.add('hidden');
-        document.getElementById('signupForm').classList.remove('hidden');
-      } else {
-        document.getElementById('signupForm').classList.add('hidden');
-        document.getElementById('loginForm').classList.remove('hidden');
-      }
-    };
 
     function showAuthError(msg) {
       const errBox = document.getElementById('authError');
@@ -286,14 +299,14 @@
       }
     });
 
-    window.loginWithGoogle = async () => {
+    document.getElementById('googleLoginBtn').addEventListener('click', async () => {
       try {
         const result = await signInWithPopup(auth, googleProvider);
         await saveUserToDB(result.user, result.user.displayName, result.user.photoURL);
       } catch (err) {
         showAuthError("Google Sign-In hin milkoofne: " + err.message);
       }
-    };
+    });
 
     async function saveUserToDB(user, name, avatar) {
       await setDoc(doc(db, "users", user.uid), {
@@ -305,7 +318,7 @@
       }, { merge: true });
     }
 
-    window.logoutUser = () => signOut(auth);
+    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {

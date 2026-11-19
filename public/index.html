@@ -2,42 +2,51 @@
 <html lang="om">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1877F2" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Gammee APP - Walqunnamtii Hawaasaa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
-    body {
+    html, body {
       background-color: #f0f2f5;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .h-app-screen {
+      height: 100vh;
+      height: 100dvh;
+    }
   </style>
 </head>
 <body class="text-[#050505]">
 
   <!-- ================= AUTHENTICATION SCREEN ================= -->
-  <div id="authScreen" class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-10 gap-10 max-w-5xl mx-auto">
+  <div id="authScreen" class="min-h-app-screen min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-8 gap-8 lg:gap-12 max-w-5xl mx-auto">
     <div class="text-center lg:text-left max-w-md">
-      <div class="inline-flex items-center gap-3 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-4xl flex items-center justify-center shadow-lg">G</div>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
+      <div class="inline-flex items-center gap-3 mb-3">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-3xl sm:text-4xl flex items-center justify-center shadow-lg">G</div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
       </div>
-      <p class="text-xl sm:text-2xl text-gray-800 font-medium leading-snug">
+      <p class="text-base sm:text-2xl text-gray-800 font-medium leading-snug">
         Hiriyoota kee fi addunyaa mara waliin yeroo dhugaa (Real-Time) keessatti wal qunnami, seenaa fi odeeffannoo qoodi.
       </p>
     </div>
 
-    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
       <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
 
       <!-- LOGIN FORM -->
-      <form id="loginForm" class="space-y-4">
+      <form id="loginForm" class="space-y-3.5">
         <h2 class="text-xl font-bold text-center text-gray-800">Seeni (Log In)</h2>
-        <input type="email" id="loginEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="loginPassword" placeholder="Jecha Iccitii (Password)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition cursor-pointer">
+        <input type="email" id="loginEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="loginPassword" placeholder="Jecha Iccitii (Password)" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
           Seeni
         </button>
 
@@ -46,21 +55,21 @@
           <span>Google dhaan Seeni</span>
         </button>
 
-        <hr class="my-4" />
+        <hr class="my-3" />
         <div class="text-center">
-          <button type="button" id="openSignupBtn" class="bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition cursor-pointer">
+          <button type="button" id="openSignupBtn" class="w-full sm:w-auto bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition cursor-pointer">
             Account Haaraa Uumi
           </button>
         </div>
       </form>
 
       <!-- SIGN UP FORM -->
-      <form id="signupForm" class="hidden space-y-4">
+      <form id="signupForm" class="hidden space-y-3.5">
         <h2 class="text-xl font-bold text-center text-gray-800">Account Haaraa Uumi</h2>
-        <input type="text" id="signupName" placeholder="Maqaa Guutuu" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg transition cursor-pointer">
+        <input type="text" id="signupName" placeholder="Maqaa Guutuu" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
           Galmaa'i (Sign Up)
         </button>
         <div class="text-center pt-2">
@@ -72,68 +81,77 @@
     </div>
   </div>
 
-  <!-- ================= MAIN FACEBOOK-STYLE APP ================= -->
-  <div id="mainApp" class="hidden">
+  <!-- ================= MAIN RESPONSIVE APP ================= -->
+  <div id="mainApp" class="hidden pb-16 md:pb-4">
     <!-- TOP HEADER -->
-    <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-40 px-3 sm:px-4 flex items-center justify-between border-b border-gray-200">
+    <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-40 px-2.5 sm:px-4 flex items-center justify-between border-b border-gray-200">
       <div class="flex items-center gap-2">
-        <button onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-extrabold text-2xl cursor-pointer">
+        <button onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-extrabold text-2xl shrink-0 cursor-pointer">
           G
         </button>
         <div class="relative hidden sm:block">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
-          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Gammee APP keessaa barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-56 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
         </div>
       </div>
 
-      <!-- CENTER NAV TABS -->
-      <nav class="flex items-center h-full gap-1 sm:gap-2">
-        <button onclick="switchTab('home')" id="nav-home" title="Fuula Jalqabaa" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
+      <!-- TABLET / DESKTOP CENTER NAV -->
+      <nav class="hidden md:flex items-center h-full gap-1 lg:gap-2">
+        <button onclick="switchTab('home')" id="nav-home" title="Fuula Jalqabaa" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-house"></i>
         </button>
-        <button onclick="switchTab('friends')" id="nav-friends" title="Hiriyoota & Miseensota" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
+        <button onclick="switchTab('friends')" id="nav-friends" title="Hiriyoota & Miseensota" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
           <i class="fa-solid fa-user-group"></i>
           <span id="friendReqBadge" class="hidden absolute top-1.5 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full">0</span>
         </button>
-        <button onclick="switchTab('messenger')" id="nav-messenger" title="Ergaa Dhuunfaa (Messenger)" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
+        <button onclick="switchTab('messenger')" id="nav-messenger" title="Messenger" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-brands fa-facebook-messenger"></i>
         </button>
-        <button onclick="switchTab('profile')" id="nav-profile" title="Profile Kee" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
+        <button onclick="switchTab('profile')" id="nav-profile" title="Profile Kee" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-circle-user"></i>
         </button>
       </nav>
 
       <!-- RIGHT CONTROLS -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="toggleMobileSearch()" class="sm:hidden w-9 h-9 rounded-full bg-[#e4e6eb] flex items-center justify-center text-gray-800 cursor-pointer" title="Barbaadi">
+          <i class="fa-solid fa-magnifying-glass text-sm"></i>
+        </button>
+
         <div class="relative">
-          <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center text-gray-800 relative cursor-pointer" title="Beeksisa">
-            <i class="fa-solid fa-bell"></i>
+          <button onclick="toggleNotifications()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center text-gray-800 relative cursor-pointer" title="Beeksisa">
+            <i class="fa-solid fa-bell text-sm sm:text-base"></i>
             <span id="notifBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
           </button>
-          <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 p-3 z-50 max-h-96 overflow-y-auto">
+          <div id="notifDropdown" class="hidden fixed sm:absolute right-2 sm:right-0 mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-2xl border border-gray-200 p-3 z-50 max-h-80 overflow-y-auto">
             <div class="flex justify-between items-center pb-2 mb-2 border-b">
-              <span class="font-bold text-sm">Beeksisa (Notifications)</span>
+              <span class="font-bold text-sm">Beeksisa</span>
               <button onclick="clearNotifications()" class="text-xs text-[#1877F2] hover:underline cursor-pointer">Haqi</button>
             </div>
             <div id="notifList" class="space-y-2 text-xs text-gray-600">Beeksisni haaraan hin jiru.</div>
           </div>
         </div>
 
-        <button onclick="switchTab('profile')" class="hidden md:flex items-center gap-2 bg-[#f0f2f5] hover:bg-gray-200 pr-3 pl-1 py-1 rounded-full cursor-pointer">
+        <button onclick="switchTab('profile')" class="hidden lg:flex items-center gap-2 bg-[#f0f2f5] hover:bg-gray-200 pr-3 pl-1 py-1 rounded-full cursor-pointer">
           <img id="navUserAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
-          <span id="navUserName" class="font-semibold text-sm max-w-[120px] truncate"></span>
+          <span id="navUserName" class="font-semibold text-sm max-w-[110px] truncate"></span>
         </button>
 
-        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-2 rounded-full text-xs font-bold transition cursor-pointer" title="Ba'i">
+        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-2.5 sm:px-3 py-2 rounded-full text-xs font-bold transition cursor-pointer" title="Ba'i">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </header>
 
-    <!-- 3-COLUMN FACEBOOK LAYOUT -->
-    <div class="pt-14 max-w-[1440px] mx-auto flex justify-between px-2 sm:px-4">
-      <!-- LEFT SIDEBAR -->
-      <aside class="hidden lg:block w-[280px] fixed top-14 left-2 xl:left-4 py-4 h-[calc(100vh-3.5rem)] overflow-y-auto">
+    <!-- MOBILE SEARCH BAR (TOGGLES ON PHONE) -->
+    <div id="mobileSearchBar" class="hidden sm:hidden fixed top-14 left-0 right-0 bg-white p-2 border-b z-30">
+      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Gammee APP keessaa barbaadi..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
+    </div>
+
+    <!-- MAIN RESPONSIVE CONTAINER -->
+    <div class="pt-14 max-w-[1440px] mx-auto flex justify-between px-1.5 sm:px-4">
+      <!-- DESKTOP LEFT SIDEBAR -->
+      <aside class="hidden lg:block w-[270px] fixed top-14 left-3 xl:left-4 py-4 h-[calc(100vh-3.5rem)] overflow-y-auto">
         <div class="space-y-1">
           <button onclick="switchTab('profile')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-left cursor-pointer">
             <img id="sideUserAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
@@ -155,7 +173,7 @@
 
           <button onclick="switchTab('messenger')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-brands fa-facebook-messenger text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>Messenger (Chat Dhuunfaa)</span>
+            <span>Messenger</span>
           </button>
 
           <button onclick="openStoryModal()" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -165,25 +183,24 @@
         </div>
 
         <hr class="my-3 border-gray-300" />
-        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Hiriyoota Online Jiran</div>
+        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Miseensota Jiran</div>
         <div id="sidebarOnlineUsers" class="space-y-2"></div>
       </aside>
 
-      <!-- CENTER CONTENT AREA -->
-      <main class="w-full lg:ml-[295px] xl:mr-[315px] max-w-[680px] mx-auto py-4 space-y-4">
+      <!-- CENTER CONTENT -->
+      <main class="w-full lg:ml-[285px] xl:mr-[315px] max-w-[680px] mx-auto py-3 sm:py-4 space-y-3 sm:space-y-4">
 
         <!-- TAB 1: HOME FEED -->
-        <div id="tab-home" class="app-tab space-y-4">
-          <!-- STORIES ROW -->
-          <div class="bg-white rounded-xl shadow-sm p-3 border border-gray-200">
-            <div id="storiesContainer" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
-              <!-- Create Story Card -->
-              <div onclick="openStoryModal()" class="min-w-[112px] h-44 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex flex-col cursor-pointer shrink-0 shadow-sm hover:opacity-95">
-                <div class="h-28 w-full bg-blue-50 flex items-center justify-center">
+        <div id="tab-home" class="app-tab space-y-3 sm:space-y-4">
+          <!-- STORIES -->
+          <div class="bg-white rounded-xl shadow-sm p-2.5 sm:p-3 border border-gray-200">
+            <div id="storiesContainer" class="flex gap-2 overflow-x-auto no-scrollbar">
+              <div onclick="openStoryModal()" class="min-w-[100px] sm:min-w-[112px] h-40 sm:h-44 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex flex-col cursor-pointer shrink-0 shadow-sm">
+                <div class="h-24 sm:h-28 w-full bg-blue-50">
                   <img id="storyCreateAvatar" src="" class="w-full h-full object-cover" />
                 </div>
                 <div class="flex-1 bg-white flex flex-col items-center justify-center relative pt-3 px-1">
-                  <div class="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center border-4 border-white -mt-7 shadow">
+                  <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center border-4 border-white -mt-6 sm:-mt-7 shadow">
                     <i class="fa-solid fa-plus text-xs"></i>
                   </div>
                   <span class="text-[11px] font-bold text-center leading-tight mt-1">Seenaa Uumi</span>
@@ -193,32 +210,43 @@
           </div>
 
           <!-- CREATE POST BOX -->
-          <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
-            <div class="flex items-center gap-3">
-              <img id="postBoxAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
-              <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-4 py-2.5 rounded-full text-[15px] transition cursor-pointer">
-                Maal yaadaa jirta? Addunyaaf qoodi...
+          <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-gray-200">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+              <img id="postBoxAvatar" src="" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover shrink-0" />
+              <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-3.5 sm:px-4 py-2.5 rounded-full text-sm sm:text-[15px] transition cursor-pointer truncate">
+                Maal yaadaa jirta? Qoodi...
               </button>
             </div>
-            <hr class="my-3 border-gray-200" />
+            <hr class="my-2.5 sm:my-3 border-gray-200" />
             <div class="grid grid-cols-3 text-xs sm:text-sm font-semibold text-gray-600">
-              <button onclick="openPostModal('mood')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-                <i class="fa-regular fa-face-smile text-yellow-500 text-lg"></i>
-                <span>Miira / Haala</span>
+              <button onclick="openPostModal('mood')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <i class="fa-regular fa-face-smile text-yellow-500 text-base sm:text-lg"></i>
+                <span>Miira</span>
               </button>
-              <button onclick="openPostModal('photo')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-                <i class="fa-solid fa-images text-green-500 text-lg"></i>
+              <button onclick="openPostModal('photo')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <i class="fa-solid fa-images text-green-500 text-base sm:text-lg"></i>
                 <span>Suuraa</span>
               </button>
-              <button onclick="openPostModal('text')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-                <i class="fa-solid fa-pen-to-square text-[#1877F2] text-lg"></i>
-                <span>Barreeffama</span>
+              <button onclick="openPostModal('text')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <i class="fa-solid fa-pen-to-square text-[#1877F2] text-base sm:text-lg"></i>
+                <span>Barreessi</span>
               </button>
             </div>
           </div>
 
+          <!-- MOBILE/TABLET QUICK LIVE CHAT BAR -->
+          <div class="xl:hidden bg-white rounded-xl shadow-sm p-3 border border-gray-200 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+              <span class="font-bold text-xs sm:text-sm">Marii Hawaasaa (Live Chat)</span>
+            </div>
+            <button onclick="openMobileLiveChat()" class="bg-[#1877F2] text-white text-xs font-bold px-3.5 py-1.5 rounded-full cursor-pointer">
+              Chat Bani
+            </button>
+          </div>
+
           <!-- POSTS FEED -->
-          <div id="postsContainer" class="space-y-4">
+          <div id="postsContainer" class="space-y-3 sm:space-y-4">
             <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
               <p>Maxxansaalee fe'aa jira...</p>
@@ -226,33 +254,33 @@
           </div>
         </div>
 
-        <!-- TAB 2: FRIENDS & MEMBERS -->
+        <!-- TAB 2: FRIENDS -->
         <div id="tab-friends" class="app-tab hidden space-y-4">
-          <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-            <h2 class="text-xl font-bold mb-3">Gaaffii Hiriyummaa (Friend Requests)</h2>
+          <div class="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-200">
+            <h2 class="text-lg sm:text-xl font-bold mb-3">Gaaffii Hiriyummaa</h2>
             <div id="friendRequestsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
               <p class="text-sm text-gray-500">Gaaffiin hiriyummaa haaraan hin jiru.</p>
             </div>
 
-            <h2 class="text-xl font-bold mb-3">Miseensota & Hiriyoota Gammee APP</h2>
+            <h2 class="text-lg sm:text-xl font-bold mb-3">Miseensota & Hiriyoota</h2>
             <div id="allUsersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
           </div>
         </div>
 
-        <!-- TAB 3: PRIVATE MESSENGER -->
+        <!-- TAB 3: MESSENGER -->
         <div id="tab-messenger" class="app-tab hidden">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden grid grid-cols-1 md:grid-cols-12 h-[75vh]">
-            <div class="md:col-span-4 border-r border-gray-200 flex flex-col">
-              <div class="p-3 border-b font-bold text-base bg-gray-50">Ergaa Dhuunfaa (Chats)</div>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden grid grid-cols-1 md:grid-cols-12 h-[72vh]">
+            <div id="dmSidebarPanel" class="md:col-span-4 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col max-h-44 md:max-h-full">
+              <div class="p-3 border-b font-bold text-sm bg-gray-50">Ergaa Dhuunfaa</div>
               <div id="dmUserList" class="flex-1 overflow-y-auto divide-y divide-gray-100"></div>
             </div>
-            <div class="md:col-span-8 flex flex-col">
+            <div class="md:col-span-8 flex flex-col flex-1 min-h-0">
               <div id="dmHeader" class="p-3 border-b font-bold text-sm bg-gray-50 flex items-center gap-2">
                 <span class="text-gray-500">Hiriyaa chat itti gootu filadhu</span>
               </div>
-              <div id="dmMessagesBox" class="flex-1 p-4 overflow-y-auto space-y-2.5 bg-[#f0f2f5]/50 text-sm"></div>
-              <form onsubmit="sendDirectMessage(event)" class="p-3 border-t flex gap-2 bg-white">
-                <input type="text" id="dmInput" placeholder="Ergaa dhuunfaa barreessi..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
+              <div id="dmMessagesBox" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-2 bg-[#f0f2f5]/50 text-sm"></div>
+              <form onsubmit="sendDirectMessage(event)" class="p-2.5 border-t flex gap-2 bg-white">
+                <input type="text" id="dmInput" placeholder="Ergaa barreessi..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
                 <button type="submit" class="bg-[#1877F2] hover:bg-blue-700 text-white px-4 rounded-full font-bold text-sm cursor-pointer">
                   <i class="fa-solid fa-paper-plane"></i>
                 </button>
@@ -261,20 +289,20 @@
           </div>
         </div>
 
-        <!-- TAB 4: USER PROFILE -->
+        <!-- TAB 4: PROFILE -->
         <div id="tab-profile" class="app-tab hidden space-y-4">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="h-36 bg-gradient-to-r from-[#1877F2] to-blue-400"></div>
-            <div class="px-6 pb-6">
-              <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-14 mb-4 gap-4">
-                <div class="flex items-end gap-4">
-                  <img id="profileBigAvatar" src="" class="w-28 h-28 rounded-full border-4 border-white object-cover shadow-md bg-white" />
+            <div class="h-28 sm:h-36 bg-gradient-to-r from-[#1877F2] to-blue-400"></div>
+            <div class="px-4 sm:px-6 pb-5">
+              <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-12 sm:-mt-14 mb-3 gap-3">
+                <div class="flex items-end gap-3 sm:gap-4">
+                  <img id="profileBigAvatar" src="" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white object-cover shadow-md bg-white shrink-0" />
                   <div class="pb-1">
-                    <h2 id="profileDisplayName" class="text-2xl font-extrabold"></h2>
-                    <p id="profileDisplayEmail" class="text-xs text-gray-500"></p>
+                    <h2 id="profileDisplayName" class="text-xl sm:text-2xl font-extrabold"></h2>
+                    <p id="profileDisplayEmail" class="text-xs text-gray-500 break-all"></p>
                   </div>
                 </div>
-                <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer">
+                <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer self-start sm:self-auto">
                   <i class="fa-solid fa-pen mr-1"></i> Profile Sirreessi
                 </button>
               </div>
@@ -283,12 +311,11 @@
               </p>
             </div>
           </div>
-
           <div id="myPostsContainer" class="space-y-4"></div>
         </div>
       </main>
 
-      <!-- RIGHT SIDEBAR: LIVE GLOBAL CHAT -->
+      <!-- DESKTOP RIGHT SIDEBAR: LIVE CHAT -->
       <aside class="hidden xl:block w-[300px] fixed top-14 right-4 py-4">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5rem)]">
           <div class="p-3 border-b border-gray-200 bg-[#1877F2] text-white rounded-t-xl flex items-center justify-between">
@@ -304,23 +331,58 @@
         </div>
       </aside>
     </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR (ANDROID & IPHONE) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-gray-200 z-40 grid grid-cols-4">
+      <button onclick="switchTab('home')" id="mnav-home" class="mnav-tab text-[#1877F2] flex flex-col items-center justify-center text-lg cursor-pointer">
+        <i class="fa-solid fa-house"></i>
+        <span class="text-[10px] font-semibold">Feed</span>
+      </button>
+      <button onclick="switchTab('friends')" id="mnav-friends" class="mnav-tab text-gray-500 flex flex-col items-center justify-center text-lg relative cursor-pointer">
+        <i class="fa-solid fa-user-group"></i>
+        <span class="text-[10px] font-semibold">Hiriyoota</span>
+      </button>
+      <button onclick="switchTab('messenger')" id="mnav-messenger" class="mnav-tab text-gray-500 flex flex-col items-center justify-center text-lg cursor-pointer">
+        <i class="fa-brands fa-facebook-messenger"></i>
+        <span class="text-[10px] font-semibold">Chat</span>
+      </button>
+      <button onclick="switchTab('profile')" id="mnav-profile" class="mnav-tab text-gray-500 flex flex-col items-center justify-center text-lg cursor-pointer">
+        <i class="fa-solid fa-circle-user"></i>
+        <span class="text-[10px] font-semibold">Profile</span>
+      </button>
+    </nav>
   </div>
 
   <!-- ================= MODALS ================= -->
 
+  <!-- MOBILE LIVE CHAT MODAL -->
+  <div id="mobileLiveChatModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-2">
+    <div class="bg-white rounded-2xl w-full max-w-md h-[82vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-3 bg-[#1877F2] text-white flex justify-between items-center">
+        <span class="font-bold text-sm">Marii Hawaasaa (Live Chat)</span>
+        <button onclick="document.getElementById('mobileLiveChatModal').classList.add('hidden')" class="text-white text-lg px-2 cursor-pointer">&times;</button>
+      </div>
+      <div id="mobileGlobalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm bg-gray-50"></div>
+      <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex gap-2 bg-white">
+        <input type="text" id="mobileGlobalChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3.5 py-2 text-sm focus:outline-none" />
+        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm cursor-pointer">Ergi</button>
+      </form>
+    </div>
+  </div>
+
   <!-- CREATE / EDIT POST MODAL -->
-  <div id="postModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div id="postModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl overflow-hidden">
-      <div class="p-4 border-b flex justify-between items-center">
-        <h3 id="postModalTitle" class="font-bold text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
+      <div class="p-3.5 sm:p-4 border-b flex justify-between items-center">
+        <h3 id="postModalTitle" class="font-bold text-base sm:text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
         <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="p-4 space-y-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-gray-600">Miira / Haala:</span>
-          <select id="postMood" class="border border-gray-300 rounded-lg px-2.5 py-1 text-xs bg-gray-50">
+          <span class="text-xs font-bold text-gray-600">Miira:</span>
+          <select id="postMood" class="border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs bg-gray-50">
             <option value="">Kan biraa hin jiru</option>
             <option value="😊 Gammadaa">😊 Gammadaa</option>
             <option value="🙏 Galateeffataa">🙏 Galateeffataa</option>
@@ -329,10 +391,10 @@
             <option value="💡 Yaada Haaraa">💡 Yaada Haaraa</option>
           </select>
         </div>
-        <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
+        <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-sm sm:text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
         <div id="postImageField">
           <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa filadhu (Filannoo):</label>
-          <input type="file" id="postImageFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[#1877F2] hover:file:bg-blue-100" />
+          <input type="file" id="postImageFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         </div>
         <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition cursor-pointer">
           Maxxansi (Publish)
@@ -342,17 +404,17 @@
   </div>
 
   <!-- CREATE STORY MODAL -->
-  <div id="storyModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div id="storyModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-lg">Seenaa (Story) Haaraa Uumi</h3>
+        <h3 class="font-bold text-base sm:text-lg">Seenaa (Story) Haaraa Uumi</h3>
         <button onclick="closeStoryModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="p-4 space-y-3">
         <input type="text" id="storyText" placeholder="Barreeffama seenaa gabaabaa..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
-        <input type="file" id="storyImageFile" accept="image/*" class="w-full text-sm text-gray-500" />
+        <input type="file" id="storyImageFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         <button id="submitStoryBtn" onclick="submitStory()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
           Seenaa Maxxansi
         </button>
@@ -362,7 +424,7 @@
 
   <!-- VIEW STORY MODAL -->
   <div id="viewStoryModal" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
-    <div class="bg-gray-900 text-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl relative">
+    <div class="bg-gray-900 text-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl">
       <div class="p-3 flex justify-between items-center bg-black/40">
         <div class="flex items-center gap-2">
           <img id="viewStoryAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
@@ -376,10 +438,10 @@
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="editProfileModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div id="editProfileModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-lg">Profile Kee Sirreessi</h3>
+        <h3 class="font-bold text-base sm:text-lg">Profile Kee Sirreessi</h3>
         <button onclick="document.getElementById('editProfileModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
@@ -390,12 +452,12 @@
           <input type="text" id="editNameInput" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">Bio (Waa'ee keetii)</label>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Bio</label>
           <textarea id="editBioInput" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"></textarea>
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa Profile Haaraa</label>
-          <input type="file" id="editAvatarFile" accept="image/*" class="w-full text-sm text-gray-500" />
+          <input type="file" id="editAvatarFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         </div>
         <button onclick="saveProfileChanges()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
           Olkaa'i (Save)
@@ -404,7 +466,7 @@
     </div>
   </div>
 
-  <!-- UI AUTH MODE HANDLER -->
+  <!-- UI HELPERS -->
   <script>
     function setAuthMode(mode) {
       const errBox = document.getElementById('authError');
@@ -418,6 +480,19 @@
         signupForm.classList.add('hidden');
         loginForm.classList.remove('hidden');
       }
+    }
+
+    function toggleMobileSearch() {
+      document.getElementById('mobileSearchBar').classList.toggle('hidden');
+    }
+
+    function syncSearch(val) {
+      document.getElementById('searchInput').value = val;
+      if (typeof window.filterPosts === 'function') window.filterPosts();
+    }
+
+    function openMobileLiveChat() {
+      document.getElementById('mobileLiveChatModal').classList.remove('hidden');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -437,7 +512,7 @@
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import {
       getFirestore, collection, addDoc, onSnapshot, query, orderBy,
-      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc
+      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc, getDocs
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -584,7 +659,6 @@
       });
     }
 
-    // ================= NOTIFICATIONS =================
     async function sendNotification(targetUid, text) {
       if (!targetUid || targetUid === currentUser.uid) return;
       await addDoc(collection(db, "notifications"), {
@@ -599,10 +673,7 @@
     function listenToNotifications() {
       const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
       onSnapshot(q, (snap) => {
-        const mine = snap.docs
-          .map(d => ({ id: d.id, ...d.data() }))
-          .filter(n => n.toUid === currentUser.uid);
-
+        const mine = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(n => n.toUid === currentUser.uid);
         const unread = mine.filter(n => !n.read).length;
         const badge = document.getElementById('notifBadge');
         if (unread > 0) {
@@ -611,41 +682,22 @@
         } else {
           badge.classList.add('hidden');
         }
-
         const list = document.getElementById('notifList');
-        if (mine.length === 0) {
-          list.innerHTML = `<p class="text-gray-400 text-center py-4">Beeksisni haaraan hin jiru.</p>`;
-          return;
-        }
-        list.innerHTML = mine.slice(0, 15).map(n => `
-          <div class="p-2 rounded-lg ${n.read ? 'bg-gray-50' : 'bg-blue-50 font-semibold'} border border-gray-100">
-            <div>${n.text}</div>
-          </div>
-        `).join('');
+        list.innerHTML = mine.length
+          ? mine.slice(0, 15).map(n => `<div class="p-2 rounded-lg bg-blue-50 border border-gray-100">${n.text}</div>`).join('')
+          : `<p class="text-gray-400 text-center py-4">Beeksisni haaraan hin jiru.</p>`;
       });
     }
 
-    window.toggleNotifications = async () => {
-      const dd = document.getElementById('notifDropdown');
-      dd.classList.toggle('hidden');
-      if (!dd.classList.contains('hidden') && currentUser) {
-        const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
-        // mark unread visible ones as read softly
-        allUsers.forEach(() => {});
-      }
-    };
+    window.toggleNotifications = () => document.getElementById('notifDropdown').classList.toggle('hidden');
 
     window.clearNotifications = async () => {
-      const { getDocs } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
       const snap = await getDocs(collection(db, "notifications"));
       for (const d of snap.docs) {
-        if (d.data().toUid === currentUser.uid) {
-          await deleteDoc(doc(db, "notifications", d.id));
-        }
+        if (d.data().toUid === currentUser.uid) await deleteDoc(doc(db, "notifications", d.id));
       }
     };
 
-    // ================= STORIES =================
     window.openStoryModal = () => document.getElementById('storyModal').classList.remove('hidden');
     window.closeStoryModal = () => {
       document.getElementById('storyModal').classList.add('hidden');
@@ -657,24 +709,16 @@
       const text = document.getElementById('storyText').value.trim();
       const file = document.getElementById('storyImageFile').files[0];
       if (!text && !file) return;
-
       const btn = document.getElementById('submitStoryBtn');
       btn.disabled = true;
       btn.textContent = "Maxxansaa jira...";
-
       try {
         let image = "";
         if (file) image = await compressImage(file, 700, 0.7);
         const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
         const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
-
         await addDoc(collection(db, "stories"), {
-          authorId: currentUser.uid,
-          authorName: name,
-          authorAvatar: avatar,
-          text,
-          image,
-          createdAt: serverTimestamp()
+          authorId: currentUser.uid, authorName: name, authorAvatar: avatar, text, image, createdAt: serverTimestamp()
         });
         closeStoryModal();
       } finally {
@@ -689,19 +733,17 @@
         const stories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         const container = document.getElementById('storiesContainer');
         const createCard = container.firstElementChild.outerHTML;
-
         const storyCards = stories.map(s => `
-          <div onclick='viewStory(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="min-w-[112px] h-44 rounded-xl overflow-hidden relative cursor-pointer shrink-0 shadow-sm group">
+          <div onclick='viewStory(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="min-w-[100px] sm:min-w-[112px] h-40 sm:h-44 rounded-xl overflow-hidden relative cursor-pointer shrink-0 shadow-sm">
             ${s.image
-              ? `<img src="${s.image}" class="w-full h-full object-cover group-hover:scale-105 transition" />`
-              : `<div class="w-full h-full bg-gradient-to-br from-[#1877F2] to-indigo-700 p-2.5 flex items-center justify-center text-center text-white text-xs font-bold">${s.text || ''}</div>`
+              ? `<img src="${s.image}" class="w-full h-full object-cover" />`
+              : `<div class="w-full h-full bg-gradient-to-br from-[#1877F2] to-indigo-700 p-2 flex items-center justify-center text-center text-white text-xs font-bold">${s.text || ''}</div>`
             }
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20"></div>
-            <img src="${s.authorAvatar}" class="w-8 h-8 rounded-full border-2 border-[#1877F2] object-cover absolute top-2 left-2" />
+            <img src="${s.authorAvatar}" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-[#1877F2] object-cover absolute top-2 left-2" />
             <span class="absolute bottom-2 left-2 right-2 text-white text-[11px] font-bold truncate">${s.authorName}</span>
           </div>
         `).join('');
-
         container.innerHTML = createCard + storyCards;
       });
     }
@@ -710,17 +752,11 @@
       document.getElementById('viewStoryAvatar').src = s.authorAvatar;
       document.getElementById('viewStoryAuthor').textContent = s.authorName;
       const img = document.getElementById('viewStoryImg');
-      if (s.image) {
-        img.src = s.image;
-        img.classList.remove('hidden');
-      } else {
-        img.classList.add('hidden');
-      }
+      if (s.image) { img.src = s.image; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
       document.getElementById('viewStoryCaption').textContent = s.text || '';
       document.getElementById('viewStoryModal').classList.remove('hidden');
     };
 
-    // ================= POSTS, REACTIONS, SHARE, EDIT =================
     window.openPostModal = (mode = 'text', postToEdit = null) => {
       editingPostId = postToEdit ? postToEdit.id : null;
       document.getElementById('postModalTitle').textContent = postToEdit ? "Maxxansa Sirreessi" : "Maxxansa Haaraa Uumi";
@@ -728,8 +764,6 @@
       document.getElementById('postMood').value = postToEdit ? (postToEdit.mood || '') : '';
       document.getElementById('postImageField').style.display = postToEdit ? 'none' : 'block';
       document.getElementById('postModal').classList.remove('hidden');
-      if (mode === 'mood') document.getElementById('postMood').focus();
-      else document.getElementById('postText').focus();
     };
 
     window.closePostModal = () => {
@@ -745,37 +779,20 @@
       const mood = document.getElementById('postMood').value;
       const fileInput = document.getElementById('postImageFile');
       if (!text && !fileInput.files.length && !mood && !editingPostId) return;
-
       const btn = document.getElementById('submitPostBtn');
       btn.disabled = true;
       btn.textContent = "Maxxansaa jira...";
-
       try {
         const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
         const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
-
         if (editingPostId) {
-          await updateDoc(doc(db, "posts", editingPostId), {
-            text,
-            mood,
-            edited: true
-          });
+          await updateDoc(doc(db, "posts", editingPostId), { text, mood, edited: true });
         } else {
           let imageBase64 = "";
-          if (fileInput.files.length > 0) {
-            imageBase64 = await compressImage(fileInput.files[0]);
-          }
+          if (fileInput.files.length > 0) imageBase64 = await compressImage(fileInput.files[0]);
           await addDoc(collection(db, "posts"), {
-            authorId: currentUser.uid,
-            authorName: name,
-            authorAvatar: avatar,
-            mood,
-            text,
-            image: imageBase64,
-            reactions: {},
-            comments: [],
-            shares: 0,
-            createdAt: serverTimestamp()
+            authorId: currentUser.uid, authorName: name, authorAvatar: avatar, mood, text, image: imageBase64,
+            reactions: {}, comments: [], shares: 0, createdAt: serverTimestamp()
           });
         }
         closePostModal();
@@ -789,20 +806,12 @@
       const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
       const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
       await addDoc(collection(db, "posts"), {
-        authorId: currentUser.uid,
-        authorName: name,
-        authorAvatar: avatar,
-        text: post.text || '',
-        image: post.image || '',
-        sharedFrom: post.authorName,
-        reactions: {},
-        comments: [],
-        shares: 0,
-        createdAt: serverTimestamp()
+        authorId: currentUser.uid, authorName: name, authorAvatar: avatar, text: post.text || '', image: post.image || '',
+        sharedFrom: post.authorName, reactions: {}, comments: [], shares: 0, createdAt: serverTimestamp()
       });
       await updateDoc(doc(db, "posts", post.id), { shares: (post.shares || 0) + 1 });
-      await sendNotification(post.authorId, `${name} maxxansa kee qoodeera (Shared).`);
-      alert("Maxxansaan gara feed keetii qoodameera!");
+      await sendNotification(post.authorId, `${name} maxxansa kee qoodeera.`);
+      alert("Gara feed keetii qoodameera!");
     };
 
     function listenToPosts() {
@@ -839,61 +848,59 @@
 
       return `
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div class="p-4 pb-2 flex justify-between items-start">
-            <div class="flex items-center gap-3">
-              <img src="${post.authorAvatar}" class="w-10 h-10 rounded-full object-cover" />
+          <div class="p-3 sm:p-4 pb-2 flex justify-between items-start">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+              <img src="${post.authorAvatar}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover" />
               <div>
                 <div class="font-bold text-sm">
                   ${post.authorName}
                   ${post.mood ? `<span class="font-normal text-gray-600 text-xs ml-1">— ${post.mood}</span>` : ''}
-                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(${post.sharedFrom} irraa qoodame)</span>` : ''}
+                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(${post.sharedFrom} irraa)</span>` : ''}
                 </div>
-                <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Sirreeffame' : ''} · <i class="fa-solid fa-earth-americas"></i></span>
+                <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Sirreeffame' : ''}</span>
               </div>
             </div>
             ${post.authorId === currentUser.uid ? `
               <div class="flex gap-1">
-                <button onclick='openPostModal("text", ${JSON.stringify(post).replace(/'/g, "&#39;")})' class="text-gray-400 hover:text-[#1877F2] p-1.5 cursor-pointer" title="Sirreessi">
-                  <i class="fa-solid fa-pen"></i>
+                <button onclick='openPostModal("text", ${JSON.stringify(post).replace(/'/g, "&#39;")})' class="text-gray-400 hover:text-[#1877F2] p-1.5 cursor-pointer">
+                  <i class="fa-solid fa-pen text-xs"></i>
                 </button>
-                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-1.5 cursor-pointer" title="Haqi">
-                  <i class="fa-solid fa-trash-can"></i>
+                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-1.5 cursor-pointer">
+                  <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
               </div>` : ''}
           </div>
 
-          ${post.text ? `<p class="px-4 pb-3 text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
-          ${post.image ? `<img src="${post.image}" class="w-full max-h-[500px] object-cover bg-gray-100" />` : ''}
+          ${post.text ? `<p class="px-3 sm:px-4 pb-2.5 text-sm sm:text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
+          ${post.image ? `<img src="${post.image}" class="w-full max-h-[460px] object-cover bg-gray-100" />` : ''}
 
-          <div class="px-4 py-2 flex justify-between items-center text-xs text-gray-500 border-b border-gray-100">
+          <div class="px-3 sm:px-4 py-2 flex justify-between items-center text-xs text-gray-500 border-b border-gray-100">
             <div>${reactionBadges || `<span>${reactionCount} Jaallatame</span>`}</div>
             <div>Yaada ${comments.length} · Qoodame ${post.shares || 0}</div>
           </div>
 
-          <!-- REACTION BUTTONS -->
-          <div class="px-2 py-1 flex flex-wrap justify-around text-xs sm:text-sm font-semibold text-gray-600 border-b border-gray-100">
+          <div class="px-1.5 sm:px-2 py-1 flex justify-around text-xs sm:text-sm font-semibold text-gray-600 border-b border-gray-100">
             ${REACTIONS.map(r => {
               const active = myReaction === r.key;
               return `
                 <button onclick="setReaction('${post.id}', '${r.key}', '${post.authorId}')" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer ${active ? 'text-[#1877F2] bg-blue-50/60' : ''}">
                   <span>${r.emoji}</span>
-                  <span class="hidden sm:inline">${r.label}</span>
+                  <span class="hidden md:inline">${r.label}</span>
                 </button>`;
             }).join('')}
             <button onclick="document.getElementById('c-input-${post.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
               <i class="fa-regular fa-comment"></i>
-              <span>Yaada</span>
+              <span class="hidden sm:inline">Yaada</span>
             </button>
             <button onclick='sharePost(${JSON.stringify(post).replace(/'/g, "&#39;")})' class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
               <i class="fa-solid fa-share"></i>
-              <span>Qoodi</span>
+              <span class="hidden sm:inline">Qoodi</span>
             </button>
           </div>
 
-          <!-- COMMENTS -->
-          <div class="p-3 space-y-2">
+          <div class="p-2.5 sm:p-3 space-y-2">
             ${comments.map(c => `
-              <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-sm">
+              <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-xs sm:text-sm">
                 <span class="font-bold text-xs block text-[#1877F2]">${c.userName}</span>
                 <span>${c.text}</span>
               </div>
@@ -909,20 +916,16 @@
 
     function renderPosts(postsList) {
       const container = document.getElementById('postsContainer');
-      if (postsList.length === 0) {
-        container.innerHTML = `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
-        return;
-      }
-      container.innerHTML = postsList.map(buildPostCardHTML).join('');
+      container.innerHTML = postsList.length
+        ? postsList.map(buildPostCardHTML).join('')
+        : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
     }
 
     function renderMyPosts() {
       const container = document.getElementById('myPostsContainer');
       if (!container || !currentUser) return;
       const mine = allPosts.filter(p => p.authorId === currentUser.uid);
-      container.innerHTML = mine.length
-        ? mine.map(buildPostCardHTML).join('')
-        : `<div class="bg-white p-6 rounded-xl text-center text-gray-500 text-sm">Hanga ammaa maxxansa hin qabdu.</div>`;
+      container.innerHTML = mine.length ? mine.map(buildPostCardHTML).join('') : `<div class="bg-white p-6 rounded-xl text-center text-gray-500 text-sm">Maxxansa hin qabdu.</div>`;
     }
 
     window.setReaction = async (postId, key, authorId) => {
@@ -932,7 +935,7 @@
       await updateDoc(postRef, { [`reactions.${currentUser.uid}`]: nextVal });
       if (nextVal) {
         const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
-        await sendNotification(authorId, `${name} maxxansa keetti deebii kenne (${key}).`);
+        await sendNotification(authorId, `${name} maxxansa keetti deebii kenne.`);
       }
     };
 
@@ -943,19 +946,14 @@
       if (!text) return;
       input.value = '';
       const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
-      await updateDoc(doc(db, "posts", postId), {
-        comments: arrayUnion({ userName: name, text })
-      });
-      await sendNotification(authorId, `${name} maxxansa keetti yaada kenne: "${text}"`);
+      await updateDoc(doc(db, "posts", postId), { comments: arrayUnion({ userName: name, text }) });
+      await sendNotification(authorId, `${name} yaada kenne: "${text}"`);
     };
 
     window.deletePost = async (postId) => {
-      if (confirm("Maxxansa kana haquu barbaaddaa?")) {
-        await deleteDoc(doc(db, "posts", postId));
-      }
+      if (confirm("Maxxansa kana haquu barbaaddaa?")) await deleteDoc(doc(db, "posts", postId));
     };
 
-    // ================= FRIENDS & USERS =================
     function listenToUsers() {
       onSnapshot(collection(db, "users"), (snap) => {
         allUsers = snap.docs.map(d => d.data());
@@ -980,20 +978,15 @@
       const sent = currentUserDoc.sentRequests || [];
 
       const badge = document.getElementById('friendReqBadge');
-      if (incoming.length > 0) {
-        badge.textContent = incoming.length;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
+      if (incoming.length > 0) { badge.textContent = incoming.length; badge.classList.remove('hidden'); }
+      else { badge.classList.add('hidden'); }
 
-      const reqBox = document.getElementById('friendRequestsList');
       const incomingUsers = allUsers.filter(u => incoming.includes(u.uid));
-      reqBox.innerHTML = incomingUsers.length
+      document.getElementById('friendRequestsList').innerHTML = incomingUsers.length
         ? incomingUsers.map(u => `
             <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
               <div class="flex items-center gap-2.5 overflow-hidden">
-                <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover" />
+                <img src="${getAvatar(u.name, u.avatar)}" class="w-10 h-10 rounded-full object-cover" />
                 <span class="font-bold text-sm truncate">${u.name}</span>
               </div>
               <button onclick="acceptFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer">Fudhadhu</button>
@@ -1007,8 +1000,8 @@
         const isSent = sent.includes(u.uid);
         return `
           <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-3 overflow-hidden">
-              <img src="${getAvatar(u.name, u.avatar)}" class="w-12 h-12 rounded-full object-cover" />
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover shrink-0" />
               <div class="overflow-hidden">
                 <h4 class="font-bold text-sm truncate">${u.name}</h4>
                 <p class="text-xs text-gray-500 truncate">${u.bio || 'Miseensa Gammee APP'}</p>
@@ -1021,7 +1014,7 @@
                   ? `<span class="text-xs text-gray-400 px-2 py-1">Ergameera</span>`
                   : `<button onclick="sendFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">+ Hiriyaa</button>`
               }
-              <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer" title="Ergaa Dhuunfaa">
+              <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">
                 <i class="fa-brands fa-facebook-messenger"></i>
               </button>
             </div>
@@ -1031,10 +1024,7 @@
 
       document.getElementById('sidebarOnlineUsers').innerHTML = others.slice(0, 8).map(u => `
         <div onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-200/70 cursor-pointer">
-          <div class="relative">
-            <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 rounded-full object-cover" />
-            <span class="w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full absolute bottom-0 right-0"></span>
-          </div>
+          <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 rounded-full object-cover" />
           <span class="text-sm font-medium truncate">${u.name}</span>
         </div>
       `).join('');
@@ -1048,29 +1038,20 @@
     };
 
     window.acceptFriendRequest = async (requesterUid) => {
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        friends: arrayUnion(requesterUid),
-        friendRequests: arrayRemove(requesterUid)
-      });
-      await updateDoc(doc(db, "users", requesterUid), {
-        friends: arrayUnion(currentUser.uid),
-        sentRequests: arrayRemove(currentUser.uid)
-      });
+      await updateDoc(doc(db, "users", currentUser.uid), { friends: arrayUnion(requesterUid), friendRequests: arrayRemove(requesterUid) });
+      await updateDoc(doc(db, "users", requesterUid), { friends: arrayUnion(currentUser.uid), sentRequests: arrayRemove(currentUser.uid) });
       const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
       await sendNotification(requesterUid, `${name} gaaffii hiriyummaa kee fudhateera.`);
     };
 
-    // ================= PRIVATE DIRECT MESSAGES =================
-    function getDMThreadId(uid1, uid2) {
-      return [uid1, uid2].sort().join("_");
-    }
+    function getDMThreadId(uid1, uid2) { return [uid1, uid2].sort().join("_"); }
 
     function renderDMUserList() {
       const others = allUsers.filter(u => u.uid !== currentUser.uid);
       document.getElementById('dmUserList').innerHTML = others.map(u => `
-        <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="w-full p-3 flex items-center gap-2.5 hover:bg-gray-100 text-left cursor-pointer ${activeChatPartner?.uid === u.uid ? 'bg-blue-50' : ''}">
-          <img src="${getAvatar(u.name, u.avatar)}" class="w-9 h-9 rounded-full object-cover" />
-          <span class="font-semibold text-sm truncate">${u.name}</span>
+        <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="w-full p-2.5 sm:p-3 flex items-center gap-2.5 hover:bg-gray-100 text-left cursor-pointer ${activeChatPartner?.uid === u.uid ? 'bg-blue-50' : ''}">
+          <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" />
+          <span class="font-semibold text-xs sm:text-sm truncate">${u.name}</span>
         </button>
       `).join('');
     }
@@ -1092,7 +1073,7 @@
           const isMe = m.senderId === currentUser.uid;
           return `
             <div class="flex ${isMe ? 'justify-end' : 'justify-start'}">
-              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3.5 py-2 rounded-2xl max-w-[75%] shadow-sm">
+              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3.5 py-2 rounded-2xl max-w-[80%] shadow-sm">
                 ${m.text}
               </div>
             </div>
@@ -1111,14 +1092,10 @@
       input.value = '';
       await addDoc(collection(db, "direct_messages"), {
         threadId: getDMThreadId(currentUser.uid, activeChatPartner.uid),
-        senderId: currentUser.uid,
-        receiverId: activeChatPartner.uid,
-        text,
-        createdAt: serverTimestamp()
+        senderId: currentUser.uid, receiverId: activeChatPartner.uid, text, createdAt: serverTimestamp()
       });
     };
 
-    // ================= PROFILE EDIT =================
     window.openEditProfileModal = () => {
       document.getElementById('editNameInput').value = currentUserDoc.name || currentUser.displayName || '';
       document.getElementById('editBioInput').value = currentUserDoc.bio || '';
@@ -1129,21 +1106,17 @@
       const name = document.getElementById('editNameInput').value.trim();
       const bio = document.getElementById('editBioInput').value.trim();
       const file = document.getElementById('editAvatarFile').files[0];
-
       let avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
       if (file) avatar = await compressImage(file, 300, 0.75);
-
       await updateProfile(currentUser, { displayName: name, photoURL: avatar });
       await setDoc(doc(db, "users", currentUser.uid), { name, bio, avatar }, { merge: true });
       document.getElementById('editProfileModal').classList.add('hidden');
     };
 
-    // ================= GLOBAL LIVE CHAT =================
     function listenToGlobalChat() {
       const q = query(collection(db, "global_chat"), orderBy("createdAt", "asc"));
       onSnapshot(q, (snap) => {
-        const box = document.getElementById('globalChatMessages');
-        box.innerHTML = snap.docs.map(d => {
+        const html = snap.docs.map(d => {
           const m = d.data();
           const isMe = m.uid === currentUser.uid;
           return `
@@ -1155,26 +1128,35 @@
             </div>
           `;
         }).join('');
-        box.scrollTop = box.scrollHeight;
+        const dBox = document.getElementById('globalChatMessages');
+        const mBox = document.getElementById('mobileGlobalChatMessages');
+        if (dBox) { dBox.innerHTML = html; dBox.scrollTop = dBox.scrollHeight; }
+        if (mBox) { mBox.innerHTML = html; mBox.scrollTop = mBox.scrollHeight; }
       });
+    }
+
+    async function postGlobalMsg(text) {
+      if (!text) return;
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+      await addDoc(collection(db, "global_chat"), { uid: currentUser.uid, name, text, createdAt: serverTimestamp() });
     }
 
     window.sendGlobalMessage = async (e) => {
       e.preventDefault();
       const input = document.getElementById('globalChatInput');
       const text = input.value.trim();
-      if (!text) return;
       input.value = '';
-      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
-      await addDoc(collection(db, "global_chat"), {
-        uid: currentUser.uid,
-        name,
-        text,
-        createdAt: serverTimestamp()
-      });
+      await postGlobalMsg(text);
     };
 
-    // ================= TAB NAVIGATION =================
+    window.sendMobileGlobalMessage = async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('mobileGlobalChatInput');
+      const text = input.value.trim();
+      input.value = '';
+      await postGlobalMsg(text);
+    };
+
     window.switchTab = (tabName) => {
       document.querySelectorAll('.app-tab').forEach(el => el.classList.add('hidden'));
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
@@ -1188,6 +1170,17 @@
         activeBtn.classList.remove('border-transparent', 'text-gray-500');
         activeBtn.classList.add('border-[#1877F2]', 'text-[#1877F2]');
       }
+
+      document.querySelectorAll('.mnav-tab').forEach(btn => {
+        btn.classList.remove('text-[#1877F2]');
+        btn.classList.add('text-gray-500');
+      });
+      const activeMBtn = document.getElementById(`mnav-${tabName}`);
+      if (activeMBtn) {
+        activeMBtn.classList.remove('text-gray-500');
+        activeMBtn.classList.add('text-[#1877F2]');
+      }
+
       if (tabName === 'profile') renderMyPosts();
     };
   </script>

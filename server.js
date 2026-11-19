@@ -11,5 +11,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Gammee APP Global Server running on port ${PORT}`);
+  console.log(`Gammee APP server running on port ${PORT}`);
 });

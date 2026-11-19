@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="om">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#1877F2" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Gammee APP - Walqunnamtii Hawaasaa</title>
+  <title>Gammee APP - Social Network</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -29,13 +29,10 @@
   <!-- ================= AUTHENTICATION SCREEN ================= -->
   <div id="authScreen" class="min-h-app-screen min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-8 gap-8 lg:gap-12 max-w-5xl mx-auto">
     <div class="text-center lg:text-left max-w-md">
-      <div class="inline-flex items-center gap-3 mb-3">
+      <div class="inline-flex items-center gap-3 mb-2">
         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-3xl sm:text-4xl flex items-center justify-center shadow-lg">G</div>
         <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
       </div>
-      <p class="text-base sm:text-2xl text-gray-800 font-medium leading-snug">
-        Hiriyoota kee fi addunyaa mara waliin yeroo dhugaa (Real-Time) keessatti wal qunnami, seenaa fi odeeffannoo qoodi.
-      </p>
     </div>
 
     <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
@@ -43,38 +40,37 @@
 
       <!-- LOGIN FORM -->
       <form id="loginForm" class="space-y-3.5">
-        <h2 class="text-xl font-bold text-center text-gray-800">Seeni (Log In)</h2>
-        <input type="email" id="loginEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="loginPassword" placeholder="Jecha Iccitii (Password)" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="email" id="loginEmail" placeholder="Enter your email" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="loginPassword" placeholder="Password" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
-          Seeni
+          Log In
         </button>
 
         <button type="button" id="googleLoginBtn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" />
-          <span>Google dhaan Seeni</span>
+          <span>Continue with Google</span>
         </button>
 
         <hr class="my-3" />
         <div class="text-center">
           <button type="button" id="openSignupBtn" class="w-full sm:w-auto bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition cursor-pointer">
-            Account Haaraa Uumi
+            Create New Account
           </button>
         </div>
       </form>
 
       <!-- SIGN UP FORM -->
       <form id="signupForm" class="hidden space-y-3.5">
-        <h2 class="text-xl font-bold text-center text-gray-800">Account Haaraa Uumi</h2>
-        <input type="text" id="signupName" placeholder="Maqaa Guutuu" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <h2 class="text-xl font-bold text-center text-gray-800">Create New Account</h2>
+        <input type="text" id="signupName" placeholder="Full Name" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="email" id="signupEmail" placeholder="Enter your email" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="signupPassword" placeholder="New Password (at least 6 characters)" required minlength="6" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
-          Galmaa'i (Sign Up)
+          Sign Up
         </button>
         <div class="text-center pt-2">
           <button type="button" id="openLoginBtn" class="text-[#1877F2] font-semibold text-sm hover:underline cursor-pointer">
-            Duraan account qabdaa? Seeni
+            Already have an account? Log In
           </button>
         </div>
       </form>
@@ -91,44 +87,44 @@
         </button>
         <div class="relative hidden sm:block">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
-          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Search Gammee APP..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
         </div>
       </div>
 
       <!-- TABLET / DESKTOP CENTER NAV -->
       <nav class="hidden md:flex items-center h-full gap-1 lg:gap-2">
-        <button onclick="switchTab('home')" id="nav-home" title="Fuula Jalqabaa" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
+        <button onclick="switchTab('home')" id="nav-home" title="Home" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-house"></i>
         </button>
-        <button onclick="switchTab('friends')" id="nav-friends" title="Hiriyoota & Miseensota" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
+        <button onclick="switchTab('friends')" id="nav-friends" title="Friends" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
           <i class="fa-solid fa-user-group"></i>
           <span id="friendReqBadge" class="hidden absolute top-1.5 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full">0</span>
         </button>
         <button onclick="switchTab('messenger')" id="nav-messenger" title="Messenger" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-brands fa-facebook-messenger"></i>
         </button>
-        <button onclick="switchTab('profile')" id="nav-profile" title="Profile Kee" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
+        <button onclick="switchTab('profile')" id="nav-profile" title="Profile" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-circle-user"></i>
         </button>
       </nav>
 
       <!-- RIGHT CONTROLS -->
       <div class="flex items-center gap-1.5 sm:gap-2">
-        <button onclick="toggleMobileSearch()" class="sm:hidden w-9 h-9 rounded-full bg-[#e4e6eb] flex items-center justify-center text-gray-800 cursor-pointer" title="Barbaadi">
+        <button onclick="toggleMobileSearch()" class="sm:hidden w-9 h-9 rounded-full bg-[#e4e6eb] flex items-center justify-center text-gray-800 cursor-pointer" title="Search">
           <i class="fa-solid fa-magnifying-glass text-sm"></i>
         </button>
 
         <div class="relative">
-          <button onclick="toggleNotifications()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center text-gray-800 relative cursor-pointer" title="Beeksisa">
+          <button onclick="toggleNotifications()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center text-gray-800 relative cursor-pointer" title="Notifications">
             <i class="fa-solid fa-bell text-sm sm:text-base"></i>
             <span id="notifBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
           </button>
           <div id="notifDropdown" class="hidden fixed sm:absolute right-2 sm:right-0 mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-2xl border border-gray-200 p-3 z-50 max-h-80 overflow-y-auto">
             <div class="flex justify-between items-center pb-2 mb-2 border-b">
-              <span class="font-bold text-sm">Beeksisa</span>
-              <button onclick="clearNotifications()" class="text-xs text-[#1877F2] hover:underline cursor-pointer">Haqi</button>
+              <span class="font-bold text-sm">Notifications</span>
+              <button onclick="clearNotifications()" class="text-xs text-[#1877F2] hover:underline cursor-pointer">Clear</button>
             </div>
-            <div id="notifList" class="space-y-2 text-xs text-gray-600">Beeksisni haaraan hin jiru.</div>
+            <div id="notifList" class="space-y-2 text-xs text-gray-600">No new notifications.</div>
           </div>
         </div>
 
@@ -137,15 +133,15 @@
           <span id="navUserName" class="font-semibold text-sm max-w-[110px] truncate"></span>
         </button>
 
-        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-2.5 sm:px-3 py-2 rounded-full text-xs font-bold transition cursor-pointer" title="Ba'i">
+        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-2.5 sm:px-3 py-2 rounded-full text-xs font-bold transition cursor-pointer" title="Log Out">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </header>
 
-    <!-- MOBILE SEARCH BAR (TOGGLES ON PHONE) -->
+    <!-- MOBILE SEARCH BAR -->
     <div id="mobileSearchBar" class="hidden sm:hidden fixed top-14 left-0 right-0 bg-white p-2 border-b z-30">
-      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Gammee APP keessaa barbaadi..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
+      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Search Gammee APP..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
     </div>
 
     <!-- MAIN RESPONSIVE CONTAINER -->
@@ -157,18 +153,18 @@
             <img id="sideUserAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
             <div class="overflow-hidden">
               <div id="sideUserName" class="font-bold text-sm truncate"></div>
-              <div id="sideUserBio" class="text-xs text-gray-500 truncate">Miseensa Gammee APP</div>
+              <div id="sideUserBio" class="text-xs text-gray-500 truncate">Gammee APP Member</div>
             </div>
           </button>
 
           <button onclick="switchTab('home')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-newspaper text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>Feed / Odeeffannoo</span>
+            <span>News Feed</span>
           </button>
 
           <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-user-group text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>Hiriyoota & Miseensota</span>
+            <span>Friends & Members</span>
           </button>
 
           <button onclick="switchTab('messenger')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -178,12 +174,12 @@
 
           <button onclick="openStoryModal()" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-clock-rotate-left text-purple-600 text-lg w-6 text-center"></i>
-            <span>Seenaa (Story) Uumi</span>
+            <span>Create Story</span>
           </button>
         </div>
 
         <hr class="my-3 border-gray-300" />
-        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Miseensota Jiran</div>
+        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Active Members</div>
         <div id="sidebarOnlineUsers" class="space-y-2"></div>
       </aside>
 
@@ -203,7 +199,7 @@
                   <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center border-4 border-white -mt-6 sm:-mt-7 shadow">
                     <i class="fa-solid fa-plus text-xs"></i>
                   </div>
-                  <span class="text-[11px] font-bold text-center leading-tight mt-1">Seenaa Uumi</span>
+                  <span class="text-[11px] font-bold text-center leading-tight mt-1">Create Story</span>
                 </div>
               </div>
             </div>
@@ -214,22 +210,22 @@
             <div class="flex items-center gap-2.5 sm:gap-3">
               <img id="postBoxAvatar" src="" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover shrink-0" />
               <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-3.5 sm:px-4 py-2.5 rounded-full text-sm sm:text-[15px] transition cursor-pointer truncate">
-                Maal yaadaa jirta? Qoodi...
+                What's on your mind?
               </button>
             </div>
             <hr class="my-2.5 sm:my-3 border-gray-200" />
             <div class="grid grid-cols-3 text-xs sm:text-sm font-semibold text-gray-600">
               <button onclick="openPostModal('mood')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
                 <i class="fa-regular fa-face-smile text-yellow-500 text-base sm:text-lg"></i>
-                <span>Miira</span>
+                <span>Feeling</span>
               </button>
               <button onclick="openPostModal('photo')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-images text-green-500 text-base sm:text-lg"></i>
-                <span>Suuraa</span>
+                <span>Photo</span>
               </button>
               <button onclick="openPostModal('text')" class="flex items-center justify-center gap-1.5 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-pen-to-square text-[#1877F2] text-base sm:text-lg"></i>
-                <span>Barreessi</span>
+                <span>Post</span>
               </button>
             </div>
           </div>
@@ -238,10 +234,10 @@
           <div class="xl:hidden bg-white rounded-xl shadow-sm p-3 border border-gray-200 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-              <span class="font-bold text-xs sm:text-sm">Marii Hawaasaa (Live Chat)</span>
+              <span class="font-bold text-xs sm:text-sm">Global Live Chat</span>
             </div>
             <button onclick="openMobileLiveChat()" class="bg-[#1877F2] text-white text-xs font-bold px-3.5 py-1.5 rounded-full cursor-pointer">
-              Chat Bani
+              Open Chat
             </button>
           </div>
 
@@ -249,7 +245,7 @@
           <div id="postsContainer" class="space-y-3 sm:space-y-4">
             <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-              <p>Maxxansaalee fe'aa jira...</p>
+              <p>Loading posts...</p>
             </div>
           </div>
         </div>
@@ -257,12 +253,12 @@
         <!-- TAB 2: FRIENDS -->
         <div id="tab-friends" class="app-tab hidden space-y-4">
           <div class="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-200">
-            <h2 class="text-lg sm:text-xl font-bold mb-3">Gaaffii Hiriyummaa</h2>
+            <h2 class="text-lg sm:text-xl font-bold mb-3">Friend Requests</h2>
             <div id="friendRequestsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-              <p class="text-sm text-gray-500">Gaaffiin hiriyummaa haaraan hin jiru.</p>
+              <p class="text-sm text-gray-500">No new friend requests.</p>
             </div>
 
-            <h2 class="text-lg sm:text-xl font-bold mb-3">Miseensota & Hiriyoota</h2>
+            <h2 class="text-lg sm:text-xl font-bold mb-3">Friends & Members</h2>
             <div id="allUsersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
           </div>
         </div>
@@ -271,16 +267,16 @@
         <div id="tab-messenger" class="app-tab hidden">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden grid grid-cols-1 md:grid-cols-12 h-[72vh]">
             <div id="dmSidebarPanel" class="md:col-span-4 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col max-h-44 md:max-h-full">
-              <div class="p-3 border-b font-bold text-sm bg-gray-50">Ergaa Dhuunfaa</div>
+              <div class="p-3 border-b font-bold text-sm bg-gray-50">Direct Messages</div>
               <div id="dmUserList" class="flex-1 overflow-y-auto divide-y divide-gray-100"></div>
             </div>
             <div class="md:col-span-8 flex flex-col flex-1 min-h-0">
               <div id="dmHeader" class="p-3 border-b font-bold text-sm bg-gray-50 flex items-center gap-2">
-                <span class="text-gray-500">Hiriyaa chat itti gootu filadhu</span>
+                <span class="text-gray-500">Select a friend to start chatting</span>
               </div>
               <div id="dmMessagesBox" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-2 bg-[#f0f2f5]/50 text-sm"></div>
               <form onsubmit="sendDirectMessage(event)" class="p-2.5 border-t flex gap-2 bg-white">
-                <input type="text" id="dmInput" placeholder="Ergaa barreessi..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
+                <input type="text" id="dmInput" placeholder="Type a message..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
                 <button type="submit" class="bg-[#1877F2] hover:bg-blue-700 text-white px-4 rounded-full font-bold text-sm cursor-pointer">
                   <i class="fa-solid fa-paper-plane"></i>
                 </button>
@@ -303,11 +299,11 @@
                   </div>
                 </div>
                 <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer self-start sm:self-auto">
-                  <i class="fa-solid fa-pen mr-1"></i> Profile Sirreessi
+                  <i class="fa-solid fa-pen mr-1"></i> Edit Profile
                 </button>
               </div>
               <p id="profileBioText" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                Waa'ee keetii asitti barreessi...
+                Write something about yourself...
               </p>
             </div>
           </div>
@@ -319,11 +315,11 @@
       <aside class="hidden xl:block w-[300px] fixed top-14 right-4 py-4">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5rem)]">
           <div class="p-3 border-b border-gray-200 bg-[#1877F2] text-white rounded-t-xl flex items-center justify-between">
-            <span class="font-bold text-sm"><i class="fa-solid fa-earth-americas mr-1"></i> Marii Hawaasaa (Live Chat)</span>
+            <span class="font-bold text-sm"><i class="fa-solid fa-earth-americas mr-1"></i> Global Live Chat</span>
           </div>
           <div id="globalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2.5 text-sm bg-gray-50"></div>
           <form onsubmit="sendGlobalMessage(event)" class="p-2 border-t border-gray-200 flex gap-2">
-            <input type="text" id="globalChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none" />
+            <input type="text" id="globalChatInput" placeholder="Write a message..." required class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none" />
             <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center cursor-pointer">
               <i class="fa-solid fa-paper-plane text-xs"></i>
             </button>
@@ -332,15 +328,15 @@
       </aside>
     </div>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR (ANDROID & IPHONE) -->
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-gray-200 z-40 grid grid-cols-4">
       <button onclick="switchTab('home')" id="mnav-home" class="mnav-tab text-[#1877F2] flex flex-col items-center justify-center text-lg cursor-pointer">
         <i class="fa-solid fa-house"></i>
-        <span class="text-[10px] font-semibold">Feed</span>
+        <span class="text-[10px] font-semibold">Home</span>
       </button>
       <button onclick="switchTab('friends')" id="mnav-friends" class="mnav-tab text-gray-500 flex flex-col items-center justify-center text-lg relative cursor-pointer">
         <i class="fa-solid fa-user-group"></i>
-        <span class="text-[10px] font-semibold">Hiriyoota</span>
+        <span class="text-[10px] font-semibold">Friends</span>
       </button>
       <button onclick="switchTab('messenger')" id="mnav-messenger" class="mnav-tab text-gray-500 flex flex-col items-center justify-center text-lg cursor-pointer">
         <i class="fa-brands fa-facebook-messenger"></i>
@@ -359,13 +355,13 @@
   <div id="mobileLiveChatModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-2">
     <div class="bg-white rounded-2xl w-full max-w-md h-[82vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="p-3 bg-[#1877F2] text-white flex justify-between items-center">
-        <span class="font-bold text-sm">Marii Hawaasaa (Live Chat)</span>
+        <span class="font-bold text-sm">Global Live Chat</span>
         <button onclick="document.getElementById('mobileLiveChatModal').classList.add('hidden')" class="text-white text-lg px-2 cursor-pointer">&times;</button>
       </div>
       <div id="mobileGlobalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm bg-gray-50"></div>
       <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex gap-2 bg-white">
-        <input type="text" id="mobileGlobalChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3.5 py-2 text-sm focus:outline-none" />
-        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm cursor-pointer">Ergi</button>
+        <input type="text" id="mobileGlobalChatInput" placeholder="Write a message..." required class="flex-1 bg-gray-100 rounded-full px-3.5 py-2 text-sm focus:outline-none" />
+        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm cursor-pointer">Send</button>
       </form>
     </div>
   </div>
@@ -374,30 +370,30 @@
   <div id="postModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl overflow-hidden">
       <div class="p-3.5 sm:p-4 border-b flex justify-between items-center">
-        <h3 id="postModalTitle" class="font-bold text-base sm:text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
+        <h3 id="postModalTitle" class="font-bold text-base sm:text-lg text-center flex-1">Create Post</h3>
         <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="p-4 space-y-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-gray-600">Miira:</span>
+          <span class="text-xs font-bold text-gray-600">Feeling:</span>
           <select id="postMood" class="border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs bg-gray-50">
-            <option value="">Kan biraa hin jiru</option>
-            <option value="😊 Gammadaa">😊 Gammadaa</option>
-            <option value="🙏 Galateeffataa">🙏 Galateeffataa</option>
+            <option value="">None</option>
+            <option value="😊 Happy">😊 Happy</option>
+            <option value="🙏 Blessed">🙏 Blessed</option>
             <option value="📈 Trading / Forex">📈 Trading / Forex</option>
-            <option value="🔥 Hojii Irra">🔥 Hojii Irra</option>
-            <option value="💡 Yaada Haaraa">💡 Yaada Haaraa</option>
+            <option value="🔥 Working">🔥 Working</option>
+            <option value="💡 Inspired">💡 Inspired</option>
           </select>
         </div>
-        <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-sm sm:text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
+        <textarea id="postText" rows="4" placeholder="Write something..." class="w-full text-sm sm:text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
         <div id="postImageField">
-          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa filadhu (Filannoo):</label>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Choose Photo (Optional):</label>
           <input type="file" id="postImageFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         </div>
         <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition cursor-pointer">
-          Maxxansi (Publish)
+          Publish
         </button>
       </div>
     </div>
@@ -407,16 +403,16 @@
   <div id="storyModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-base sm:text-lg">Seenaa (Story) Haaraa Uumi</h3>
+        <h3 class="font-bold text-base sm:text-lg">Create Story</h3>
         <button onclick="closeStoryModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="p-4 space-y-3">
-        <input type="text" id="storyText" placeholder="Barreeffama seenaa gabaabaa..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+        <input type="text" id="storyText" placeholder="Short story text..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
         <input type="file" id="storyImageFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         <button id="submitStoryBtn" onclick="submitStory()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
-          Seenaa Maxxansi
+          Share Story
         </button>
       </div>
     </div>
@@ -441,14 +437,14 @@
   <div id="editProfileModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-base sm:text-lg">Profile Kee Sirreessi</h3>
+        <h3 class="font-bold text-base sm:text-lg">Edit Profile</h3>
         <button onclick="document.getElementById('editProfileModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="p-4 space-y-3">
         <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">Maqaa</label>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Name</label>
           <input type="text" id="editNameInput" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
         </div>
         <div>
@@ -456,11 +452,11 @@
           <textarea id="editBioInput" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa Profile Haaraa</label>
+          <label class="block text-xs font-bold text-gray-600 mb-1">New Profile Photo</label>
           <input type="file" id="editAvatarFile" accept="image/*" class="w-full text-xs sm:text-sm text-gray-500" />
         </div>
         <button onclick="saveProfileChanges()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
-          Olkaa'i (Save)
+          Save Changes
         </button>
       </div>
     </div>
@@ -538,10 +534,10 @@
     let editingPostId = null;
 
     const REACTIONS = [
-      { key: 'like', emoji: '👍', label: 'Jaalladhu' },
-      { key: 'love', emoji: '❤️', label: 'Jaalala' },
-      { key: 'haha', emoji: '😂', label: 'Kolfi' },
-      { key: 'wow', emoji: '😮', label: 'Dinqisiisaa' }
+      { key: 'like', emoji: '👍', label: 'Like' },
+      { key: 'love', emoji: '❤️', label: 'Love' },
+      { key: 'haha', emoji: '😂', label: 'Haha' },
+      { key: 'wow', emoji: '😮', label: 'Wow' }
     ];
 
     function getAvatar(name, photo) {
@@ -565,7 +561,7 @@
         await updateProfile(cred.user, { displayName: name, photoURL: avatar });
         await saveUserToDB(cred.user, name, avatar);
       } catch (err) {
-        showAuthError("Dogoggora galmee: " + err.message);
+        showAuthError("Sign up error: " + err.message);
       }
     });
 
@@ -576,7 +572,7 @@
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch (err) {
-        showAuthError("Email ykn Jecha Iccitii sirrii miti!");
+        showAuthError("Invalid email or password!");
       }
     });
 
@@ -610,7 +606,7 @@
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
 
-        updateHeaderAndSidebarUI(displayName, user.email, avatar, currentUserDoc.bio || "Miseensa Gammee APP");
+        updateHeaderAndSidebarUI(displayName, user.email, avatar, currentUserDoc.bio || "Gammee APP Member");
         await saveUserToDB(user, displayName, avatar);
 
         listenToUsers();
@@ -663,7 +659,7 @@
       if (!targetUid || targetUid === currentUser.uid) return;
       await addDoc(collection(db, "notifications"), {
         toUid: targetUid,
-        fromName: currentUserDoc.name || currentUser.displayName || "Miseensa",
+        fromName: currentUserDoc.name || currentUser.displayName || "Member",
         text,
         read: false,
         createdAt: serverTimestamp()
@@ -685,7 +681,7 @@
         const list = document.getElementById('notifList');
         list.innerHTML = mine.length
           ? mine.slice(0, 15).map(n => `<div class="p-2 rounded-lg bg-blue-50 border border-gray-100">${n.text}</div>`).join('')
-          : `<p class="text-gray-400 text-center py-4">Beeksisni haaraan hin jiru.</p>`;
+          : `<p class="text-gray-400 text-center py-4">No new notifications.</p>`;
       });
     }
 
@@ -711,11 +707,11 @@
       if (!text && !file) return;
       const btn = document.getElementById('submitStoryBtn');
       btn.disabled = true;
-      btn.textContent = "Maxxansaa jira...";
+      btn.textContent = "Sharing...";
       try {
         let image = "";
         if (file) image = await compressImage(file, 700, 0.7);
-        const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
+        const name = currentUserDoc.name || currentUser.displayName || "Member";
         const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
         await addDoc(collection(db, "stories"), {
           authorId: currentUser.uid, authorName: name, authorAvatar: avatar, text, image, createdAt: serverTimestamp()
@@ -723,7 +719,7 @@
         closeStoryModal();
       } finally {
         btn.disabled = false;
-        btn.textContent = "Seenaa Maxxansi";
+        btn.textContent = "Share Story";
       }
     };
 
@@ -759,7 +755,7 @@
 
     window.openPostModal = (mode = 'text', postToEdit = null) => {
       editingPostId = postToEdit ? postToEdit.id : null;
-      document.getElementById('postModalTitle').textContent = postToEdit ? "Maxxansa Sirreessi" : "Maxxansa Haaraa Uumi";
+      document.getElementById('postModalTitle').textContent = postToEdit ? "Edit Post" : "Create Post";
       document.getElementById('postText').value = postToEdit ? (postToEdit.text || '') : '';
       document.getElementById('postMood').value = postToEdit ? (postToEdit.mood || '') : '';
       document.getElementById('postImageField').style.display = postToEdit ? 'none' : 'block';
@@ -781,7 +777,7 @@
       if (!text && !fileInput.files.length && !mood && !editingPostId) return;
       const btn = document.getElementById('submitPostBtn');
       btn.disabled = true;
-      btn.textContent = "Maxxansaa jira...";
+      btn.textContent = "Publishing...";
       try {
         const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
         const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
@@ -798,7 +794,7 @@
         closePostModal();
       } finally {
         btn.disabled = false;
-        btn.textContent = "Maxxansi (Publish)";
+        btn.textContent = "Publish";
       }
     };
 
@@ -810,8 +806,8 @@
         sharedFrom: post.authorName, reactions: {}, comments: [], shares: 0, createdAt: serverTimestamp()
       });
       await updateDoc(doc(db, "posts", post.id), { shares: (post.shares || 0) + 1 });
-      await sendNotification(post.authorId, `${name} maxxansa kee qoodeera.`);
-      alert("Gara feed keetii qoodameera!");
+      await sendNotification(post.authorId, `${name} shared your post.`);
+      alert("Shared to your feed!");
     };
 
     function listenToPosts() {
@@ -838,8 +834,8 @@
       const reactionCount = Object.keys(reactions).length;
       const comments = post.comments || [];
       const timeStr = post.createdAt
-        ? new Date(post.createdAt.toDate()).toLocaleString('om-ET', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })
-        : "Amma";
+        ? new Date(post.createdAt.toDate()).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })
+        : "Just now";
 
       const reactionBadges = REACTIONS.map(r => {
         const cnt = Object.values(reactions).filter(v => v === r.key).length;
@@ -855,17 +851,17 @@
                 <div class="font-bold text-sm">
                   ${post.authorName}
                   ${post.mood ? `<span class="font-normal text-gray-600 text-xs ml-1">— ${post.mood}</span>` : ''}
-                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(${post.sharedFrom} irraa)</span>` : ''}
+                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(shared from ${post.sharedFrom})</span>` : ''}
                 </div>
-                <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Sirreeffame' : ''}</span>
+                <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Edited' : ''}</span>
               </div>
             </div>
             ${post.authorId === currentUser.uid ? `
               <div class="flex gap-1">
-                <button onclick='openPostModal("text", ${JSON.stringify(post).replace(/'/g, "&#39;")})' class="text-gray-400 hover:text-[#1877F2] p-1.5 cursor-pointer">
+                <button onclick='openPostModal("text", ${JSON.stringify(post).replace(/'/g, "&#39;")})' class="text-gray-400 hover:text-[#1877F2] p-1.5 cursor-pointer" title="Edit">
                   <i class="fa-solid fa-pen text-xs"></i>
                 </button>
-                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-1.5 cursor-pointer">
+                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-1.5 cursor-pointer" title="Delete">
                   <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
               </div>` : ''}
@@ -875,8 +871,8 @@
           ${post.image ? `<img src="${post.image}" class="w-full max-h-[460px] object-cover bg-gray-100" />` : ''}
 
           <div class="px-3 sm:px-4 py-2 flex justify-between items-center text-xs text-gray-500 border-b border-gray-100">
-            <div>${reactionBadges || `<span>${reactionCount} Jaallatame</span>`}</div>
-            <div>Yaada ${comments.length} · Qoodame ${post.shares || 0}</div>
+            <div>${reactionBadges || `<span>${reactionCount} Likes</span>`}</div>
+            <div>${comments.length} Comments · ${post.shares || 0} Shares</div>
           </div>
 
           <div class="px-1.5 sm:px-2 py-1 flex justify-around text-xs sm:text-sm font-semibold text-gray-600 border-b border-gray-100">
@@ -890,11 +886,11 @@
             }).join('')}
             <button onclick="document.getElementById('c-input-${post.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
               <i class="fa-regular fa-comment"></i>
-              <span class="hidden sm:inline">Yaada</span>
+              <span class="hidden sm:inline">Comment</span>
             </button>
             <button onclick='sharePost(${JSON.stringify(post).replace(/'/g, "&#39;")})' class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
               <i class="fa-solid fa-share"></i>
-              <span class="hidden sm:inline">Qoodi</span>
+              <span class="hidden sm:inline">Share</span>
             </button>
           </div>
 
@@ -906,8 +902,8 @@
               </div>
             `).join('')}
             <form onsubmit="addComment(event, '${post.id}', '${post.authorId}')" class="flex gap-2 pt-1">
-              <input id="c-input-${post.id}" type="text" placeholder="Yaada barreessi..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
-              <button type="submit" class="text-[#1877F2] font-bold text-sm px-2 cursor-pointer">Ergi</button>
+              <input id="c-input-${post.id}" type="text" placeholder="Write a comment..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
+              <button type="submit" class="text-[#1877F2] font-bold text-sm px-2 cursor-pointer">Send</button>
             </form>
           </div>
         </div>
@@ -918,14 +914,14 @@
       const container = document.getElementById('postsContainer');
       container.innerHTML = postsList.length
         ? postsList.map(buildPostCardHTML).join('')
-        : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
+        : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts yet. Be the first to post!</div>`;
     }
 
     function renderMyPosts() {
       const container = document.getElementById('myPostsContainer');
       if (!container || !currentUser) return;
       const mine = allPosts.filter(p => p.authorId === currentUser.uid);
-      container.innerHTML = mine.length ? mine.map(buildPostCardHTML).join('') : `<div class="bg-white p-6 rounded-xl text-center text-gray-500 text-sm">Maxxansa hin qabdu.</div>`;
+      container.innerHTML = mine.length ? mine.map(buildPostCardHTML).join('') : `<div class="bg-white p-6 rounded-xl text-center text-gray-500 text-sm">No posts yet.</div>`;
     }
 
     window.setReaction = async (postId, key, authorId) => {
@@ -934,8 +930,8 @@
       const nextVal = existing === key ? null : key;
       await updateDoc(postRef, { [`reactions.${currentUser.uid}`]: nextVal });
       if (nextVal) {
-        const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
-        await sendNotification(authorId, `${name} maxxansa keetti deebii kenne.`);
+        const name = currentUserDoc.name || currentUser.displayName || "Member";
+        await sendNotification(authorId, `${name} reacted to your post.`);
       }
     };
 
@@ -947,11 +943,11 @@
       input.value = '';
       const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
       await updateDoc(doc(db, "posts", postId), { comments: arrayUnion({ userName: name, text }) });
-      await sendNotification(authorId, `${name} yaada kenne: "${text}"`);
+      await sendNotification(authorId, `${name} commented: "${text}"`);
     };
 
     window.deletePost = async (postId) => {
-      if (confirm("Maxxansa kana haquu barbaaddaa?")) await deleteDoc(doc(db, "posts", postId));
+      if (confirm("Delete this post?")) await deleteDoc(doc(db, "posts", postId));
     };
 
     function listenToUsers() {
@@ -964,7 +960,7 @@
             me.name || currentUser.displayName || currentUser.email.split('@')[0],
             currentUser.email,
             getAvatar(me.name, me.avatar || currentUser.photoURL),
-            me.bio || "Miseensa Gammee APP"
+            me.bio || "Gammee APP Member"
           );
         }
         renderUsersAndFriends();
@@ -989,10 +985,10 @@
                 <img src="${getAvatar(u.name, u.avatar)}" class="w-10 h-10 rounded-full object-cover" />
                 <span class="font-bold text-sm truncate">${u.name}</span>
               </div>
-              <button onclick="acceptFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer">Fudhadhu</button>
+              <button onclick="acceptFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer">Accept</button>
             </div>
           `).join('')
-        : `<p class="text-sm text-gray-500">Gaaffiin hiriyummaa haaraan hin jiru.</p>`;
+        : `<p class="text-sm text-gray-500">No new friend requests.</p>`;
 
       const others = allUsers.filter(u => u.uid !== currentUser.uid);
       document.getElementById('allUsersGrid').innerHTML = others.map(u => {
@@ -1004,15 +1000,15 @@
               <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover shrink-0" />
               <div class="overflow-hidden">
                 <h4 class="font-bold text-sm truncate">${u.name}</h4>
-                <p class="text-xs text-gray-500 truncate">${u.bio || 'Miseensa Gammee APP'}</p>
+                <p class="text-xs text-gray-500 truncate">${u.bio || 'Gammee APP Member'}</p>
               </div>
             </div>
             <div class="flex gap-1.5 shrink-0">
               ${isFriend
-                ? `<span class="text-xs font-bold text-green-600 px-2 py-1">Hiriyaa</span>`
+                ? `<span class="text-xs font-bold text-green-600 px-2 py-1">Friends</span>`
                 : isSent
-                  ? `<span class="text-xs text-gray-400 px-2 py-1">Ergameera</span>`
-                  : `<button onclick="sendFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">+ Hiriyaa</button>`
+                  ? `<span class="text-xs text-gray-400 px-2 py-1">Requested</span>`
+                  : `<button onclick="sendFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">+ Add Friend</button>`
               }
               <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">
                 <i class="fa-brands fa-facebook-messenger"></i>
@@ -1033,15 +1029,15 @@
     window.sendFriendRequest = async (targetUid) => {
       await updateDoc(doc(db, "users", targetUid), { friendRequests: arrayUnion(currentUser.uid) });
       await updateDoc(doc(db, "users", currentUser.uid), { sentRequests: arrayUnion(targetUid) });
-      const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
-      await sendNotification(targetUid, `${name} gaaffii hiriyummaa siif ergeera.`);
+      const name = currentUserDoc.name || currentUser.displayName || "Member";
+      await sendNotification(targetUid, `${name} sent you a friend request.`);
     };
 
     window.acceptFriendRequest = async (requesterUid) => {
       await updateDoc(doc(db, "users", currentUser.uid), { friends: arrayUnion(requesterUid), friendRequests: arrayRemove(requesterUid) });
       await updateDoc(doc(db, "users", requesterUid), { friends: arrayUnion(currentUser.uid), sentRequests: arrayRemove(currentUser.uid) });
-      const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
-      await sendNotification(requesterUid, `${name} gaaffii hiriyummaa kee fudhateera.`);
+      const name = currentUserDoc.name || currentUser.displayName || "Member";
+      await sendNotification(requesterUid, `${name} accepted your friend request.`);
     };
 
     function getDMThreadId(uid1, uid2) { return [uid1, uid2].sort().join("_"); }

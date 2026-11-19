@@ -1,7 +1,7 @@
 {
   "name": "gammee-app",
   "version": "2.0.0",
-  "description": "Gammee APP - Global Real-Time Social Network",
+  "description": "Gammee APP - Walqunnamtii Hawaasaa Addunyaa",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gammee APP - Walqunnamtii Hawaasaa Addunyaa</title>
+  <title>Gammee APP - Walqunnamtii Hawaasaa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -17,7 +17,7 @@
 </head>
 <body class="text-[#050505]">
 
-  <!-- ================= AUTHENTICATION SCREEN (LOGIN / SIGN UP) ================= -->
+  <!-- ================= AUTHENTICATION SCREEN ================= -->
   <div id="authScreen" class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-10 gap-10 max-w-5xl mx-auto">
     <div class="text-center lg:text-left max-w-md">
       <div class="inline-flex items-center gap-3 mb-4">
@@ -25,7 +25,7 @@
         <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
       </div>
       <p class="text-xl sm:text-2xl text-gray-800 font-medium leading-snug">
-        Hiriyoota kee fi addunyaa mara waliin yeroo dhugaa (Real-Time) keessatti wal qunnami, odeeffannoo qoodi.
+        Hiriyoota kee fi addunyaa mara waliin yeroo dhugaa (Real-Time) keessatti wal qunnami, seenaa fi odeeffannoo qoodi.
       </p>
     </div>
 
@@ -72,102 +72,232 @@
     </div>
   </div>
 
-  <!-- ================= MAIN APP SCREEN (LOGGED IN) ================= -->
+  <!-- ================= MAIN FACEBOOK-STYLE APP ================= -->
   <div id="mainApp" class="hidden">
-    <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-50 px-4 flex items-center justify-between border-b border-gray-200">
+    <!-- TOP HEADER -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-40 px-3 sm:px-4 flex items-center justify-between border-b border-gray-200">
       <div class="flex items-center gap-2">
-        <div onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-bold text-2xl cursor-pointer">
+        <button onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-extrabold text-2xl cursor-pointer">
           G
-        </div>
+        </button>
         <div class="relative hidden sm:block">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
-          <input type="text" id="searchInput" onkeyup="filterPosts()" placeholder="Gammee APP keessaa barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-60 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Gammee APP keessaa barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-56 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
         </div>
       </div>
 
-      <nav class="flex items-center h-full gap-2">
-        <button onclick="switchTab('home')" id="nav-home" class="nav-btn h-full px-6 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl">
+      <!-- CENTER NAV TABS -->
+      <nav class="flex items-center h-full gap-1 sm:gap-2">
+        <button onclick="switchTab('home')" id="nav-home" title="Fuula Jalqabaa" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-house"></i>
         </button>
-        <button onclick="switchTab('users')" id="nav-users" class="nav-btn h-full px-6 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl">
+        <button onclick="switchTab('friends')" id="nav-friends" title="Hiriyoota & Miseensota" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
           <i class="fa-solid fa-user-group"></i>
+          <span id="friendReqBadge" class="hidden absolute top-1.5 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full">0</span>
         </button>
-        <button onclick="openGlobalChat()" class="nav-btn h-full px-6 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative">
+        <button onclick="switchTab('messenger')" id="nav-messenger" title="Ergaa Dhuunfaa (Messenger)" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-brands fa-facebook-messenger"></i>
+        </button>
+        <button onclick="switchTab('profile')" id="nav-profile" title="Profile Kee" class="nav-tab h-full px-4 sm:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl cursor-pointer">
+          <i class="fa-solid fa-circle-user"></i>
         </button>
       </nav>
 
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2">
-          <img id="navUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-gray-300" />
-          <span id="navUserName" class="font-semibold text-sm hidden md:block"></span>
+      <!-- RIGHT CONTROLS -->
+      <div class="flex items-center gap-2">
+        <div class="relative">
+          <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center text-gray-800 relative cursor-pointer" title="Beeksisa">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notifBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+          </button>
+          <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 p-3 z-50 max-h-96 overflow-y-auto">
+            <div class="flex justify-between items-center pb-2 mb-2 border-b">
+              <span class="font-bold text-sm">Beeksisa (Notifications)</span>
+              <button onclick="clearNotifications()" class="text-xs text-[#1877F2] hover:underline cursor-pointer">Haqi</button>
+            </div>
+            <div id="notifList" class="space-y-2 text-xs text-gray-600">Beeksisni haaraan hin jiru.</div>
+          </div>
         </div>
-        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer" title="Ba'i">
-          <i class="fa-solid fa-right-from-bracket"></i> Ba'i
+
+        <button onclick="switchTab('profile')" class="hidden md:flex items-center gap-2 bg-[#f0f2f5] hover:bg-gray-200 pr-3 pl-1 py-1 rounded-full cursor-pointer">
+          <img id="navUserAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
+          <span id="navUserName" class="font-semibold text-sm max-w-[120px] truncate"></span>
+        </button>
+
+        <button id="logoutBtn" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-2 rounded-full text-xs font-bold transition cursor-pointer" title="Ba'i">
+          <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </header>
 
-    <div class="pt-16 max-w-[1360px] mx-auto flex justify-between px-2 sm:px-4">
-      <aside class="hidden lg:block w-[270px] fixed top-16 left-4 py-3">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 space-y-3">
-          <div class="flex items-center gap-3">
-            <img id="sideUserAvatar" src="" class="w-12 h-12 rounded-full object-cover" />
-            <div>
-              <h3 id="sideUserName" class="font-bold text-base"></h3>
-              <p id="sideUserEmail" class="text-xs text-gray-500 truncate max-w-[160px]"></p>
+    <!-- 3-COLUMN FACEBOOK LAYOUT -->
+    <div class="pt-14 max-w-[1440px] mx-auto flex justify-between px-2 sm:px-4">
+      <!-- LEFT SIDEBAR -->
+      <aside class="hidden lg:block w-[280px] fixed top-14 left-2 xl:left-4 py-4 h-[calc(100vh-3.5rem)] overflow-y-auto">
+        <div class="space-y-1">
+          <button onclick="switchTab('profile')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-left cursor-pointer">
+            <img id="sideUserAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
+            <div class="overflow-hidden">
+              <div id="sideUserName" class="font-bold text-sm truncate"></div>
+              <div id="sideUserBio" class="text-xs text-gray-500 truncate">Miseensa Gammee APP</div>
             </div>
-          </div>
-          <hr />
-          <p class="text-xs text-green-600 font-semibold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Addunyaa waliin walqunnameera (Live)</p>
+          </button>
+
+          <button onclick="switchTab('home')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-newspaper text-[#1877F2] text-lg w-6 text-center"></i>
+            <span>Feed / Odeeffannoo</span>
+          </button>
+
+          <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-user-group text-[#1877F2] text-lg w-6 text-center"></i>
+            <span>Hiriyoota & Miseensota</span>
+          </button>
+
+          <button onclick="switchTab('messenger')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-brands fa-facebook-messenger text-[#1877F2] text-lg w-6 text-center"></i>
+            <span>Messenger (Chat Dhuunfaa)</span>
+          </button>
+
+          <button onclick="openStoryModal()" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-clock-rotate-left text-purple-600 text-lg w-6 text-center"></i>
+            <span>Seenaa (Story) Uumi</span>
+          </button>
         </div>
+
+        <hr class="my-3 border-gray-300" />
+        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Hiriyoota Online Jiran</div>
+        <div id="sidebarOnlineUsers" class="space-y-2"></div>
       </aside>
 
-      <main class="w-full lg:ml-[290px] xl:mr-[290px] max-w-[660px] mx-auto py-3 space-y-4">
-        <div id="tab-home" class="tab-section space-y-4">
+      <!-- CENTER CONTENT AREA -->
+      <main class="w-full lg:ml-[295px] xl:mr-[315px] max-w-[680px] mx-auto py-4 space-y-4">
+
+        <!-- TAB 1: HOME FEED -->
+        <div id="tab-home" class="app-tab space-y-4">
+          <!-- STORIES ROW -->
+          <div class="bg-white rounded-xl shadow-sm p-3 border border-gray-200">
+            <div id="storiesContainer" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
+              <!-- Create Story Card -->
+              <div onclick="openStoryModal()" class="min-w-[112px] h-44 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex flex-col cursor-pointer shrink-0 shadow-sm hover:opacity-95">
+                <div class="h-28 w-full bg-blue-50 flex items-center justify-center">
+                  <img id="storyCreateAvatar" src="" class="w-full h-full object-cover" />
+                </div>
+                <div class="flex-1 bg-white flex flex-col items-center justify-center relative pt-3 px-1">
+                  <div class="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center border-4 border-white -mt-7 shadow">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                  </div>
+                  <span class="text-[11px] font-bold text-center leading-tight mt-1">Seenaa Uumi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CREATE POST BOX -->
           <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
             <div class="flex items-center gap-3">
               <img id="postBoxAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
-              <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-4 py-2.5 rounded-full text-[15px] transition">
+              <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-4 py-2.5 rounded-full text-[15px] transition cursor-pointer">
                 Maal yaadaa jirta? Addunyaaf qoodi...
               </button>
             </div>
             <hr class="my-3 border-gray-200" />
-            <div class="flex justify-around text-sm font-semibold text-gray-600">
-              <button onclick="openPostModal()" class="flex items-center gap-2 py-1.5 px-4 hover:bg-gray-100 rounded-lg">
-                <i class="fa-solid fa-images text-green-500 text-lg"></i>
-                <span>Suuraa Maxxansi</span>
+            <div class="grid grid-cols-3 text-xs sm:text-sm font-semibold text-gray-600">
+              <button onclick="openPostModal('mood')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <i class="fa-regular fa-face-smile text-yellow-500 text-lg"></i>
+                <span>Miira / Haala</span>
               </button>
-              <button onclick="openPostModal()" class="flex items-center gap-2 py-1.5 px-4 hover:bg-gray-100 rounded-lg">
+              <button onclick="openPostModal('photo')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <i class="fa-solid fa-images text-green-500 text-lg"></i>
+                <span>Suuraa</span>
+              </button>
+              <button onclick="openPostModal('text')" class="flex items-center justify-center gap-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-pen-to-square text-[#1877F2] text-lg"></i>
-                <span>Odeeffannoo Barreessi</span>
+                <span>Barreeffama</span>
               </button>
             </div>
           </div>
 
+          <!-- POSTS FEED -->
           <div id="postsContainer" class="space-y-4">
-            <div class="text-center py-10 text-gray-500">
+            <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-              <p>Maxxansaalee addunyaa fe'aa jira...</p>
+              <p>Maxxansaalee fe'aa jira...</p>
             </div>
           </div>
         </div>
 
-        <div id="tab-users" class="tab-section hidden bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-          <h2 class="text-xl font-bold mb-4">Miseensota Gammee APP (Addunyaa Mararraa)</h2>
-          <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        <!-- TAB 2: FRIENDS & MEMBERS -->
+        <div id="tab-friends" class="app-tab hidden space-y-4">
+          <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
+            <h2 class="text-xl font-bold mb-3">Gaaffii Hiriyummaa (Friend Requests)</h2>
+            <div id="friendRequestsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <p class="text-sm text-gray-500">Gaaffiin hiriyummaa haaraan hin jiru.</p>
+            </div>
+
+            <h2 class="text-xl font-bold mb-3">Miseensota & Hiriyoota Gammee APP</h2>
+            <div id="allUsersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: PRIVATE MESSENGER -->
+        <div id="tab-messenger" class="app-tab hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden grid grid-cols-1 md:grid-cols-12 h-[75vh]">
+            <div class="md:col-span-4 border-r border-gray-200 flex flex-col">
+              <div class="p-3 border-b font-bold text-base bg-gray-50">Ergaa Dhuunfaa (Chats)</div>
+              <div id="dmUserList" class="flex-1 overflow-y-auto divide-y divide-gray-100"></div>
+            </div>
+            <div class="md:col-span-8 flex flex-col">
+              <div id="dmHeader" class="p-3 border-b font-bold text-sm bg-gray-50 flex items-center gap-2">
+                <span class="text-gray-500">Hiriyaa chat itti gootu filadhu</span>
+              </div>
+              <div id="dmMessagesBox" class="flex-1 p-4 overflow-y-auto space-y-2.5 bg-[#f0f2f5]/50 text-sm"></div>
+              <form onsubmit="sendDirectMessage(event)" class="p-3 border-t flex gap-2 bg-white">
+                <input type="text" id="dmInput" placeholder="Ergaa dhuunfaa barreessi..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
+                <button type="submit" class="bg-[#1877F2] hover:bg-blue-700 text-white px-4 rounded-full font-bold text-sm cursor-pointer">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: USER PROFILE -->
+        <div id="tab-profile" class="app-tab hidden space-y-4">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="h-36 bg-gradient-to-r from-[#1877F2] to-blue-400"></div>
+            <div class="px-6 pb-6">
+              <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-14 mb-4 gap-4">
+                <div class="flex items-end gap-4">
+                  <img id="profileBigAvatar" src="" class="w-28 h-28 rounded-full border-4 border-white object-cover shadow-md bg-white" />
+                  <div class="pb-1">
+                    <h2 id="profileDisplayName" class="text-2xl font-extrabold"></h2>
+                    <p id="profileDisplayEmail" class="text-xs text-gray-500"></p>
+                  </div>
+                </div>
+                <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer">
+                  <i class="fa-solid fa-pen mr-1"></i> Profile Sirreessi
+                </button>
+              </div>
+              <p id="profileBioText" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                Waa'ee keetii asitti barreessi...
+              </p>
+            </div>
+          </div>
+
+          <div id="myPostsContainer" class="space-y-4"></div>
         </div>
       </main>
 
-      <aside class="hidden xl:block w-[280px] fixed top-16 right-4 py-3">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5.5rem)]">
+      <!-- RIGHT SIDEBAR: LIVE GLOBAL CHAT -->
+      <aside class="hidden xl:block w-[300px] fixed top-14 right-4 py-4">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5rem)]">
           <div class="p-3 border-b border-gray-200 bg-[#1877F2] text-white rounded-t-xl flex items-center justify-between">
             <span class="font-bold text-sm"><i class="fa-solid fa-earth-americas mr-1"></i> Marii Hawaasaa (Live Chat)</span>
           </div>
           <div id="globalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2.5 text-sm bg-gray-50"></div>
           <form onsubmit="sendGlobalMessage(event)" class="p-2 border-t border-gray-200 flex gap-2">
             <input type="text" id="globalChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none" />
-            <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center">
+            <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center cursor-pointer">
               <i class="fa-solid fa-paper-plane text-xs"></i>
             </button>
           </form>
@@ -176,42 +306,105 @@
     </div>
   </div>
 
-  <!-- CREATE POST MODAL -->
-  <div id="postModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+  <!-- ================= MODALS ================= -->
+
+  <!-- CREATE / EDIT POST MODAL -->
+  <div id="postModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
-        <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+        <h3 id="postModalTitle" class="font-bold text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
+        <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
       <div class="p-4 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-gray-600">Miira / Haala:</span>
+          <select id="postMood" class="border border-gray-300 rounded-lg px-2.5 py-1 text-xs bg-gray-50">
+            <option value="">Kan biraa hin jiru</option>
+            <option value="😊 Gammadaa">😊 Gammadaa</option>
+            <option value="🙏 Galateeffataa">🙏 Galateeffataa</option>
+            <option value="📈 Trading / Forex">📈 Trading / Forex</option>
+            <option value="🔥 Hojii Irra">🔥 Hojii Irra</option>
+            <option value="💡 Yaada Haaraa">💡 Yaada Haaraa</option>
+          </select>
+        </div>
         <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa bilbila/kompiitara irraa filadhu (Filannoo):</label>
+        <div id="postImageField">
+          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa filadhu (Filannoo):</label>
           <input type="file" id="postImageFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[#1877F2] hover:file:bg-blue-100" />
         </div>
-        <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition">
+        <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition cursor-pointer">
           Maxxansi (Publish)
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MOBILE GLOBAL CHAT MODAL -->
-  <div id="mobileChatModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-2">
-    <div class="bg-white rounded-xl w-full max-w-md h-[80vh] flex flex-col shadow-2xl">
-      <div class="p-3 bg-[#1877F2] text-white rounded-t-xl flex justify-between items-center">
-        <span class="font-bold">Marii Hawaasaa (Live Global Chat)</span>
-        <button onclick="document.getElementById('mobileChatModal').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
+  <!-- CREATE STORY MODAL -->
+  <div id="storyModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 class="font-bold text-lg">Seenaa (Story) Haaraa Uumi</h3>
+        <button onclick="closeStoryModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div id="mobileChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm bg-gray-50"></div>
-      <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex gap-2">
-        <input type="text" id="mobileChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3 py-2 text-sm focus:outline-none" />
-        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm">Ergi</button>
-      </form>
+      <div class="p-4 space-y-3">
+        <input type="text" id="storyText" placeholder="Barreeffama seenaa gabaabaa..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+        <input type="file" id="storyImageFile" accept="image/*" class="w-full text-sm text-gray-500" />
+        <button id="submitStoryBtn" onclick="submitStory()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
+          Seenaa Maxxansi
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- UI BUTTON HANDLER (NON-MODULE SO IT ALWAYS WORKS) -->
+  <!-- VIEW STORY MODAL -->
+  <div id="viewStoryModal" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 text-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl relative">
+      <div class="p-3 flex justify-between items-center bg-black/40">
+        <div class="flex items-center gap-2">
+          <img id="viewStoryAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
+          <span id="viewStoryAuthor" class="font-bold text-sm"></span>
+        </div>
+        <button onclick="document.getElementById('viewStoryModal').classList.add('hidden')" class="text-white text-xl px-2 cursor-pointer">&times;</button>
+      </div>
+      <img id="viewStoryImg" src="" class="hidden w-full max-h-96 object-cover" />
+      <div id="viewStoryCaption" class="p-5 text-center text-base font-medium"></div>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE MODAL -->
+  <div id="editProfileModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 class="font-bold text-lg">Profile Kee Sirreessi</h3>
+        <button onclick="document.getElementById('editProfileModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="p-4 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Maqaa</label>
+          <input type="text" id="editNameInput" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Bio (Waa'ee keetii)</label>
+          <textarea id="editBioInput" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa Profile Haaraa</label>
+          <input type="file" id="editAvatarFile" accept="image/*" class="w-full text-sm text-gray-500" />
+        </div>
+        <button onclick="saveProfileChanges()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg cursor-pointer">
+          Olkaa'i (Save)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UI AUTH MODE HANDLER -->
   <script>
     function setAuthMode(mode) {
       const errBox = document.getElementById('authError');
@@ -235,16 +428,16 @@
     });
   </script>
 
-  <!-- FIREBASE SDKs -->
+  <!-- FIREBASE LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
-      signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile 
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-      getFirestore, collection, addDoc, onSnapshot, query, orderBy, 
-      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc 
+    import {
+      getFirestore, collection, addDoc, onSnapshot, query, orderBy,
+      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -263,7 +456,22 @@
     const googleProvider = new GoogleAuthProvider();
 
     let currentUser = null;
+    let currentUserDoc = {};
+    let allUsers = [];
     let allPosts = [];
+    let activeChatPartner = null;
+    let editingPostId = null;
+
+    const REACTIONS = [
+      { key: 'like', emoji: '👍', label: 'Jaalladhu' },
+      { key: 'love', emoji: '❤️', label: 'Jaalala' },
+      { key: 'haha', emoji: '😂', label: 'Kolfi' },
+      { key: 'wow', emoji: '😮', label: 'Dinqisiisaa' }
+    ];
+
+    function getAvatar(name, photo) {
+      return photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=1877F2&color=fff`;
+    }
 
     function showAuthError(msg) {
       const errBox = document.getElementById('authError');
@@ -276,12 +484,11 @@
       const name = document.getElementById('signupName').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
       const password = document.getElementById('signupPassword').value;
-
       try {
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877F2&color=fff`;
-        await updateProfile(userCred.user, { displayName: name, photoURL: avatar });
-        await saveUserToDB(userCred.user, name, avatar);
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const avatar = getAvatar(name, null);
+        await updateProfile(cred.user, { displayName: name, photoURL: avatar });
+        await saveUserToDB(cred.user, name, avatar);
       } catch (err) {
         showAuthError("Dogoggora galmee: " + err.message);
       }
@@ -291,7 +498,6 @@
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
-
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch (err) {
@@ -304,16 +510,16 @@
         const result = await signInWithPopup(auth, googleProvider);
         await saveUserToDB(result.user, result.user.displayName, result.user.photoURL);
       } catch (err) {
-        showAuthError("Google Sign-In hin milkoofne: " + err.message);
+        showAuthError("Google Sign-In: " + err.message);
       }
     });
 
     async function saveUserToDB(user, name, avatar) {
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        name: name || "Fayyadamaa Gammee",
+        name: name || user.email.split('@')[0],
         email: user.email,
-        avatar: avatar || `https://ui-avatars.com/api/?name=User&background=1877F2&color=fff`,
+        avatar: getAvatar(name, avatar),
         lastSeen: serverTimestamp()
       }, { merge: true });
     }
@@ -324,22 +530,19 @@
       if (user) {
         currentUser = user;
         const displayName = user.displayName || user.email.split('@')[0];
-        const avatar = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=1877F2&color=fff`;
+        const avatar = getAvatar(displayName, user.photoURL);
 
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
 
-        document.getElementById('navUserName').textContent = displayName;
-        document.getElementById('navUserAvatar').src = avatar;
-        document.getElementById('sideUserName').textContent = displayName;
-        document.getElementById('sideUserEmail').textContent = user.email;
-        document.getElementById('sideUserAvatar').src = avatar;
-        document.getElementById('postBoxAvatar').src = avatar;
-
+        updateHeaderAndSidebarUI(displayName, user.email, avatar, currentUserDoc.bio || "Miseensa Gammee APP");
         await saveUserToDB(user, displayName, avatar);
-        listenToPosts();
+
         listenToUsers();
+        listenToPosts();
+        listenToStories();
         listenToGlobalChat();
+        listenToNotifications();
       } else {
         currentUser = null;
         document.getElementById('mainApp').classList.add('hidden');
@@ -347,7 +550,21 @@
       }
     });
 
-    function compressImage(file) {
+    function updateHeaderAndSidebarUI(name, email, avatar, bio) {
+      document.getElementById('navUserName').textContent = name;
+      document.getElementById('navUserAvatar').src = avatar;
+      document.getElementById('sideUserName').textContent = name;
+      document.getElementById('sideUserBio').textContent = bio;
+      document.getElementById('sideUserAvatar').src = avatar;
+      document.getElementById('postBoxAvatar').src = avatar;
+      document.getElementById('storyCreateAvatar').src = avatar;
+      document.getElementById('profileBigAvatar').src = avatar;
+      document.getElementById('profileDisplayName').textContent = name;
+      document.getElementById('profileDisplayEmail').textContent = email;
+      document.getElementById('profileBioText').textContent = bio;
+    }
+
+    function compressImage(file, maxWidth = 800, quality = 0.7) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -356,163 +573,380 @@
           img.src = event.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 800;
-            const scaleSize = MAX_WIDTH / img.width;
-            canvas.width = img.width > MAX_WIDTH ? MAX_WIDTH : img.width;
-            canvas.height = img.width > MAX_WIDTH ? img.height * scaleSize : img.height;
+            const scale = maxWidth / img.width;
+            canvas.width = img.width > maxWidth ? maxWidth : img.width;
+            canvas.height = img.width > maxWidth ? img.height * scale : img.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL('image/jpeg', 0.7));
+            resolve(canvas.toDataURL('image/jpeg', quality));
           };
         };
       });
     }
 
-    window.openPostModal = () => document.getElementById('postModal').classList.remove('hidden');
+    // ================= NOTIFICATIONS =================
+    async function sendNotification(targetUid, text) {
+      if (!targetUid || targetUid === currentUser.uid) return;
+      await addDoc(collection(db, "notifications"), {
+        toUid: targetUid,
+        fromName: currentUserDoc.name || currentUser.displayName || "Miseensa",
+        text,
+        read: false,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    function listenToNotifications() {
+      const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snap) => {
+        const mine = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(n => n.toUid === currentUser.uid);
+
+        const unread = mine.filter(n => !n.read).length;
+        const badge = document.getElementById('notifBadge');
+        if (unread > 0) {
+          badge.textContent = unread;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+
+        const list = document.getElementById('notifList');
+        if (mine.length === 0) {
+          list.innerHTML = `<p class="text-gray-400 text-center py-4">Beeksisni haaraan hin jiru.</p>`;
+          return;
+        }
+        list.innerHTML = mine.slice(0, 15).map(n => `
+          <div class="p-2 rounded-lg ${n.read ? 'bg-gray-50' : 'bg-blue-50 font-semibold'} border border-gray-100">
+            <div>${n.text}</div>
+          </div>
+        `).join('');
+      });
+    }
+
+    window.toggleNotifications = async () => {
+      const dd = document.getElementById('notifDropdown');
+      dd.classList.toggle('hidden');
+      if (!dd.classList.contains('hidden') && currentUser) {
+        const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+        // mark unread visible ones as read softly
+        allUsers.forEach(() => {});
+      }
+    };
+
+    window.clearNotifications = async () => {
+      const { getDocs } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+      const snap = await getDocs(collection(db, "notifications"));
+      for (const d of snap.docs) {
+        if (d.data().toUid === currentUser.uid) {
+          await deleteDoc(doc(db, "notifications", d.id));
+        }
+      }
+    };
+
+    // ================= STORIES =================
+    window.openStoryModal = () => document.getElementById('storyModal').classList.remove('hidden');
+    window.closeStoryModal = () => {
+      document.getElementById('storyModal').classList.add('hidden');
+      document.getElementById('storyText').value = '';
+      document.getElementById('storyImageFile').value = '';
+    };
+
+    window.submitStory = async () => {
+      const text = document.getElementById('storyText').value.trim();
+      const file = document.getElementById('storyImageFile').files[0];
+      if (!text && !file) return;
+
+      const btn = document.getElementById('submitStoryBtn');
+      btn.disabled = true;
+      btn.textContent = "Maxxansaa jira...";
+
+      try {
+        let image = "";
+        if (file) image = await compressImage(file, 700, 0.7);
+        const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
+        const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
+
+        await addDoc(collection(db, "stories"), {
+          authorId: currentUser.uid,
+          authorName: name,
+          authorAvatar: avatar,
+          text,
+          image,
+          createdAt: serverTimestamp()
+        });
+        closeStoryModal();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Seenaa Maxxansi";
+      }
+    };
+
+    function listenToStories() {
+      const q = query(collection(db, "stories"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snap) => {
+        const stories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const container = document.getElementById('storiesContainer');
+        const createCard = container.firstElementChild.outerHTML;
+
+        const storyCards = stories.map(s => `
+          <div onclick='viewStory(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="min-w-[112px] h-44 rounded-xl overflow-hidden relative cursor-pointer shrink-0 shadow-sm group">
+            ${s.image
+              ? `<img src="${s.image}" class="w-full h-full object-cover group-hover:scale-105 transition" />`
+              : `<div class="w-full h-full bg-gradient-to-br from-[#1877F2] to-indigo-700 p-2.5 flex items-center justify-center text-center text-white text-xs font-bold">${s.text || ''}</div>`
+            }
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20"></div>
+            <img src="${s.authorAvatar}" class="w-8 h-8 rounded-full border-2 border-[#1877F2] object-cover absolute top-2 left-2" />
+            <span class="absolute bottom-2 left-2 right-2 text-white text-[11px] font-bold truncate">${s.authorName}</span>
+          </div>
+        `).join('');
+
+        container.innerHTML = createCard + storyCards;
+      });
+    }
+
+    window.viewStory = (s) => {
+      document.getElementById('viewStoryAvatar').src = s.authorAvatar;
+      document.getElementById('viewStoryAuthor').textContent = s.authorName;
+      const img = document.getElementById('viewStoryImg');
+      if (s.image) {
+        img.src = s.image;
+        img.classList.remove('hidden');
+      } else {
+        img.classList.add('hidden');
+      }
+      document.getElementById('viewStoryCaption').textContent = s.text || '';
+      document.getElementById('viewStoryModal').classList.remove('hidden');
+    };
+
+    // ================= POSTS, REACTIONS, SHARE, EDIT =================
+    window.openPostModal = (mode = 'text', postToEdit = null) => {
+      editingPostId = postToEdit ? postToEdit.id : null;
+      document.getElementById('postModalTitle').textContent = postToEdit ? "Maxxansa Sirreessi" : "Maxxansa Haaraa Uumi";
+      document.getElementById('postText').value = postToEdit ? (postToEdit.text || '') : '';
+      document.getElementById('postMood').value = postToEdit ? (postToEdit.mood || '') : '';
+      document.getElementById('postImageField').style.display = postToEdit ? 'none' : 'block';
+      document.getElementById('postModal').classList.remove('hidden');
+      if (mode === 'mood') document.getElementById('postMood').focus();
+      else document.getElementById('postText').focus();
+    };
+
     window.closePostModal = () => {
       document.getElementById('postModal').classList.add('hidden');
       document.getElementById('postText').value = '';
       document.getElementById('postImageFile').value = '';
+      document.getElementById('postMood').value = '';
+      editingPostId = null;
     };
 
     window.submitPost = async () => {
       const text = document.getElementById('postText').value.trim();
+      const mood = document.getElementById('postMood').value;
       const fileInput = document.getElementById('postImageFile');
-      if (!text && !fileInput.files.length) return;
+      if (!text && !fileInput.files.length && !mood && !editingPostId) return;
 
       const btn = document.getElementById('submitPostBtn');
       btn.disabled = true;
       btn.textContent = "Maxxansaa jira...";
 
       try {
-        let imageBase64 = "";
-        if (fileInput.files.length > 0) {
-          imageBase64 = await compressImage(fileInput.files[0]);
+        const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+        const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
+
+        if (editingPostId) {
+          await updateDoc(doc(db, "posts", editingPostId), {
+            text,
+            mood,
+            edited: true
+          });
+        } else {
+          let imageBase64 = "";
+          if (fileInput.files.length > 0) {
+            imageBase64 = await compressImage(fileInput.files[0]);
+          }
+          await addDoc(collection(db, "posts"), {
+            authorId: currentUser.uid,
+            authorName: name,
+            authorAvatar: avatar,
+            mood,
+            text,
+            image: imageBase64,
+            reactions: {},
+            comments: [],
+            shares: 0,
+            createdAt: serverTimestamp()
+          });
         }
-
-        const displayName = currentUser.displayName || currentUser.email.split('@')[0];
-        const avatar = currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=1877F2&color=fff`;
-
-        await addDoc(collection(db, "posts"), {
-          authorId: currentUser.uid,
-          authorName: displayName,
-          authorAvatar: avatar,
-          text,
-          image: imageBase64,
-          likes: [],
-          comments: [],
-          createdAt: serverTimestamp()
-        });
-
         closePostModal();
-      } catch (err) {
-        alert("Maxxansuun hin milkoofne: " + err.message);
       } finally {
         btn.disabled = false;
         btn.textContent = "Maxxansi (Publish)";
       }
     };
 
+    window.sharePost = async (post) => {
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+      const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
+      await addDoc(collection(db, "posts"), {
+        authorId: currentUser.uid,
+        authorName: name,
+        authorAvatar: avatar,
+        text: post.text || '',
+        image: post.image || '',
+        sharedFrom: post.authorName,
+        reactions: {},
+        comments: [],
+        shares: 0,
+        createdAt: serverTimestamp()
+      });
+      await updateDoc(doc(db, "posts", post.id), { shares: (post.shares || 0) + 1 });
+      await sendNotification(post.authorId, `${name} maxxansa kee qoodeera (Shared).`);
+      alert("Maxxansaan gara feed keetii qoodameera!");
+    };
+
     function listenToPosts() {
       const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-      onSnapshot(q, (snapshot) => {
-        allPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      onSnapshot(q, (snap) => {
+        allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderPosts(allPosts);
+        renderMyPosts();
       });
     }
 
     window.filterPosts = () => {
       const term = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allPosts.filter(p => 
-        (p.text && p.text.toLowerCase().includes(term)) || 
+      const filtered = allPosts.filter(p =>
+        (p.text && p.text.toLowerCase().includes(term)) ||
         (p.authorName && p.authorName.toLowerCase().includes(term))
       );
       renderPosts(filtered);
     };
 
+    function buildPostCardHTML(post) {
+      const reactions = post.reactions || {};
+      const myReaction = reactions[currentUser.uid] || null;
+      const reactionCount = Object.keys(reactions).length;
+      const comments = post.comments || [];
+      const timeStr = post.createdAt
+        ? new Date(post.createdAt.toDate()).toLocaleString('om-ET', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })
+        : "Amma";
+
+      const reactionBadges = REACTIONS.map(r => {
+        const cnt = Object.values(reactions).filter(v => v === r.key).length;
+        return cnt > 0 ? `<span class="text-xs">${r.emoji} ${cnt}</span>` : '';
+      }).join(' ');
+
+      return `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-4 pb-2 flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <img src="${post.authorAvatar}" class="w-10 h-10 rounded-full object-cover" />
+              <div>
+                <div class="font-bold text-sm">
+                  ${post.authorName}
+                  ${post.mood ? `<span class="font-normal text-gray-600 text-xs ml-1">— ${post.mood}</span>` : ''}
+                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(${post.sharedFrom} irraa qoodame)</span>` : ''}
+                </div>
+                <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Sirreeffame' : ''} · <i class="fa-solid fa-earth-americas"></i></span>
+              </div>
+            </div>
+            ${post.authorId === currentUser.uid ? `
+              <div class="flex gap-1">
+                <button onclick='openPostModal("text", ${JSON.stringify(post).replace(/'/g, "&#39;")})' class="text-gray-400 hover:text-[#1877F2] p-1.5 cursor-pointer" title="Sirreessi">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-1.5 cursor-pointer" title="Haqi">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>` : ''}
+          </div>
+
+          ${post.text ? `<p class="px-4 pb-3 text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
+          ${post.image ? `<img src="${post.image}" class="w-full max-h-[500px] object-cover bg-gray-100" />` : ''}
+
+          <div class="px-4 py-2 flex justify-between items-center text-xs text-gray-500 border-b border-gray-100">
+            <div>${reactionBadges || `<span>${reactionCount} Jaallatame</span>`}</div>
+            <div>Yaada ${comments.length} · Qoodame ${post.shares || 0}</div>
+          </div>
+
+          <!-- REACTION BUTTONS -->
+          <div class="px-2 py-1 flex flex-wrap justify-around text-xs sm:text-sm font-semibold text-gray-600 border-b border-gray-100">
+            ${REACTIONS.map(r => {
+              const active = myReaction === r.key;
+              return `
+                <button onclick="setReaction('${post.id}', '${r.key}', '${post.authorId}')" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer ${active ? 'text-[#1877F2] bg-blue-50/60' : ''}">
+                  <span>${r.emoji}</span>
+                  <span class="hidden sm:inline">${r.label}</span>
+                </button>`;
+            }).join('')}
+            <button onclick="document.getElementById('c-input-${post.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
+              <i class="fa-regular fa-comment"></i>
+              <span>Yaada</span>
+            </button>
+            <button onclick='sharePost(${JSON.stringify(post).replace(/'/g, "&#39;")})' class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-share"></i>
+              <span>Qoodi</span>
+            </button>
+          </div>
+
+          <!-- COMMENTS -->
+          <div class="p-3 space-y-2">
+            ${comments.map(c => `
+              <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-sm">
+                <span class="font-bold text-xs block text-[#1877F2]">${c.userName}</span>
+                <span>${c.text}</span>
+              </div>
+            `).join('')}
+            <form onsubmit="addComment(event, '${post.id}', '${post.authorId}')" class="flex gap-2 pt-1">
+              <input id="c-input-${post.id}" type="text" placeholder="Yaada barreessi..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
+              <button type="submit" class="text-[#1877F2] font-bold text-sm px-2 cursor-pointer">Ergi</button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
     function renderPosts(postsList) {
       const container = document.getElementById('postsContainer');
       if (postsList.length === 0) {
-        container.innerHTML = `<div class="bg-white p-8 rounded-xl text-center text-gray-500">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
+        container.innerHTML = `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
         return;
       }
-
-      container.innerHTML = postsList.map(post => {
-        const likes = post.likes || [];
-        const isLiked = likes.includes(currentUser.uid);
-        const comments = post.comments || [];
-        const timeStr = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleString('om-ET', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' }) : "Amma";
-
-        return `
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="p-4 pb-2 flex justify-between items-center">
-              <div class="flex items-center gap-3">
-                <img src="${post.authorAvatar}" class="w-10 h-10 rounded-full object-cover" />
-                <div>
-                  <h4 class="font-bold text-sm">${post.authorName}</h4>
-                  <span class="text-xs text-gray-500">${timeStr} · <i class="fa-solid fa-earth-americas"></i></span>
-                </div>
-              </div>
-              ${post.authorId === currentUser.uid ? `
-                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-2" title="Haqi">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>` : ''}
-            </div>
-
-            ${post.text ? `<p class="px-4 pb-3 text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
-            ${post.image ? `<img src="${post.image}" class="w-full max-h-[480px] object-cover bg-gray-100" />` : ''}
-
-            <div class="px-4 py-2 flex justify-between text-xs text-gray-500 border-b border-gray-100">
-              <span>👍 ${likes.length} Jaallatame</span>
-              <span>Yaada ${comments.length}</span>
-            </div>
-
-            <div class="px-2 py-1 flex justify-around text-sm font-semibold text-gray-600 border-b border-gray-100">
-              <button onclick="toggleLike('${post.id}', ${isLiked})" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2 ${isLiked ? 'text-[#1877F2]' : ''}">
-                <i class="fa-${isLiked ? 'solid' : 'regular'} fa-thumbs-up"></i>
-                <span>Jaalladhu</span>
-              </button>
-              <button onclick="document.getElementById('c-input-${post.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2">
-                <i class="fa-regular fa-comment"></i>
-                <span>Yaada</span>
-              </button>
-            </div>
-
-            <div class="p-3 space-y-2">
-              ${comments.map(c => `
-                <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-sm">
-                  <span class="font-bold text-xs block text-[#1877F2]">${c.userName}</span>
-                  <span>${c.text}</span>
-                </div>
-              `).join('')}
-              <form onsubmit="addComment(event, '${post.id}')" class="flex gap-2 pt-1">
-                <input id="c-input-${post.id}" type="text" placeholder="Yaada barreessi..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
-                <button type="submit" class="text-[#1877F2] font-bold text-sm px-2">Ergi</button>
-              </form>
-            </div>
-          </div>
-        `;
-      }).join('');
+      container.innerHTML = postsList.map(buildPostCardHTML).join('');
     }
 
-    window.toggleLike = async (postId, isLiked) => {
+    function renderMyPosts() {
+      const container = document.getElementById('myPostsContainer');
+      if (!container || !currentUser) return;
+      const mine = allPosts.filter(p => p.authorId === currentUser.uid);
+      container.innerHTML = mine.length
+        ? mine.map(buildPostCardHTML).join('')
+        : `<div class="bg-white p-6 rounded-xl text-center text-gray-500 text-sm">Hanga ammaa maxxansa hin qabdu.</div>`;
+    }
+
+    window.setReaction = async (postId, key, authorId) => {
       const postRef = doc(db, "posts", postId);
-      await updateDoc(postRef, {
-        likes: isLiked ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
-      });
+      const existing = (allPosts.find(p => p.id === postId)?.reactions || {})[currentUser.uid];
+      const nextVal = existing === key ? null : key;
+      await updateDoc(postRef, { [`reactions.${currentUser.uid}`]: nextVal });
+      if (nextVal) {
+        const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
+        await sendNotification(authorId, `${name} maxxansa keetti deebii kenne (${key}).`);
+      }
     };
 
-    window.addComment = async (e, postId) => {
+    window.addComment = async (e, postId, authorId) => {
       e.preventDefault();
       const input = document.getElementById(`c-input-${postId}`);
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
-
-      const displayName = currentUser.displayName || currentUser.email.split('@')[0];
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
       await updateDoc(doc(db, "posts", postId), {
-        comments: arrayUnion({ userName: displayName, text })
+        comments: arrayUnion({ userName: name, text })
       });
+      await sendNotification(authorId, `${name} maxxansa keetti yaada kenne: "${text}"`);
     };
 
     window.deletePost = async (postId) => {
@@ -521,29 +955,196 @@
       }
     };
 
+    // ================= FRIENDS & USERS =================
     function listenToUsers() {
-      onSnapshot(collection(db, "users"), (snapshot) => {
-        const grid = document.getElementById('usersGrid');
-        grid.innerHTML = snapshot.docs.map(doc => {
-          const u = doc.data();
-          return `
-            <div class="border border-gray-200 rounded-xl p-3 flex items-center gap-3">
-              <img src="${u.avatar}" class="w-12 h-12 rounded-full object-cover" />
+      onSnapshot(collection(db, "users"), (snap) => {
+        allUsers = snap.docs.map(d => d.data());
+        const me = allUsers.find(u => u.uid === currentUser.uid);
+        if (me) {
+          currentUserDoc = me;
+          updateHeaderAndSidebarUI(
+            me.name || currentUser.displayName || currentUser.email.split('@')[0],
+            currentUser.email,
+            getAvatar(me.name, me.avatar || currentUser.photoURL),
+            me.bio || "Miseensa Gammee APP"
+          );
+        }
+        renderUsersAndFriends();
+        renderDMUserList();
+      });
+    }
+
+    function renderUsersAndFriends() {
+      const friends = currentUserDoc.friends || [];
+      const incoming = currentUserDoc.friendRequests || [];
+      const sent = currentUserDoc.sentRequests || [];
+
+      const badge = document.getElementById('friendReqBadge');
+      if (incoming.length > 0) {
+        badge.textContent = incoming.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+
+      const reqBox = document.getElementById('friendRequestsList');
+      const incomingUsers = allUsers.filter(u => incoming.includes(u.uid));
+      reqBox.innerHTML = incomingUsers.length
+        ? incomingUsers.map(u => `
+            <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover" />
+                <span class="font-bold text-sm truncate">${u.name}</span>
+              </div>
+              <button onclick="acceptFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer">Fudhadhu</button>
+            </div>
+          `).join('')
+        : `<p class="text-sm text-gray-500">Gaaffiin hiriyummaa haaraan hin jiru.</p>`;
+
+      const others = allUsers.filter(u => u.uid !== currentUser.uid);
+      document.getElementById('allUsersGrid').innerHTML = others.map(u => {
+        const isFriend = friends.includes(u.uid);
+        const isSent = sent.includes(u.uid);
+        return `
+          <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <img src="${getAvatar(u.name, u.avatar)}" class="w-12 h-12 rounded-full object-cover" />
               <div class="overflow-hidden">
                 <h4 class="font-bold text-sm truncate">${u.name}</h4>
-                <p class="text-xs text-green-600 font-semibold">● Miseensa Gammee APP</p>
+                <p class="text-xs text-gray-500 truncate">${u.bio || 'Miseensa Gammee APP'}</p>
+              </div>
+            </div>
+            <div class="flex gap-1.5 shrink-0">
+              ${isFriend
+                ? `<span class="text-xs font-bold text-green-600 px-2 py-1">Hiriyaa</span>`
+                : isSent
+                  ? `<span class="text-xs text-gray-400 px-2 py-1">Ergameera</span>`
+                  : `<button onclick="sendFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">+ Hiriyaa</button>`
+              }
+              <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer" title="Ergaa Dhuunfaa">
+                <i class="fa-brands fa-facebook-messenger"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('sidebarOnlineUsers').innerHTML = others.slice(0, 8).map(u => `
+        <div onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-200/70 cursor-pointer">
+          <div class="relative">
+            <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 rounded-full object-cover" />
+            <span class="w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full absolute bottom-0 right-0"></span>
+          </div>
+          <span class="text-sm font-medium truncate">${u.name}</span>
+        </div>
+      `).join('');
+    }
+
+    window.sendFriendRequest = async (targetUid) => {
+      await updateDoc(doc(db, "users", targetUid), { friendRequests: arrayUnion(currentUser.uid) });
+      await updateDoc(doc(db, "users", currentUser.uid), { sentRequests: arrayUnion(targetUid) });
+      const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
+      await sendNotification(targetUid, `${name} gaaffii hiriyummaa siif ergeera.`);
+    };
+
+    window.acceptFriendRequest = async (requesterUid) => {
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        friends: arrayUnion(requesterUid),
+        friendRequests: arrayRemove(requesterUid)
+      });
+      await updateDoc(doc(db, "users", requesterUid), {
+        friends: arrayUnion(currentUser.uid),
+        sentRequests: arrayRemove(currentUser.uid)
+      });
+      const name = currentUserDoc.name || currentUser.displayName || "Miseensa";
+      await sendNotification(requesterUid, `${name} gaaffii hiriyummaa kee fudhateera.`);
+    };
+
+    // ================= PRIVATE DIRECT MESSAGES =================
+    function getDMThreadId(uid1, uid2) {
+      return [uid1, uid2].sort().join("_");
+    }
+
+    function renderDMUserList() {
+      const others = allUsers.filter(u => u.uid !== currentUser.uid);
+      document.getElementById('dmUserList').innerHTML = others.map(u => `
+        <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="w-full p-3 flex items-center gap-2.5 hover:bg-gray-100 text-left cursor-pointer ${activeChatPartner?.uid === u.uid ? 'bg-blue-50' : ''}">
+          <img src="${getAvatar(u.name, u.avatar)}" class="w-9 h-9 rounded-full object-cover" />
+          <span class="font-semibold text-sm truncate">${u.name}</span>
+        </button>
+      `).join('');
+    }
+
+    window.startDM = (partner) => {
+      activeChatPartner = partner;
+      switchTab('messenger');
+      renderDMUserList();
+      document.getElementById('dmHeader').innerHTML = `
+        <img src="${getAvatar(partner.name, partner.avatar)}" class="w-8 h-8 rounded-full object-cover" />
+        <span>${partner.name}</span>
+      `;
+      const threadId = getDMThreadId(currentUser.uid, partner.uid);
+      const q = query(collection(db, "direct_messages"), orderBy("createdAt", "asc"));
+      onSnapshot(q, (snap) => {
+        const msgs = snap.docs.map(d => d.data()).filter(m => m.threadId === threadId);
+        const box = document.getElementById('dmMessagesBox');
+        box.innerHTML = msgs.map(m => {
+          const isMe = m.senderId === currentUser.uid;
+          return `
+            <div class="flex ${isMe ? 'justify-end' : 'justify-start'}">
+              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3.5 py-2 rounded-2xl max-w-[75%] shadow-sm">
+                ${m.text}
               </div>
             </div>
           `;
         }).join('');
+        box.scrollTop = box.scrollHeight;
       });
-    }
+    };
 
+    window.sendDirectMessage = async (e) => {
+      e.preventDefault();
+      if (!activeChatPartner) return;
+      const input = document.getElementById('dmInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      await addDoc(collection(db, "direct_messages"), {
+        threadId: getDMThreadId(currentUser.uid, activeChatPartner.uid),
+        senderId: currentUser.uid,
+        receiverId: activeChatPartner.uid,
+        text,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    // ================= PROFILE EDIT =================
+    window.openEditProfileModal = () => {
+      document.getElementById('editNameInput').value = currentUserDoc.name || currentUser.displayName || '';
+      document.getElementById('editBioInput').value = currentUserDoc.bio || '';
+      document.getElementById('editProfileModal').classList.remove('hidden');
+    };
+
+    window.saveProfileChanges = async () => {
+      const name = document.getElementById('editNameInput').value.trim();
+      const bio = document.getElementById('editBioInput').value.trim();
+      const file = document.getElementById('editAvatarFile').files[0];
+
+      let avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
+      if (file) avatar = await compressImage(file, 300, 0.75);
+
+      await updateProfile(currentUser, { displayName: name, photoURL: avatar });
+      await setDoc(doc(db, "users", currentUser.uid), { name, bio, avatar }, { merge: true });
+      document.getElementById('editProfileModal').classList.add('hidden');
+    };
+
+    // ================= GLOBAL LIVE CHAT =================
     function listenToGlobalChat() {
       const q = query(collection(db, "global_chat"), orderBy("createdAt", "asc"));
-      onSnapshot(q, (snapshot) => {
-        const html = snapshot.docs.map(doc => {
-          const m = doc.data();
+      onSnapshot(q, (snap) => {
+        const box = document.getElementById('globalChatMessages');
+        box.innerHTML = snap.docs.map(d => {
+          const m = d.data();
           const isMe = m.uid === currentUser.uid;
           return `
             <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
@@ -554,24 +1155,7 @@
             </div>
           `;
         }).join('');
-
-        const desktopBox = document.getElementById('globalChatMessages');
-        const mobileBox = document.getElementById('mobileChatMessages');
-        desktopBox.innerHTML = html;
-        mobileBox.innerHTML = html;
-        desktopBox.scrollTop = desktopBox.scrollHeight;
-        mobileBox.scrollTop = mobileBox.scrollHeight;
-      });
-    }
-
-    async function postChatMessage(text) {
-      if (!text) return;
-      const displayName = currentUser.displayName || currentUser.email.split('@')[0];
-      await addDoc(collection(db, "global_chat"), {
-        uid: currentUser.uid,
-        name: displayName,
-        text,
-        createdAt: serverTimestamp()
+        box.scrollTop = box.scrollHeight;
       });
     }
 
@@ -579,25 +1163,32 @@
       e.preventDefault();
       const input = document.getElementById('globalChatInput');
       const text = input.value.trim();
+      if (!text) return;
       input.value = '';
-      await postChatMessage(text);
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+      await addDoc(collection(db, "global_chat"), {
+        uid: currentUser.uid,
+        name,
+        text,
+        createdAt: serverTimestamp()
+      });
     };
 
-    window.sendMobileGlobalMessage = async (e) => {
-      e.preventDefault();
-      const input = document.getElementById('mobileChatInput');
-      const text = input.value.trim();
-      input.value = '';
-      await postChatMessage(text);
-    };
+    // ================= TAB NAVIGATION =================
+    window.switchTab = (tabName) => {
+      document.querySelectorAll('.app-tab').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
 
-    window.openGlobalChat = () => {
-      document.getElementById('mobileChatModal').classList.remove('hidden');
-    };
-
-    window.switchTab = (tab) => {
-      document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.remove('border-[#1877F2]', 'text-[#1877F2]');
+        btn.classList.add('border-transparent', 'text-gray-500');
+      });
+      const activeBtn = document.getElementById(`nav-${tabName}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-transparent', 'text-gray-500');
+        activeBtn.classList.add('border-[#1877F2]', 'text-[#1877F2]');
+      }
+      if (tabName === 'profile') renderMyPosts();
     };
   </script>
 </body>

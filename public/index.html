@@ -19,7 +19,6 @@
 
   <!-- ================= AUTHENTICATION SCREEN (LOGIN / SIGN UP) ================= -->
   <div id="authScreen" class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-10 gap-10 max-w-5xl mx-auto">
-    <!-- Left Branding -->
     <div class="text-center lg:text-left max-w-md">
       <div class="inline-flex items-center gap-3 mb-4">
         <div class="w-14 h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-4xl flex items-center justify-center shadow-lg">G</div>
@@ -30,7 +29,6 @@
       </p>
     </div>
 
-    <!-- Right Auth Card -->
     <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
       <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
 
@@ -59,7 +57,7 @@
       <!-- SIGN UP FORM -->
       <form id="signupForm" class="hidden space-y-4">
         <h2 class="text-xl font-bold text-center text-gray-800">Account Haaraa Uumi</h2>
-        <input type="text" id="signupName" placeholder="Maqaa Guutuu (fkn: Gammachuu Reta)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="text" id="signupName" placeholder="Maqaa Guutuu" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg transition">
@@ -76,7 +74,6 @@
 
   <!-- ================= MAIN APP SCREEN (LOGGED IN) ================= -->
   <div id="mainApp" class="hidden">
-    <!-- TOP NAVBAR -->
     <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-50 px-4 flex items-center justify-between border-b border-gray-200">
       <div class="flex items-center gap-2">
         <div onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-bold text-2xl cursor-pointer">
@@ -88,7 +85,6 @@
         </div>
       </div>
 
-      <!-- Navigation -->
       <nav class="flex items-center h-full gap-2">
         <button onclick="switchTab('home')" id="nav-home" class="nav-btn h-full px-6 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl">
           <i class="fa-solid fa-house"></i>
@@ -101,7 +97,6 @@
         </button>
       </nav>
 
-      <!-- User Profile & Logout -->
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-2">
           <img id="navUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-gray-300" />
@@ -113,10 +108,7 @@
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <div class="pt-16 max-w-[1360px] mx-auto flex justify-between px-2 sm:px-4">
-      
-      <!-- LEFT SIDEBAR -->
       <aside class="hidden lg:block w-[270px] fixed top-16 left-4 py-3">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 space-y-3">
           <div class="flex items-center gap-3">
@@ -131,12 +123,8 @@
         </div>
       </aside>
 
-      <!-- CENTER FEED -->
       <main class="w-full lg:ml-[290px] xl:mr-[290px] max-w-[660px] mx-auto py-3 space-y-4">
-        
-        <!-- TAB: HOME -->
         <div id="tab-home" class="tab-section space-y-4">
-          <!-- CREATE POST BOX -->
           <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
             <div class="flex items-center gap-3">
               <img id="postBoxAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
@@ -157,7 +145,6 @@
             </div>
           </div>
 
-          <!-- REAL-TIME FEED CONTAINER -->
           <div id="postsContainer" class="space-y-4">
             <div class="text-center py-10 text-gray-500">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
@@ -166,15 +153,12 @@
           </div>
         </div>
 
-        <!-- TAB: REGISTERED USERS -->
         <div id="tab-users" class="tab-section hidden bg-white rounded-xl shadow-sm p-5 border border-gray-200">
           <h2 class="text-xl font-bold mb-4">Miseensota Gammee APP (Addunyaa Mararraa)</h2>
           <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
         </div>
-
       </main>
 
-      <!-- RIGHT SIDEBAR: GLOBAL LIVE CHAT -->
       <aside class="hidden xl:block w-[280px] fixed top-16 right-4 py-3">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5.5rem)]">
           <div class="p-3 border-b border-gray-200 bg-[#1877F2] text-white rounded-t-xl flex items-center justify-between">
@@ -201,13 +185,10 @@
       </div>
       <div class="p-4 space-y-3">
         <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
-        
-        <!-- Upload Image from Device -->
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa bilbila/kompiitara irraa filadhu (Filannoo):</label>
           <input type="file" id="postImageFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[#1877F2] hover:file:bg-blue-100" />
         </div>
-
         <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition">
           Maxxansi (Publish)
         </button>
@@ -242,17 +223,15 @@
       doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // =========================================================================
-    // 1. FURTUU FIREBASE KEETII ASITTI GALCHI (PASTE YOUR FIREBASE CONFIG HERE)
-    // =========================================================================
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+      apiKey: "AIzaSyC-SheN-A7k9gOLDHTBSUn0jt0KwlGAWNI",
+      authDomain: "gammeeapp.firebaseapp.com",
+      projectId: "gammeeapp",
+      storageBucket: "gammeeapp.firebasestorage.app",
+      messagingSenderId: "745967883527",
+      appId: "1:745967883527:web:8adb8a16486857bd70a1a2",
+      measurementId: "G-JBRGN9K1TW"
+    };[cite: 5]
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -262,7 +241,6 @@
     let currentUser = null;
     let allPosts = [];
 
-    // ================= AUTHENTICATION LOGIC =================
     window.toggleAuthMode = (mode) => {
       document.getElementById('authError').classList.add('hidden');
       if (mode === 'signup') {
@@ -280,7 +258,6 @@
       errBox.classList.remove('hidden');
     }
 
-    // Sign Up with Email
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('signupName').value.trim();
@@ -297,7 +274,6 @@
       }
     });
 
-    // Login with Email
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim();
@@ -310,7 +286,6 @@
       }
     });
 
-    // Login with Google
     window.loginWithGoogle = async () => {
       try {
         const result = await signInWithPopup(auth, googleProvider);
@@ -332,7 +307,6 @@
 
     window.logoutUser = () => signOut(auth);
 
-    // Monitor Auth State
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUser = user;
@@ -360,7 +334,6 @@
       }
     });
 
-    // ================= IMAGE COMPRESSION (BASE64) =================
     function compressImage(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -382,7 +355,6 @@
       });
     }
 
-    // ================= REAL-TIME POSTS (FIRESTORE) =================
     window.openPostModal = () => document.getElementById('postModal').classList.remove('hidden');
     window.closePostModal = () => {
       document.getElementById('postModal').classList.add('hidden');
@@ -493,7 +465,6 @@
               </button>
             </div>
 
-            <!-- Comments -->
             <div class="p-3 space-y-2">
               ${comments.map(c => `
                 <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-sm">
@@ -537,7 +508,6 @@
       }
     };
 
-    // ================= REGISTERED USERS LIST =================
     function listenToUsers() {
       onSnapshot(collection(db, "users"), (snapshot) => {
         const grid = document.getElementById('usersGrid');
@@ -556,7 +526,6 @@
       });
     }
 
-    // ================= REAL-TIME GLOBAL MESSENGER CHAT =================
     function listenToGlobalChat() {
       const q = query(collection(db, "global_chat"), orderBy("createdAt", "asc"));
       onSnapshot(q, (snapshot) => {

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gammee APP - Walqunnamtii Hawaasaa Addunyaa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-[#050505]">
+
+  <!-- ================= AUTHENTICATION SCREEN (LOGIN / SIGN UP) ================= -->
+  <div id="authScreen" class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-10 gap-10 max-w-5xl mx-auto">
+    <!-- Left Branding -->
+    <div class="text-center lg:text-left max-w-md">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <div class="w-14 h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-4xl flex items-center justify-center shadow-lg">G</div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
+      </div>
+      <p class="text-xl sm:text-2xl text-gray-800 font-medium leading-snug">
+        Hiriyoota kee fi addunyaa mara waliin yeroo dhugaa (Real-Time) keessatti wal qunnami, odeeffannoo qoodi.
+      </p>
+    </div>
+
+    <!-- Right Auth Card -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
+      <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="space-y-4">
+        <h2 class="text-xl font-bold text-center text-gray-800">Seeni (Log In)</h2>
+        <input type="email" id="loginEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="loginPassword" placeholder="Jecha Iccitii (Password)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition">
+          Seeni
+        </button>
+
+        <button type="button" onclick="loginWithGoogle()" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" />
+          <span>Google dhaan Seeni</span>
+        </button>
+
+        <hr class="my-4" />
+        <div class="text-center">
+          <button type="button" onclick="toggleAuthMode('signup')" class="bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition">
+            Account Haaraa Uumi
+          </button>
+        </div>
+      </form>
+
+      <!-- SIGN UP FORM -->
+      <form id="signupForm" class="hidden space-y-4">
+        <h2 class="text-xl font-bold text-center text-gray-800">Account Haaraa Uumi</h2>
+        <input type="text" id="signupName" placeholder="Maqaa Guutuu (fkn: Gammachuu Reta)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="email" id="signupEmail" placeholder="Email kee galchi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="password" id="signupPassword" placeholder="Jecha Iccitii Haaraa (yoo xiqqaate qubee 6)" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <button type="submit" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg transition">
+          Galmaa'i (Sign Up)
+        </button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="toggleAuthMode('login')" class="text-[#1877F2] font-semibold text-sm hover:underline">
+            Duraan account qabdaa? Seeni
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP SCREEN (LOGGED IN) ================= -->
+  <div id="mainApp" class="hidden">
+    <!-- TOP NAVBAR -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-white shadow-sm z-50 px-4 flex items-center justify-between border-b border-gray-200">
+      <div class="flex items-center gap-2">
+        <div onclick="switchTab('home')" class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white font-bold text-2xl cursor-pointer">
+          G
+        </div>
+        <div class="relative hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filterPosts()" placeholder="Gammee APP keessaa barbaadi..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-60 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex items-center h-full gap-2">
+        <button onclick="switchTab('home')" id="nav-home" class="nav-btn h-full px-6 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <button onclick="switchTab('users')" id="nav-users" class="nav-btn h-full px-6 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-user-group"></i>
+        </button>
+        <button onclick="openGlobalChat()" class="nav-btn h-full px-6 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative">
+          <i class="fa-brands fa-facebook-messenger"></i>
+        </button>
+      </nav>
+
+      <!-- User Profile & Logout -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <img id="navUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-gray-300" />
+          <span id="navUserName" class="font-semibold text-sm hidden md:block"></span>
+        </div>
+        <button onclick="logoutUser()" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold transition" title="Ba'i">
+          <i class="fa-solid fa-right-from-bracket"></i> Ba'i
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="pt-16 max-w-[1360px] mx-auto flex justify-between px-2 sm:px-4">
+      
+      <!-- LEFT SIDEBAR -->
+      <aside class="hidden lg:block w-[270px] fixed top-16 left-4 py-3">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 space-y-3">
+          <div class="flex items-center gap-3">
+            <img id="sideUserAvatar" src="" class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <h3 id="sideUserName" class="font-bold text-base"></h3>
+              <p id="sideUserEmail" class="text-xs text-gray-500 truncate max-w-[160px]"></p>
+            </div>
+          </div>
+          <hr />
+          <p class="text-xs text-green-600 font-semibold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Addunyaa waliin walqunnameera (Live)</p>
+        </div>
+      </aside>
+
+      <!-- CENTER FEED -->
+      <main class="w-full lg:ml-[290px] xl:mr-[290px] max-w-[660px] mx-auto py-3 space-y-4">
+        
+        <!-- TAB: HOME -->
+        <div id="tab-home" class="tab-section space-y-4">
+          <!-- CREATE POST BOX -->
+          <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
+            <div class="flex items-center gap-3">
+              <img id="postBoxAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
+              <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-4 py-2.5 rounded-full text-[15px] transition">
+                Maal yaadaa jirta? Addunyaaf qoodi...
+              </button>
+            </div>
+            <hr class="my-3 border-gray-200" />
+            <div class="flex justify-around text-sm font-semibold text-gray-600">
+              <button onclick="openPostModal()" class="flex items-center gap-2 py-1.5 px-4 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-images text-green-500 text-lg"></i>
+                <span>Suuraa Maxxansi</span>
+              </button>
+              <button onclick="openPostModal()" class="flex items-center gap-2 py-1.5 px-4 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-pen-to-square text-[#1877F2] text-lg"></i>
+                <span>Odeeffannoo Barreessi</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- REAL-TIME FEED CONTAINER -->
+          <div id="postsContainer" class="space-y-4">
+            <div class="text-center py-10 text-gray-500">
+              <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
+              <p>Maxxansaalee addunyaa fe'aa jira...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: REGISTERED USERS -->
+        <div id="tab-users" class="tab-section hidden bg-white rounded-xl shadow-sm p-5 border border-gray-200">
+          <h2 class="text-xl font-bold mb-4">Miseensota Gammee APP (Addunyaa Mararraa)</h2>
+          <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+
+      </main>
+
+      <!-- RIGHT SIDEBAR: GLOBAL LIVE CHAT -->
+      <aside class="hidden xl:block w-[280px] fixed top-16 right-4 py-3">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-5.5rem)]">
+          <div class="p-3 border-b border-gray-200 bg-[#1877F2] text-white rounded-t-xl flex items-center justify-between">
+            <span class="font-bold text-sm"><i class="fa-solid fa-earth-americas mr-1"></i> Marii Hawaasaa (Live Chat)</span>
+          </div>
+          <div id="globalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2.5 text-sm bg-gray-50"></div>
+          <form onsubmit="sendGlobalMessage(event)" class="p-2 border-t border-gray-200 flex gap-2">
+            <input type="text" id="globalChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none" />
+            <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- CREATE POST MODAL -->
+  <div id="postModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl overflow-hidden">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 class="font-bold text-lg text-center flex-1">Maxxansa Haaraa Uumi</h3>
+        <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-4 space-y-3">
+        <textarea id="postText" rows="4" placeholder="Odeeffannoo ykn yaada kee asitti barreessi..." class="w-full text-base focus:outline-none resize-none border border-gray-200 rounded-lg p-3"></textarea>
+        
+        <!-- Upload Image from Device -->
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Suuraa bilbila/kompiitara irraa filadhu (Filannoo):</label>
+          <input type="file" id="postImageFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[#1877F2] hover:file:bg-blue-100" />
+        </div>
+
+        <button id="submitPostBtn" onclick="submitPost()" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition">
+          Maxxansi (Publish)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE GLOBAL CHAT MODAL -->
+  <div id="mobileChatModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-2">
+    <div class="bg-white rounded-xl w-full max-w-md h-[80vh] flex flex-col shadow-2xl">
+      <div class="p-3 bg-[#1877F2] text-white rounded-t-xl flex justify-between items-center">
+        <span class="font-bold">Marii Hawaasaa (Live Global Chat)</span>
+        <button onclick="document.getElementById('mobileChatModal').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="mobileChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm bg-gray-50"></div>
+      <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex gap-2">
+        <input type="text" id="mobileChatInput" placeholder="Ergaa barreessi..." required class="flex-1 bg-gray-100 rounded-full px-3 py-2 text-sm focus:outline-none" />
+        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm">Ergi</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+      signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, collection, addDoc, onSnapshot, query, orderBy, 
+      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. FURTUU FIREBASE KEETII ASITTI GALCHI (PASTE YOUR FIREBASE CONFIG HERE)
+    // =========================================================================
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    let currentUser = null;
+    let allPosts = [];
+
+    // ================= AUTHENTICATION LOGIC =================
+    window.toggleAuthMode = (mode) => {
+      document.getElementById('authError').classList.add('hidden');
+      if (mode === 'signup') {
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('signupForm').classList.remove('hidden');
+      } else {
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+      }
+    };
+
+    function showAuthError(msg) {
+      const errBox = document.getElementById('authError');
+      errBox.textContent = msg;
+      errBox.classList.remove('hidden');
+    }
+
+    // Sign Up with Email
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877F2&color=fff`;
+        await updateProfile(userCred.user, { displayName: name, photoURL: avatar });
+        await saveUserToDB(userCred.user, name, avatar);
+      } catch (err) {
+        showAuthError("Dogoggora galmee: " + err.message);
+      }
+    });
+
+    // Login with Email
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        showAuthError("Email ykn Jecha Iccitii sirrii miti!");
+      }
+    });
+
+    // Login with Google
+    window.loginWithGoogle = async () => {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        await saveUserToDB(result.user, result.user.displayName, result.user.photoURL);
+      } catch (err) {
+        showAuthError("Google Sign-In hin milkoofne: " + err.message);
+      }
+    };
+
+    async function saveUserToDB(user, name, avatar) {
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: name || "Fayyadamaa Gammee",
+        email: user.email,
+        avatar: avatar || `https://ui-avatars.com/api/?name=User&background=1877F2&color=fff`,
+        lastSeen: serverTimestamp()
+      }, { merge: true });
+    }
+
+    window.logoutUser = () => signOut(auth);
+
+    // Monitor Auth State
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        const displayName = user.displayName || user.email.split('@')[0];
+        const avatar = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=1877F2&color=fff`;
+
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+
+        document.getElementById('navUserName').textContent = displayName;
+        document.getElementById('navUserAvatar').src = avatar;
+        document.getElementById('sideUserName').textContent = displayName;
+        document.getElementById('sideUserEmail').textContent = user.email;
+        document.getElementById('sideUserAvatar').src = avatar;
+        document.getElementById('postBoxAvatar').src = avatar;
+
+        await saveUserToDB(user, displayName, avatar);
+        listenToPosts();
+        listenToUsers();
+        listenToGlobalChat();
+      } else {
+        currentUser = null;
+        document.getElementById('mainApp').classList.add('hidden');
+        document.getElementById('authScreen').classList.remove('hidden');
+      }
+    });
+
+    // ================= IMAGE COMPRESSION (BASE64) =================
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800;
+            const scaleSize = MAX_WIDTH / img.width;
+            canvas.width = img.width > MAX_WIDTH ? MAX_WIDTH : img.width;
+            canvas.height = img.width > MAX_WIDTH ? img.height * scaleSize : img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 0.7));
+          };
+        };
+      });
+    }
+
+    // ================= REAL-TIME POSTS (FIRESTORE) =================
+    window.openPostModal = () => document.getElementById('postModal').classList.remove('hidden');
+    window.closePostModal = () => {
+      document.getElementById('postModal').classList.add('hidden');
+      document.getElementById('postText').value = '';
+      document.getElementById('postImageFile').value = '';
+    };
+
+    window.submitPost = async () => {
+      const text = document.getElementById('postText').value.trim();
+      const fileInput = document.getElementById('postImageFile');
+      if (!text && !fileInput.files.length) return;
+
+      const btn = document.getElementById('submitPostBtn');
+      btn.disabled = true;
+      btn.textContent = "Maxxansaa jira...";
+
+      try {
+        let imageBase64 = "";
+        if (fileInput.files.length > 0) {
+          imageBase64 = await compressImage(fileInput.files[0]);
+        }
+
+        const displayName = currentUser.displayName || currentUser.email.split('@')[0];
+        const avatar = currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=1877F2&color=fff`;
+
+        await addDoc(collection(db, "posts"), {
+          authorId: currentUser.uid,
+          authorName: displayName,
+          authorAvatar: avatar,
+          text,
+          image: imageBase64,
+          likes: [],
+          comments: [],
+          createdAt: serverTimestamp()
+        });
+
+        closePostModal();
+      } catch (err) {
+        alert("Maxxansuun hin milkoofne: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Maxxansi (Publish)";
+      }
+    };
+
+    function listenToPosts() {
+      const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        allPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderPosts(allPosts);
+      });
+    }
+
+    window.filterPosts = () => {
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = allPosts.filter(p => 
+        (p.text && p.text.toLowerCase().includes(term)) || 
+        (p.authorName && p.authorName.toLowerCase().includes(term))
+      );
+      renderPosts(filtered);
+    };
+
+    function renderPosts(postsList) {
+      const container = document.getElementById('postsContainer');
+      if (postsList.length === 0) {
+        container.innerHTML = `<div class="bg-white p-8 rounded-xl text-center text-gray-500">Maxxansaan hin argamne. Isa jalqabaa ta'iitii maxxansi!</div>`;
+        return;
+      }
+
+      container.innerHTML = postsList.map(post => {
+        const likes = post.likes || [];
+        const isLiked = likes.includes(currentUser.uid);
+        const comments = post.comments || [];
+        const timeStr = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleString('om-ET', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' }) : "Amma";
+
+        return `
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 pb-2 flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <img src="${post.authorAvatar}" class="w-10 h-10 rounded-full object-cover" />
+                <div>
+                  <h4 class="font-bold text-sm">${post.authorName}</h4>
+                  <span class="text-xs text-gray-500">${timeStr} · <i class="fa-solid fa-earth-americas"></i></span>
+                </div>
+              </div>
+              ${post.authorId === currentUser.uid ? `
+                <button onclick="deletePost('${post.id}')" class="text-gray-400 hover:text-red-500 p-2" title="Haqi">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>` : ''}
+            </div>
+
+            ${post.text ? `<p class="px-4 pb-3 text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
+            ${post.image ? `<img src="${post.image}" class="w-full max-h-[480px] object-cover bg-gray-100" />` : ''}
+
+            <div class="px-4 py-2 flex justify-between text-xs text-gray-500 border-b border-gray-100">
+              <span>👍 ${likes.length} Jaallatame</span>
+              <span>Yaada ${comments.length}</span>
+            </div>
+
+            <div class="px-2 py-1 flex justify-around text-sm font-semibold text-gray-600 border-b border-gray-100">
+              <button onclick="toggleLike('${post.id}', ${isLiked})" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2 ${isLiked ? 'text-[#1877F2]' : ''}">
+                <i class="fa-${isLiked ? 'solid' : 'regular'} fa-thumbs-up"></i>
+                <span>Jaalladhu</span>
+              </button>
+              <button onclick="document.getElementById('c-input-${post.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2">
+                <i class="fa-regular fa-comment"></i>
+                <span>Yaada</span>
+              </button>
+            </div>
+
+            <!-- Comments -->
+            <div class="p-3 space-y-2">
+              ${comments.map(c => `
+                <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-sm">
+                  <span class="font-bold text-xs block text-[#1877F2]">${c.userName}</span>
+                  <span>${c.text}</span>
+                </div>
+              `).join('')}
+              <form onsubmit="addComment(event, '${post.id}')" class="flex gap-2 pt-1">
+                <input id="c-input-${post.id}" type="text" placeholder="Yaada barreessi..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
+                <button type="submit" class="text-[#1877F2] font-bold text-sm px-2">Ergi</button>
+              </form>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleLike = async (postId, isLiked) => {
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
+        likes: isLiked ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
+      });
+    };
+
+    window.addComment = async (e, postId) => {
+      e.preventDefault();
+      const input = document.getElementById(`c-input-${postId}`);
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      const displayName = currentUser.displayName || currentUser.email.split('@')[0];
+      await updateDoc(doc(db, "posts", postId), {
+        comments: arrayUnion({ userName: displayName, text })
+      });
+    };
+
+    window.deletePost = async (postId) => {
+      if (confirm("Maxxansa kana haquu barbaaddaa?")) {
+        await deleteDoc(doc(db, "posts", postId));
+      }
+    };
+
+    // ================= REGISTERED USERS LIST =================
+    function listenToUsers() {
+      onSnapshot(collection(db, "users"), (snapshot) => {
+        const grid = document.getElementById('usersGrid');
+        grid.innerHTML = snapshot.docs.map(doc => {
+          const u = doc.data();
+          return `
+            <div class="border border-gray-200 rounded-xl p-3 flex items-center gap-3">
+              <img src="${u.avatar}" class="w-12 h-12 rounded-full object-cover" />
+              <div class="overflow-hidden">
+                <h4 class="font-bold text-sm truncate">${u.name}</h4>
+                <p class="text-xs text-green-600 font-semibold">● Miseensa Gammee APP</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      });
+    }
+
+    // ================= REAL-TIME GLOBAL MESSENGER CHAT =================
+    function listenToGlobalChat() {
+      const q = query(collection(db, "global_chat"), orderBy("createdAt", "asc"));
+      onSnapshot(q, (snapshot) => {
+        const html = snapshot.docs.map(doc => {
+          const m = doc.data();
+          const isMe = m.uid === currentUser.uid;
+          return `
+            <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+              <span class="text-[10px] text-gray-500 px-1">${m.name}</span>
+              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3 py-1.5 rounded-2xl max-w-[85%] shadow-sm">
+                ${m.text}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const desktopBox = document.getElementById('globalChatMessages');
+        const mobileBox = document.getElementById('mobileChatMessages');
+        desktopBox.innerHTML = html;
+        mobileBox.innerHTML = html;
+        desktopBox.scrollTop = desktopBox.scrollHeight;
+        mobileBox.scrollTop = mobileBox.scrollHeight;
+      });
+    }
+
+    async function postChatMessage(text) {
+      if (!text) return;
+      const displayName = currentUser.displayName || currentUser.email.split('@')[0];
+      await addDoc(collection(db, "global_chat"), {
+        uid: currentUser.uid,
+        name: displayName,
+        text,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    window.sendGlobalMessage = async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('globalChatInput');
+      const text = input.value.trim();
+      input.value = '';
+      await postChatMessage(text);
+    };
+
+    window.sendMobileGlobalMessage = async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('mobileChatInput');
+      const text = input.value.trim();
+      input.value = '';
+      await postChatMessage(text);
+    };
+
+    window.openGlobalChat = () => {
+      document.getElementById('mobileChatModal').classList.remove('hidden');
+    };
+
+    window.switchTab = (tab) => {
+      document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    };
+  </script>
+</body>
+</html>

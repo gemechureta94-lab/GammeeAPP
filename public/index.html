@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#1877F2" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Gammee APP - Social Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gammee APP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -38,6 +35,7 @@
         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-3xl sm:text-4xl flex items-center justify-center shadow-lg">G</div>
         <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
       </div>
+      <p class="text-sm text-gray-600 mt-2">Connect, post, follow creators, chat with voice & text, and read live local & world media.</p>
     </div>
 
     <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
@@ -53,7 +51,7 @@
         </button>
 
         <button type="button" id="googleLoginBtn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" />
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google" />
           <span>Continue with Google</span>
         </button>
 
@@ -122,7 +120,7 @@
         <button onclick="switchTab('home')" id="nav-home" title="Home" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-house"></i>
         </button>
-        <button onclick="switchTab('friends')" id="nav-friends" title="Friends" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
+        <button onclick="switchTab('friends')" id="nav-friends" title="Friends & Following" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
           <i class="fa-solid fa-user-group"></i>
           <span id="friendReqBadge" class="hidden absolute top-1.5 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full">0</span>
         </button>
@@ -155,7 +153,7 @@
         </div>
 
         <button onclick="switchTab('profile')" class="hidden lg:flex items-center gap-2 bg-[#f0f2f5] hover:bg-gray-200 pr-3 pl-1 py-1 rounded-full cursor-pointer">
-          <img id="navUserAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
+          <img id="navUserAvatar" src="" class="w-8 h-8 rounded-full object-cover" alt="Avatar" />
           <span id="navUserName" class="font-semibold text-sm max-w-[110px] truncate"></span>
         </button>
 
@@ -176,7 +174,7 @@
       <aside class="hidden lg:block w-[270px] fixed top-14 left-3 xl:left-4 py-4 h-[calc(100vh-3.5rem)] overflow-y-auto">
         <div class="space-y-1">
           <button onclick="switchTab('profile')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-left cursor-pointer">
-            <img id="sideUserAvatar" src="" class="w-10 h-10 rounded-full object-cover" />
+            <img id="sideUserAvatar" src="" class="w-10 h-10 rounded-full object-cover" alt="Avatar" />
             <div class="overflow-hidden">
               <div id="sideUserName" class="font-bold text-sm truncate"></div>
               <div id="sideUserBio" class="text-xs text-gray-500 truncate">Gammee APP Member</div>
@@ -186,6 +184,11 @@
           <button onclick="selectFeedMode('all')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-newspaper text-[#1877F2] text-lg w-6 text-center"></i>
             <span>All Feed (Posts + News)</span>
+          </button>
+
+          <button onclick="selectFeedMode('following')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-user-check text-indigo-600 text-lg w-6 text-center"></i>
+            <span>Following Posts</span>
           </button>
 
           <button onclick="selectFeedMode('news')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -205,7 +208,7 @@
 
           <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-user-group text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>Friends & Members</span>
+            <span>Friends & Follow</span>
           </button>
 
           <button onclick="switchTab('messenger')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -220,7 +223,7 @@
         </div>
 
         <hr class="my-3 border-gray-300" />
-        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">Active Members</div>
+        <div class="px-2.5 text-xs font-bold text-gray-500 uppercase mb-2">People to Follow</div>
         <div id="sidebarOnlineUsers" class="space-y-2"></div>
       </aside>
 
@@ -234,7 +237,7 @@
             <div id="storiesContainer" class="flex gap-2 overflow-x-auto no-scrollbar">
               <div onclick="openStoryModal()" class="min-w-[100px] sm:min-w-[112px] h-40 sm:h-44 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex flex-col cursor-pointer shrink-0 shadow-sm">
                 <div class="h-24 sm:h-28 w-full bg-blue-50">
-                  <img id="storyCreateAvatar" src="" class="w-full h-full object-cover" />
+                  <img id="storyCreateAvatar" src="" class="w-full h-full object-cover" alt="Story" />
                 </div>
                 <div class="flex-1 bg-white flex flex-col items-center justify-center relative pt-3 px-1">
                   <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center border-4 border-white -mt-6 sm:-mt-7 shadow">
@@ -249,7 +252,7 @@
           <!-- CREATE POST BOX -->
           <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-gray-200">
             <div class="flex items-center gap-2.5 sm:gap-3">
-              <img id="postBoxAvatar" src="" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover shrink-0" />
+              <img id="postBoxAvatar" src="" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover shrink-0" alt="Avatar" />
               <button onclick="openPostModal()" class="flex-1 text-left bg-[#f0f2f5] hover:bg-gray-200 text-gray-500 px-3.5 sm:px-4 py-2.5 rounded-full text-sm sm:text-[15px] transition cursor-pointer truncate">
                 What's on your mind?
               </button>
@@ -276,6 +279,9 @@
             <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar">
               <button id="feedMode-all" onclick="selectFeedMode('all')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-[#1877F2] text-white cursor-pointer shrink-0 transition">
                 All Feed
+              </button>
+              <button id="feedMode-following" onclick="selectFeedMode('following')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
+                Following
               </button>
               <button id="feedMode-news" onclick="selectFeedMode('news')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
                 All Medias
@@ -316,7 +322,7 @@
           </div>
         </div>
 
-        <!-- TAB 2: FRIENDS -->
+        <!-- TAB 2: FRIENDS & FOLLOWING -->
         <div id="tab-friends" class="app-tab hidden space-y-4">
           <div class="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-200">
             <h2 class="text-lg sm:text-xl font-bold mb-3">Friend Requests</h2>
@@ -324,7 +330,7 @@
               <p class="text-sm text-gray-500">No new friend requests.</p>
             </div>
 
-            <h2 class="text-lg sm:text-xl font-bold mb-3">Friends & Members</h2>
+            <h2 class="text-lg sm:text-xl font-bold mb-3">People, Friends & Follow</h2>
             <div id="allUsersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
           </div>
         </div>
@@ -365,10 +371,11 @@
             <div class="px-4 sm:px-6 pb-5">
               <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-12 sm:-mt-14 mb-3 gap-3">
                 <div class="flex items-end gap-3 sm:gap-4">
-                  <img id="profileBigAvatar" src="" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white object-cover shadow-md bg-white shrink-0" />
+                  <img id="profileBigAvatar" src="" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white object-cover shadow-md bg-white shrink-0" alt="Profile" />
                   <div class="pb-1">
                     <h2 id="profileDisplayName" class="text-xl sm:text-2xl font-extrabold"></h2>
                     <p id="profileDisplayEmail" class="text-xs text-gray-500 break-all"></p>
+                    <p id="profileFollowStats" class="text-xs font-bold text-[#1877F2] mt-1">0 Followers · 0 Following</p>
                   </div>
                 </div>
                 <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer self-start sm:self-auto">
@@ -550,12 +557,12 @@
     <div class="bg-gray-900 text-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl">
       <div class="p-3 flex justify-between items-center bg-black/40">
         <div class="flex items-center gap-2">
-          <img id="viewStoryAvatar" src="" class="w-8 h-8 rounded-full object-cover" />
+          <img id="viewStoryAvatar" src="" class="w-8 h-8 rounded-full object-cover" alt="Story Author" />
           <span id="viewStoryAuthor" class="font-bold text-sm"></span>
         </div>
         <button onclick="document.getElementById('viewStoryModal').classList.add('hidden')" class="text-white text-xl px-2 cursor-pointer">&times;</button>
       </div>
-      <img id="viewStoryImg" src="" class="hidden w-full max-h-96 object-cover" />
+      <img id="viewStoryImg" src="" class="hidden w-full max-h-96 object-cover" alt="Story" />
       <div id="viewStoryCaption" class="p-5 text-center text-base font-medium"></div>
     </div>
   </div>
@@ -619,7 +626,7 @@
     });
   </script>
 
-  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + AUTO-SYNC MEDIA LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + LIKE/COMMENT/FOLLOW/SHARE + MEDIA LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
@@ -659,7 +666,8 @@
     let allUsers = [];
     let allPosts = [];
     let newsItems = [];
-    let feedMode = 'all'; // 'all' | 'news' | 'oromo_eth' | 'global'
+    let newsInteractions = {};
+    let feedMode = 'all';
     let activeChatPartner = null;
     let unsubscribeDM = null;
     let editingPostId = null;
@@ -697,6 +705,10 @@
       { source: "Al Jazeera", group: "global", badge: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" }
     ];
 
+    function safeDocKey(str = "") {
+      return encodeURIComponent(str).replace(/\./g, "%2E").slice(0, 120) || "item";
+    }
+
     function stripHtml(html) {
       const tmp = document.createElement("div");
       tmp.innerHTML = html || "";
@@ -716,7 +728,7 @@
         const pubDate = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "Latest";
         const parsedTime = Date.parse(pubDate);
         return {
-          id: `news-${feed.source}-${idx}-${encodeURIComponent(title)}`,
+          id: safeDocKey(`${feed.source}-${title}-${idx}`),
           isNews: true,
           group: feed.group,
           badge: feed.badge,
@@ -736,7 +748,10 @@
         if (!res.ok) return null;
         const data = await res.json();
         if (Array.isArray(data.items) && data.items.length > 0) {
-          return data.items;
+          return data.items.map((item, idx) => ({
+            ...item,
+            id: safeDocKey(item.id || `${item.sourceName}-${item.title}-${idx}`)
+          }));
         }
       } catch (_) {}
       return null;
@@ -759,15 +774,16 @@
             const data = await res.json();
             if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
               return data.items.slice(0, 8).map((item, idx) => {
+                const title = item.title || "News Update";
                 const clean = stripHtml(item.description || item.content || "");
                 const parsedTime = Date.parse(item.pubDate || "");
                 return {
-                  id: `news-${feed.source}-${idx}-${encodeURIComponent(item.title || idx)}`,
+                  id: safeDocKey(`${feed.source}-${title}-${idx}`),
                   isNews: true,
                   group: feed.group,
                   badge: feed.badge,
                   sourceName: feed.source,
-                  title: item.title || "News Update",
+                  title,
                   summary: clean.length > 260 ? clean.slice(0, 260) + "..." : clean,
                   link: item.link || "#",
                   pubDate: item.pubDate || "Latest",
@@ -785,11 +801,22 @@
       return [];
     }
 
+    function listenToNewsInteractions() {
+      onSnapshot(collection(db, "news_interactions"), (snap) => {
+        const nextMap = {};
+        snap.docs.forEach(d => {
+          nextMap[d.id] = d.data();
+        });
+        newsInteractions = nextMap;
+        renderCurrentFeed();
+      });
+    }
+
     window.selectFeedMode = async (mode) => {
       feedMode = mode;
       switchTab('home');
 
-      const modes = ['all', 'news', 'oromo_eth', 'global'];
+      const modes = ['all', 'following', 'news', 'oromo_eth', 'global'];
       modes.forEach(m => {
         const btn = document.getElementById(`feedMode-${m}`);
         if (!btn) return;
@@ -800,7 +827,7 @@
         }
       });
 
-      if (mode !== 'all' && newsItems.length === 0) {
+      if ((mode === 'news' || mode === 'oromo_eth' || mode === 'global') && newsItems.length === 0) {
         await fetchWorldAndLocalNews(true);
       } else {
         renderCurrentFeed();
@@ -849,9 +876,21 @@
     }
 
     function buildNewsCardHTML(n) {
+      const inter = newsInteractions[n.id] || {};
+      const reactions = inter.reactions || {};
+      const myReaction = reactions[currentUser?.uid] || null;
+      const reactionCount = Object.values(reactions).filter(Boolean).length;
+      const comments = inter.comments || [];
+      const shares = inter.shares || 0;
+
       const badgeColor = n.group === 'oromo_eth'
         ? 'bg-amber-100 text-amber-800'
         : 'bg-blue-100 text-blue-800';
+
+      const reactionBadges = REACTIONS.map(r => {
+        const cnt = Object.values(reactions).filter(v => v === r.key).length;
+        return cnt > 0 ? `<span class="text-xs">${r.emoji} ${cnt}</span>` : '';
+      }).join(' ');
 
       return `
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -869,7 +908,7 @@
               ${n.badge}
             </span>
           </div>
-          <div class="px-3 sm:px-4 pb-3 space-y-2">
+          <div class="px-3 sm:px-4 pb-2.5 space-y-2">
             <h3 class="font-bold text-base text-gray-900 leading-snug">${n.title}</h3>
             ${n.summary ? `<p class="text-sm text-gray-600 leading-relaxed">${n.summary}</p>` : ''}
             ${n.link && n.link !== '#' ? `
@@ -879,14 +918,110 @@
               </a>
             ` : ''}
           </div>
+
+          <div class="px-3 sm:px-4 py-1.5 flex justify-between items-center text-xs text-gray-500 border-t border-b border-gray-100">
+            <div>${reactionBadges || `<span>${reactionCount} Likes</span>`}</div>
+            <div>${comments.length} Comments · ${shares} Shares</div>
+          </div>
+
+          <div class="px-1.5 sm:px-2 py-1 flex justify-around text-xs sm:text-sm font-semibold text-gray-600 border-b border-gray-100">
+            ${REACTIONS.map(r => {
+              const active = myReaction === r.key;
+              return `
+                <button onclick="setNewsReaction('${n.id}', '${r.key}')" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer ${active ? 'text-[#1877F2] bg-blue-50/60' : ''}">
+                  <span>${r.emoji}</span>
+                  <span class="hidden md:inline">${r.label}</span>
+                </button>`;
+            }).join('')}
+            <button onclick="document.getElementById('nc-input-${n.id}').focus()" class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
+              <i class="fa-regular fa-comment"></i>
+              <span class="hidden sm:inline">Comment</span>
+            </button>
+            <button onclick='shareNewsItem(${JSON.stringify(n).replace(/'/g, "&#39;")})' class="flex-1 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-share"></i>
+              <span class="hidden sm:inline">Share</span>
+            </button>
+          </div>
+
+          <div class="p-2.5 sm:p-3 space-y-2">
+            ${comments.map(c => `
+              <div class="bg-[#f0f2f5] rounded-2xl px-3 py-2 text-xs sm:text-sm">
+                <span class="font-bold text-xs block text-[#1877F2]">${c.userName}</span>
+                <span>${c.text}</span>
+              </div>
+            `).join('')}
+            <form onsubmit="addNewsComment(event, '${n.id}')" class="flex gap-2 pt-1">
+              <input id="nc-input-${n.id}" type="text" placeholder="Comment on this news..." required class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-1.5 text-sm focus:outline-none" />
+              <button type="submit" class="text-[#1877F2] font-bold text-sm px-2 cursor-pointer">Send</button>
+            </form>
+          </div>
         </div>
       `;
     }
+
+    window.setNewsReaction = async (newsId, key) => {
+      if (!currentUser) return;
+      const existing = (newsInteractions[newsId]?.reactions || {})[currentUser.uid];
+      const nextVal = existing === key ? null : key;
+      await setDoc(doc(db, "news_interactions", newsId), {
+        reactions: { [currentUser.uid]: nextVal }
+      }, { merge: true });
+    };
+
+    window.addNewsComment = async (e, newsId) => {
+      e.preventDefault();
+      if (!currentUser) return;
+      const input = document.getElementById(`nc-input-${newsId}`);
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+      await setDoc(doc(db, "news_interactions", newsId), {
+        comments: arrayUnion({ userName: name, text })
+      }, { merge: true });
+    };
+
+    window.shareNewsItem = async (newsItem) => {
+      if (!currentUser) return;
+      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+      const avatar = getAvatar(name, currentUserDoc.avatar || currentUser.photoURL);
+      const summaryLine = newsItem.summary ? `\n\n${newsItem.summary}` : '';
+      const linkLine = newsItem.link && newsItem.link !== '#' ? `\n${newsItem.link}` : '';
+      await addDoc(collection(db, "posts"), {
+        authorId: currentUser.uid,
+        authorName: name,
+        authorAvatar: avatar,
+        text: `${newsItem.title}${summaryLine}${linkLine}`,
+        image: "",
+        sharedFrom: newsItem.sourceName,
+        reactions: {},
+        comments: [],
+        shares: 0,
+        createdAt: serverTimestamp()
+      });
+      await setDoc(doc(db, "news_interactions", newsItem.id), {
+        shares: (newsInteractions[newsItem.id]?.shares || 0) + 1
+      }, { merge: true });
+      alert("Shared news to your feed!");
+    };
 
     function renderCurrentFeed() {
       const term = (document.getElementById('searchInput')?.value || '').toLowerCase();
       const container = document.getElementById('postsContainer');
       const countBadge = document.getElementById('newsCountBadge');
+      const followingIds = currentUserDoc.following || [];
+
+      if (feedMode === 'following') {
+        const followingPosts = allPosts
+          .filter(p => followingIds.includes(p.authorId) || p.authorId === currentUser?.uid)
+          .filter(p => !term || (p.text && p.text.toLowerCase().includes(term)) || (p.authorName && p.authorName.toLowerCase().includes(term)));
+
+        if (countBadge) countBadge.textContent = `${followingPosts.length} posts`;
+        container.innerHTML = followingPosts.length
+          ? followingPosts.map(buildPostCardHTML).join('')
+          : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts from people you follow yet. Tap Follow on members in Friends tab!</div>`;
+        return;
+      }
 
       if (feedMode === 'news' || feedMode === 'oromo_eth' || feedMode === 'global') {
         const subset = feedMode === 'news'
@@ -1169,6 +1304,7 @@
 
         listenToUsers();
         listenToPosts();
+        listenToNewsInteractions();
         listenToStories();
         listenToGlobalChat();
         listenToNotifications();
@@ -1195,6 +1331,11 @@
       document.getElementById('profileDisplayName').textContent = name;
       document.getElementById('profileDisplayEmail').textContent = email;
       document.getElementById('profileBioText').textContent = bio;
+
+      const followersCount = (currentUserDoc.followers || []).length;
+      const followingCount = (currentUserDoc.following || []).length;
+      const statsEl = document.getElementById('profileFollowStats');
+      if (statsEl) statsEl.textContent = `${followersCount} Followers · ${followingCount} Following`;
     }
 
     function compressImage(file, maxWidth = 800, quality = 0.7) {
@@ -1294,11 +1435,11 @@
         const storyCards = stories.map(s => `
           <div onclick='viewStory(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="min-w-[100px] sm:min-w-[112px] h-40 sm:h-44 rounded-xl overflow-hidden relative cursor-pointer shrink-0 shadow-sm">
             ${s.image
-              ? `<img src="${s.image}" class="w-full h-full object-cover" />`
+              ? `<img src="${s.image}" class="w-full h-full object-cover" alt="Story" />`
               : `<div class="w-full h-full bg-gradient-to-br from-[#1877F2] to-indigo-700 p-2 flex items-center justify-center text-center text-white text-xs font-bold">${s.text || ''}</div>`
             }
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20"></div>
-            <img src="${s.authorAvatar}" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-[#1877F2] object-cover absolute top-2 left-2" />
+            <img src="${s.authorAvatar}" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-[#1877F2] object-cover absolute top-2 left-2" alt="Author" />
             <span class="absolute bottom-2 left-2 right-2 text-white text-[11px] font-bold truncate">${s.authorName}</span>
           </div>
         `).join('');
@@ -1388,11 +1529,13 @@
     function buildPostCardHTML(post) {
       const reactions = post.reactions || {};
       const myReaction = reactions[currentUser.uid] || null;
-      const reactionCount = Object.keys(reactions).length;
+      const reactionCount = Object.values(reactions).filter(Boolean).length;
       const comments = post.comments || [];
       const timeStr = post.createdAt
         ? new Date(post.createdAt.toDate()).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })
         : "Just now";
+
+      const isFollowingAuthor = (currentUserDoc.following || []).includes(post.authorId);
 
       const reactionBadges = REACTIONS.map(r => {
         const cnt = Object.values(reactions).filter(v => v === r.key).length;
@@ -1403,12 +1546,17 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div class="p-3 sm:p-4 pb-2 flex justify-between items-start">
             <div class="flex items-center gap-2.5 sm:gap-3">
-              <img src="${post.authorAvatar}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover" />
+              <img src="${post.authorAvatar}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover" alt="Author" />
               <div>
-                <div class="font-bold text-sm">
-                  ${post.authorName}
-                  ${post.mood ? `<span class="font-normal text-gray-600 text-xs ml-1">— ${post.mood}</span>` : ''}
-                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs ml-1">(shared from ${post.sharedFrom})</span>` : ''}
+                <div class="font-bold text-sm flex items-center flex-wrap gap-1.5">
+                  <span>${post.authorName}</span>
+                  ${post.authorId !== currentUser.uid ? `
+                    <button onclick="toggleFollowUser('${post.authorId}')" class="text-[11px] font-bold px-2 py-0.5 rounded-full cursor-pointer ${isFollowingAuthor ? 'bg-blue-100 text-[#1877F2]' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}">
+                      ${isFollowingAuthor ? 'Following' : '+ Follow'}
+                    </button>
+                  ` : ''}
+                  ${post.mood ? `<span class="font-normal text-gray-600 text-xs">— ${post.mood}</span>` : ''}
+                  ${post.sharedFrom ? `<span class="font-normal text-gray-500 text-xs">(shared from ${post.sharedFrom})</span>` : ''}
                 </div>
                 <span class="text-xs text-gray-500">${timeStr} ${post.edited ? '· Edited' : ''}</span>
               </div>
@@ -1425,7 +1573,7 @@
           </div>
 
           ${post.text ? `<p class="px-3 sm:px-4 pb-2.5 text-sm sm:text-[15px] whitespace-pre-line">${post.text}</p>` : ''}
-          ${post.image ? `<img src="${post.image}" class="w-full max-h-[460px] object-cover bg-gray-100" />` : ''}
+          ${post.image ? `<img src="${post.image}" class="w-full max-h-[460px] object-cover bg-gray-100" alt="Post Media" />` : ''}
 
           <div class="px-3 sm:px-4 py-2 flex justify-between items-center text-xs text-gray-500 border-b border-gray-100">
             <div>${reactionBadges || `<span>${reactionCount} Likes</span>`}</div>
@@ -1500,6 +1648,22 @@
       if (confirm("Delete this post?")) await deleteDoc(doc(db, "posts", postId));
     };
 
+    window.toggleFollowUser = async (targetUid) => {
+      if (!currentUser || targetUid === currentUser.uid) return;
+      const following = currentUserDoc.following || [];
+      const alreadyFollowing = following.includes(targetUid);
+      const name = currentUserDoc.name || currentUser.displayName || "Member";
+
+      if (alreadyFollowing) {
+        await updateDoc(doc(db, "users", currentUser.uid), { following: arrayRemove(targetUid) });
+        await updateDoc(doc(db, "users", targetUid), { followers: arrayRemove(currentUser.uid) });
+      } else {
+        await updateDoc(doc(db, "users", currentUser.uid), { following: arrayUnion(targetUid) });
+        await updateDoc(doc(db, "users", targetUid), { followers: arrayUnion(currentUser.uid) });
+        await sendNotification(targetUid, `${name} started following you.`);
+      }
+    };
+
     function listenToUsers() {
       onSnapshot(collection(db, "users"), (snap) => {
         allUsers = snap.docs.map(d => d.data()).filter(u => !u.deactivated);
@@ -1515,6 +1679,7 @@
         }
         renderUsersAndFriends();
         renderDMUserList();
+        renderCurrentFeed();
       });
     }
 
@@ -1522,6 +1687,7 @@
       const friends = currentUserDoc.friends || [];
       const incoming = currentUserDoc.friendRequests || [];
       const sent = currentUserDoc.sentRequests || [];
+      const following = currentUserDoc.following || [];
 
       const badge = document.getElementById('friendReqBadge');
       if (incoming.length > 0) { badge.textContent = incoming.length; badge.classList.remove('hidden'); }
@@ -1532,7 +1698,7 @@
         ? incomingUsers.map(u => `
             <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
               <div class="flex items-center gap-2.5 overflow-hidden">
-                <img src="${getAvatar(u.name, u.avatar)}" class="w-10 h-10 rounded-full object-cover" />
+                <img src="${getAvatar(u.name, u.avatar)}" class="w-10 h-10 rounded-full object-cover" alt="User" />
                 <span class="font-bold text-sm truncate">${u.name}</span>
               </div>
               <button onclick="acceptFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer">Accept</button>
@@ -1544,36 +1710,51 @@
       document.getElementById('allUsersGrid').innerHTML = others.map(u => {
         const isFriend = friends.includes(u.uid);
         const isSent = sent.includes(u.uid);
+        const isFollowing = following.includes(u.uid);
+        const followersCnt = (u.followers || []).length;
         return `
-          <div class="border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 overflow-hidden">
-              <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover shrink-0" />
-              <div class="overflow-hidden">
-                <h4 class="font-bold text-sm truncate">${u.name}</h4>
-                <p class="text-xs text-gray-500 truncate">${u.bio || 'Gammee APP Member'}</p>
+          <div class="border border-gray-200 rounded-xl p-3 flex flex-col gap-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <img src="${getAvatar(u.name, u.avatar)}" class="w-11 h-11 rounded-full object-cover shrink-0" alt="User" />
+                <div class="overflow-hidden">
+                  <h4 class="font-bold text-sm truncate">${u.name}</h4>
+                  <p class="text-[11px] text-gray-500 truncate">${followersCnt} Followers · ${u.bio || 'Gammee APP Member'}</p>
+                </div>
               </div>
-            </div>
-            <div class="flex gap-1.5 shrink-0">
-              ${isFriend
-                ? `<span class="text-xs font-bold text-green-600 px-2 py-1">Friends</span>`
-                : isSent
-                  ? `<span class="text-xs text-gray-400 px-2 py-1">Requested</span>`
-                  : `<button onclick="sendFriendRequest('${u.uid}')" class="bg-[#1877F2] text-white text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">+ Add Friend</button>`
-              }
-              <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer">
+              <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-2.5 py-1.5 rounded-lg cursor-pointer shrink-0">
                 <i class="fa-brands fa-facebook-messenger"></i>
               </button>
+            </div>
+            <div class="flex gap-1.5">
+              <button onclick="toggleFollowUser('${u.uid}')" class="flex-1 text-xs font-bold py-1.5 rounded-lg cursor-pointer transition ${isFollowing ? 'bg-blue-100 text-[#1877F2]' : 'bg-[#1877F2] hover:bg-blue-700 text-white'}">
+                ${isFollowing ? 'Following' : '+ Follow'}
+              </button>
+              ${isFriend
+                ? `<span class="flex-1 text-center text-xs font-bold text-green-600 bg-green-50 py-1.5 rounded-lg">Friends</span>`
+                : isSent
+                  ? `<span class="flex-1 text-center text-xs text-gray-500 bg-gray-100 py-1.5 rounded-lg">Requested</span>`
+                  : `<button onclick="sendFriendRequest('${u.uid}')" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold py-1.5 rounded-lg cursor-pointer">+ Add Friend</button>`
+              }
             </div>
           </div>
         `;
       }).join('');
 
-      document.getElementById('sidebarOnlineUsers').innerHTML = others.slice(0, 8).map(u => `
-        <div onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-200/70 cursor-pointer">
-          <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 rounded-full object-cover" />
-          <span class="text-sm font-medium truncate">${u.name}</span>
-        </div>
-      `).join('');
+      document.getElementById('sidebarOnlineUsers').innerHTML = others.slice(0, 8).map(u => {
+        const isFollowing = following.includes(u.uid);
+        return `
+          <div class="flex items-center justify-between gap-2 p-2 rounded-xl hover:bg-gray-200/70">
+            <div onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="flex items-center gap-2 overflow-hidden cursor-pointer">
+              <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 rounded-full object-cover shrink-0" alt="User" />
+              <span class="text-sm font-medium truncate">${u.name}</span>
+            </div>
+            <button onclick="toggleFollowUser('${u.uid}')" class="text-[11px] font-bold px-2 py-1 rounded-lg cursor-pointer shrink-0 ${isFollowing ? 'bg-blue-100 text-[#1877F2]' : 'bg-white text-gray-700 border border-gray-200'}">
+              ${isFollowing ? 'Following' : 'Follow'}
+            </button>
+          </div>
+        `;
+      }).join('');
     }
 
     window.sendFriendRequest = async (targetUid) => {
@@ -1585,7 +1766,7 @@
 
     window.acceptFriendRequest = async (requesterUid) => {
       await updateDoc(doc(db, "users", currentUser.uid), { friends: arrayUnion(requesterUid), friendRequests: arrayRemove(requesterUid) });
-      await updateDoc(doc(db, "users", requesterUid), { friends: arrayUnion(currentUser.uid), sentRequests: arrayRemove(currentUser.uid) });
+      await updateDoc(doc(db, "users", requesterUid), { friends: arrayUnion(currentUser.uid), sentRequests: arrayRemove(requesterUid) });
       const name = currentUserDoc.name || currentUser.displayName || "Member";
       await sendNotification(requesterUid, `${name} accepted your friend request.`);
     };
@@ -1596,7 +1777,7 @@
       const others = allUsers.filter(u => u.uid !== currentUser.uid);
       document.getElementById('dmUserList').innerHTML = others.map(u => `
         <button onclick='startDM(${JSON.stringify(u).replace(/'/g, "&#39;")})' class="w-full p-2.5 sm:p-3 flex items-center gap-2.5 hover:bg-gray-100 text-left cursor-pointer ${activeChatPartner?.uid === u.uid ? 'bg-blue-50' : ''}">
-          <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" />
+          <img src="${getAvatar(u.name, u.avatar)}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" alt="User" />
           <span class="font-semibold text-xs sm:text-sm truncate">${u.name}</span>
         </button>
       `).join('');
@@ -1628,7 +1809,7 @@
       switchTab('messenger');
       renderDMUserList();
       document.getElementById('dmHeader').innerHTML = `
-        <img src="${getAvatar(partner.name, partner.avatar)}" class="w-8 h-8 rounded-full object-cover" />
+        <img src="${getAvatar(partner.name, partner.avatar)}" class="w-8 h-8 rounded-full object-cover" alt="Partner" />
         <span>${partner.name}</span>
       `;
       if (unsubscribeDM) unsubscribeDM();

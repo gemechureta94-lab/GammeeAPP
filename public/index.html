@@ -3,113 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gammee APP</title>
+  <title>Gammee APP — Connect, Share & Live News</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    html, body {
-      background-color: #f0f2f5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .h-app-screen {
-      height: 100vh;
-      height: 100dvh;
-    }
-    audio {
-      height: 32px;
-      max-width: 210px;
-    }
+    audio { height: 32px; max-width: 220px; }
   </style>
 </head>
-<body class="text-[#050505]">
+<body class="bg-[#f0f2f5] text-[#1c1e21] min-h-screen">
 
-  <!-- ================= WELCOME PAGE ================= -->
-  <div id="welcomeScreen" class="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-blue-50 via-[#f0f2f5] to-indigo-100">
-    <div class="max-w-lg w-full bg-white rounded-3xl shadow-2xl border border-gray-200/80 p-8 sm:p-10 text-center space-y-7">
-      <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-[#1877F2] text-white font-extrabold text-4xl sm:text-5xl shadow-lg mx-auto">
-        G
+  <!-- ================= WELCOME SCREEN ================= -->
+  <div id="welcomeScreen" class="min-h-screen flex flex-col justify-between bg-gradient-to-br from-[#1877F2] via-blue-600 to-indigo-800 text-white p-4 sm:p-6">
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between py-2">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-white text-[#1877F2] font-extrabold text-2xl flex items-center justify-center shadow-lg">
+          G
+        </div>
+        <span class="font-extrabold text-xl sm:text-2xl tracking-tight">Gammee APP</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-        Welcome to <span class="text-[#1877F2]">Gammee APP</span>
-      </h1>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-        <button type="button" onclick="enterAuthFromWelcome('login')" class="w-full sm:w-auto bg-[#1877F2] hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl text-base shadow-md transition cursor-pointer">
-          Login
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="enterAuthFromWelcome('login')" class="px-4 py-2 rounded-full bg-white/15 hover:bg-white/25 text-xs sm:text-sm font-bold transition cursor-pointer">
+          Log In
         </button>
-        <button type="button" onclick="enterAuthFromWelcome('signup')" class="w-full sm:w-auto bg-[#42b72a] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-xl text-base shadow-sm transition cursor-pointer">
-          Get Started
+        <button onclick="enterAuthFromWelcome('signup')" class="px-4 py-2 rounded-full bg-white text-[#1877F2] hover:bg-blue-50 text-xs sm:text-sm font-bold shadow transition cursor-pointer">
+          Sign Up
         </button>
       </div>
-    </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-8">
+      <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-white/15 px-3.5 py-1.5 rounded-full text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span>Live Web, Google &amp; World Media + Voice Chat</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight">
+          Connect with friends, share moments &amp; follow live world news.
+        </h1>
+        <p class="text-sm sm:text-lg text-blue-100 max-w-2xl mx-auto lg:mx-0">
+          Posts, stories, direct &amp; global voice chat, friend requests, following feed, and real-time updates from Google News, OBN, OMN, AMN, FBC, BBC &amp; Al Jazeera all in one place.
+        </p>
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+          <button onclick="enterAuthFromWelcome('signup')" class="bg-white text-[#1877F2] hover:bg-blue-50 font-extrabold px-6 py-3 rounded-xl text-sm sm:text-base shadow-lg transition cursor-pointer">
+            Get Started Free
+          </button>
+          <button onclick="enterAuthFromWelcome('login')" class="bg-blue-900/50 hover:bg-blue-900/70 border border-white/30 text-white font-bold px-6 py-3 rounded-xl text-sm sm:text-base transition cursor-pointer">
+            I Already Have an Account
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 text-lg">
+            <i class="fa-solid fa-newspaper"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm sm:text-base">Real-Time Multi-Media Feed</h3>
+            <p class="text-xs sm:text-sm text-blue-100">Auto-refreshes every minute from Google News, Oromia/Ethiopia media &amp; global outlets.</p>
+          </div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 text-lg">
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm sm:text-base">Global &amp; Direct Voice Chat</h3>
+            <p class="text-xs sm:text-sm text-blue-100">Send instant voice notes in Global Live Chat or private Messenger conversations.</p>
+          </div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-start gap-3.5 sm:col-span-2 lg:col-span-1">
+          <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 text-lg">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm sm:text-base">OTP Email Verification &amp; Privacy Controls</h3>
+            <p class="text-xs sm:text-sm text-blue-100">6-digit email verification code on sign up plus account deactivate &amp; delete options.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="max-w-6xl w-full mx-auto text-center text-xs text-blue-100 py-2">
+      Gammee APP &copy; 2026 &middot; Built with Firebase &amp; Live RSS Media Sync
+    </footer>
   </div>
 
-  <!-- ================= AUTHENTICATION SCREEN ================= -->
-  <div id="authScreen" class="hidden min-h-app-screen min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-8 gap-8 lg:gap-12 max-w-5xl mx-auto">
-    <div class="text-center lg:text-left max-w-md space-y-3">
-      <button type="button" onclick="showWelcomePage()" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1877F2] hover:underline cursor-pointer">
-        <i class="fa-solid fa-arrow-left"></i> Back to Welcome Page
+  <!-- ================= AUTH SCREEN (LOGIN + SIGNUP + OTP) ================= -->
+  <div id="authScreen" class="hidden min-h-screen flex flex-col justify-center items-center px-4 py-8 bg-[#f0f2f5]">
+    <div class="mb-4 self-start max-w-md w-full mx-auto">
+      <button onclick="showWelcomePage()" class="text-xs sm:text-sm font-bold text-[#1877F2] hover:underline inline-flex items-center gap-1.5 cursor-pointer">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Welcome</span>
       </button>
-      <div class="flex items-center justify-center lg:justify-start gap-3">
-        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-3xl sm:text-4xl flex items-center justify-center shadow-lg">G</div>
-        <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
-      </div>
     </div>
 
-    <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
-      <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
-      <div id="authInfo" class="hidden bg-blue-50 border border-blue-300 text-blue-800 px-4 py-2.5 rounded-lg text-sm mb-4"></div>
+    <div class="text-center mb-6">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
+      <p class="text-gray-600 mt-2 text-base sm:text-lg">Connect with friends, share posts &amp; follow live news.</p>
+    </div>
+
+    <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg w-full max-w-md border border-gray-200">
+      <div id="authError" class="hidden bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg mb-4 text-xs sm:text-sm"></div>
+      <div id="authInfo" class="hidden bg-blue-50 border border-blue-300 text-blue-800 px-3 py-2 rounded-lg mb-4 text-xs sm:text-sm"></div>
 
       <!-- LOGIN FORM -->
-      <form id="loginForm" class="space-y-3.5">
-        <input type="email" id="loginEmail" placeholder="Enter your email" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="loginPassword" placeholder="Password" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+      <form id="loginForm" class="space-y-4">
+        <input type="email" id="loginEmail" placeholder="Email address" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2] text-sm sm:text-base" />
+        <input type="password" id="loginPassword" placeholder="Password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2] text-sm sm:text-base" />
         <button type="submit" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
           Log In
         </button>
 
-        <button type="button" id="googleLoginBtn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer">
+        <div class="relative flex py-2 items-center">
+          <div class="flex-grow border-t border-gray-300"></div>
+          <span class="flex-shrink mx-3 text-gray-400 text-xs sm:text-sm">OR</span>
+          <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <button type="button" id="googleLoginBtn" class="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm transition cursor-pointer text-sm sm:text-base">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google" />
-          <span>Continue with Google</span>
+          Continue with Google
         </button>
 
-        <hr class="my-3" />
-        <div class="text-center">
-          <button type="button" id="openSignupBtn" class="w-full sm:w-auto bg-[#42b72a] hover:bg-green-600 text-white font-bold px-6 py-2.5 rounded-lg transition cursor-pointer">
-            Create New Account
-          </button>
-        </div>
+        <hr class="my-4" />
+        <button type="button" id="openSignupBtn" class="w-full bg-[#42b72a] hover:bg-[#36a420] text-white font-bold py-3 rounded-lg text-sm sm:text-base transition cursor-pointer">
+          Create New Account
+        </button>
       </form>
 
       <!-- SIGN UP FORM (STEP 1: SEND OTP) -->
       <form id="signupForm" class="hidden space-y-3.5">
-        <h2 class="text-xl font-bold text-center text-gray-800">Create New Account</h2>
-        <input type="text" id="signupName" placeholder="Full Name" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="email" id="signupEmail" placeholder="Enter your email" required class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <input type="password" id="signupPassword" placeholder="New Password (at least 6 characters)" required minlength="6" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
-        <button type="submit" id="sendOtpBtn" class="w-full bg-[#42b72a] hover:bg-green-600 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
+        <h2 class="text-xl font-bold text-gray-800">Create New Account</h2>
+        <input type="text" id="signupName" placeholder="Full Name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2] text-sm sm:text-base" />
+        <input type="email" id="signupEmail" placeholder="Email address" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2] text-sm sm:text-base" />
+        <input type="password" id="signupPassword" placeholder="New password (min 6 chars)" minlength="6" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2] text-sm sm:text-base" />
+        <button type="submit" id="sendOtpBtn" class="w-full bg-[#42b72a] hover:bg-[#36a420] text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
           Send Verification Code (OTP)
         </button>
-        <div class="text-center pt-2">
-          <button type="button" id="openLoginBtn" class="text-[#1877F2] font-semibold text-sm hover:underline cursor-pointer">
-            Already have an account? Log In
-          </button>
-        </div>
+        <button type="button" id="openLoginBtn" class="w-full text-[#1877F2] font-semibold text-sm pt-2 hover:underline cursor-pointer">
+          Already have an account? Log In
+        </button>
       </form>
 
       <!-- OTP VERIFICATION FORM (STEP 2: VERIFY 6-DIGIT CODE) -->
-      <form id="otpForm" class="hidden space-y-3.5">
-        <h2 class="text-xl font-bold text-center text-gray-800">Verify Your Email</h2>
-        <p class="text-xs text-gray-600 text-center">
-          Enter the 6-digit code sent to <span id="otpTargetEmail" class="font-bold text-gray-800"></span>
+      <form id="otpForm" class="hidden space-y-4">
+        <h2 class="text-xl font-bold text-gray-800">Verify Your Email</h2>
+        <p class="text-xs sm:text-sm text-gray-600">
+          Enter the 6-digit code sent to <span id="otpTargetEmail" class="font-bold text-gray-800"></span>.
         </p>
-        <input type="text" id="otpInput" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP" required class="w-full px-4 py-3 text-center tracking-[0.4em] text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
+        <input type="text" id="otpInput" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit OTP" required class="w-full px-4 py-3 text-center tracking-[0.4em] text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:border-[#1877F2]" />
         <button type="submit" id="verifyOtpBtn" class="w-full bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-base sm:text-lg transition cursor-pointer">
-          Verify & Create Account
+          Verify &amp; Create Account
         </button>
         <div class="flex justify-between text-xs pt-1">
           <button type="button" id="resendOtpBtn" class="text-[#1877F2] font-semibold hover:underline cursor-pointer">
@@ -133,7 +181,7 @@
         </button>
         <div class="relative hidden sm:block">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
-          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Search Gammee APP & News..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Search Gammee APP &amp; News..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
         </div>
       </div>
 
@@ -142,7 +190,7 @@
         <button onclick="switchTab('home')" id="nav-home" title="Home" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-[#1877F2] text-[#1877F2] flex items-center justify-center text-xl cursor-pointer">
           <i class="fa-solid fa-house"></i>
         </button>
-        <button onclick="switchTab('friends')" id="nav-friends" title="Friends & Following" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
+        <button onclick="switchTab('friends')" id="nav-friends" title="Friends &amp; Following" class="nav-tab h-full px-5 lg:px-7 border-b-4 border-transparent text-gray-500 hover:bg-gray-100 rounded-lg my-1 flex items-center justify-center text-xl relative cursor-pointer">
           <i class="fa-solid fa-user-group"></i>
           <span id="friendReqBadge" class="hidden absolute top-1.5 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full">0</span>
         </button>
@@ -187,7 +235,7 @@
 
     <!-- MOBILE SEARCH BAR -->
     <div id="mobileSearchBar" class="hidden sm:hidden fixed top-14 left-0 right-0 bg-white p-2 border-b z-30">
-      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Search Gammee APP & News..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
+      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Search Gammee APP &amp; News..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
     </div>
 
     <!-- MAIN RESPONSIVE CONTAINER -->
@@ -215,22 +263,22 @@
 
           <button onclick="selectFeedMode('news')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-globe text-emerald-600 text-lg w-6 text-center"></i>
-            <span>All Medias (Local + World)</span>
+            <span>All Medias (Web + Google + World)</span>
           </button>
 
           <button onclick="selectFeedMode('oromo_eth')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-flag text-amber-600 text-lg w-6 text-center"></i>
-            <span>OBN, OMN, AMN, FBC & ETH</span>
+            <span>OBN, OMN, AMN, FBC &amp; ETH</span>
           </button>
 
           <button onclick="selectFeedMode('global')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-earth-americas text-blue-600 text-lg w-6 text-center"></i>
-            <span>BBC & Al Jazeera</span>
+            <span>Google News, BBC &amp; Al Jazeera</span>
           </button>
 
           <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-user-group text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>Friends & Follow</span>
+            <span>Friends &amp; Follow</span>
           </button>
 
           <button onclick="switchTab('messenger')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -309,17 +357,17 @@
                 All Medias
               </button>
               <button id="feedMode-oromo_eth" onclick="selectFeedMode('oromo_eth')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
-                OBN · OMN · AMN · ETH
+                OBN &middot; OMN &middot; AMN &middot; ETH
               </button>
               <button id="feedMode-global" onclick="selectFeedMode('global')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
-                BBC & Al Jazeera
+                Google &middot; BBC &amp; Al Jazeera
               </button>
               <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News Now" class="p-1.5 px-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer shrink-0">
                 <i id="refreshNewsIcon" class="fa-solid fa-rotate"></i>
               </button>
             </div>
             <div class="px-1 flex items-center justify-between text-[11px] text-gray-500">
-              <span id="newsSyncStatus">Auto-syncing live media every 5m</span>
+              <span id="newsSyncStatus">Auto-syncing live media every 1m</span>
               <span id="newsCountBadge" class="font-semibold text-gray-600"></span>
             </div>
           </div>
@@ -339,7 +387,7 @@
           <div id="postsContainer" class="space-y-3 sm:space-y-4">
             <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-              <p>Loading posts & local/world media...</p>
+              <p>Loading live web, Google &amp; world media...</p>
             </div>
           </div>
         </div>
@@ -352,7 +400,7 @@
               <p class="text-sm text-gray-500">No new friend requests.</p>
             </div>
 
-            <h2 class="text-lg sm:text-xl font-bold mb-3">People, Friends & Follow</h2>
+            <h2 class="text-lg sm:text-xl font-bold mb-3">People, Friends &amp; Follow</h2>
             <div id="allUsersGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
           </div>
         </div>
@@ -397,7 +445,7 @@
                   <div class="pb-1">
                     <h2 id="profileDisplayName" class="text-xl sm:text-2xl font-extrabold"></h2>
                     <p id="profileDisplayEmail" class="text-xs text-gray-500 break-all"></p>
-                    <p id="profileFollowStats" class="text-xs font-bold text-[#1877F2] mt-1">0 Followers · 0 Following</p>
+                    <p id="profileFollowStats" class="text-xs font-bold text-[#1877F2] mt-1">0 Followers &middot; 0 Following</p>
                   </div>
                 </div>
                 <button onclick="openEditProfileModal()" class="bg-[#e4e6eb] hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm cursor-pointer self-start sm:self-auto">
@@ -408,9 +456,9 @@
                 Write something about yourself...
               </p>
 
-              <!-- FACEBOOK-STYLE ACCOUNT SETTINGS: DEACTIVATE & DELETE -->
+              <!-- ACCOUNT SETTINGS: DEACTIVATE & DELETE -->
               <div class="mt-5 pt-4 border-t border-gray-200">
-                <h3 class="text-sm font-bold text-gray-800 mb-2">Account Settings & Privacy</h3>
+                <h3 class="text-sm font-bold text-gray-800 mb-2">Account Settings &amp; Privacy</h3>
                 <div class="flex flex-wrap gap-2.5">
                   <button onclick="openAccountActionModal('deactivate')" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-3.5 py-2 rounded-lg text-xs sm:text-sm cursor-pointer transition">
                     <i class="fa-solid fa-pause-circle mr-1"></i> Deactivate Account
@@ -661,7 +709,7 @@
     });
   </script>
 
-  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + LIKE/COMMENT/FOLLOW/SHARE + MEDIA LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + LIKE/COMMENT/FOLLOW/SHARE + LIVE WEB/GOOGLE/WORLD MEDIA LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
@@ -727,6 +775,9 @@
     ];
 
     const NEWS_FEEDS = [
+      { source: "Google News (World)", group: "global", badge: "Google · World", url: "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en" },
+      { source: "Google News (Ethiopia & Oromia)", group: "oromo_eth", badge: "Google · Ethiopia", url: "https://news.google.com/rss/search?q=Ethiopia+OR+Oromia+OR+Finfinnee&hl=en-ET&gl=ET&ceid=ET:en" },
+      { source: "Google News (Afaan Oromoo)", group: "oromo_eth", badge: "Google · Oromoo", url: "https://news.google.com/rss/search?q=Oromia+OR+Afaan+Oromoo&hl=en&gl=ET&ceid=ET:en" },
       { source: "BBC Afaan Oromoo", group: "oromo_eth", badge: "Afaan Oromoo", url: "https://feeds.bbci.co.uk/afaanoromoo/rss.xml" },
       { source: "OBN (Oromia Broadcasting Network)", group: "oromo_eth", badge: "OBN · Oromia", url: "https://obn.et/feed/" },
       { source: "OMN (Oromia Media Network)", group: "oromo_eth", badge: "OMN · Oromia", url: "https://omntv.org/feed/" },
@@ -735,9 +786,9 @@
       { source: "Walta Media", group: "oromo_eth", badge: "Walta · Ethiopia", url: "https://waltainfo.com/feed/" },
       { source: "Addis Standard", group: "oromo_eth", badge: "Ethiopia", url: "https://addisstandard.com/feed/" },
       { source: "BBC Amharic", group: "oromo_eth", badge: "Amharic", url: "https://feeds.bbci.co.uk/amharic/rss.xml" },
-
       { source: "BBC News (World)", group: "global", badge: "BBC World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-      { source: "Al Jazeera", group: "global", badge: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" }
+      { source: "Al Jazeera", group: "global", badge: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" },
+      { source: "CNBC World & Markets", group: "global", badge: "CNBC · World", url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114" }
     ];
 
     function safeDocKey(str = "") {
@@ -750,20 +801,31 @@
       return (tmp.textContent || tmp.innerText || "").trim();
     }
 
+    function formatShortTime(dateInput) {
+      const parsed = Date.parse(dateInput || "");
+      if (Number.isNaN(parsed)) return dateInput || "Live";
+      const diffMins = Math.max(0, Math.floor((Date.now() - parsed) / 60000));
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins}m ago`;
+      const diffHours = Math.floor(diffMins / 60);
+      if (diffHours < 24) return `${diffHours}h ago`;
+      return new Date(parsed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
     function parseXmlItems(xmlText, feed) {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-      const nodes = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 8);
+      const nodes = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 10);
       return nodes.map((node, idx) => {
         const title = node.querySelector("title")?.textContent?.trim() || "News Update";
         const rawDesc = node.querySelector("description, summary, content")?.textContent || "";
         const cleanDesc = stripHtml(rawDesc);
         const linkEl = node.querySelector("link");
         const link = linkEl?.textContent?.trim() || linkEl?.getAttribute("href") || "#";
-        const pubDate = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "Latest";
-        const parsedTime = Date.parse(pubDate);
+        const pubDateRaw = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "";
+        const parsedTime = Date.parse(pubDateRaw);
         return {
-          id: safeDocKey(`${feed.source}-${title}-${idx}`),
+          id: safeDocKey(`${feed.source}-${title}`),
           isNews: true,
           group: feed.group,
           badge: feed.badge,
@@ -771,15 +833,25 @@
           title,
           summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
           link,
-          pubDate,
+          pubDate: formatShortTime(pubDateRaw),
           sortTime: Number.isNaN(parsedTime) ? Date.now() - idx * 1000 : parsedTime
         };
       });
     }
 
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 7000) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(id);
+      }
+    }
+
     async function fetchFromBackendNewsRoute() {
       try {
-        const res = await fetch("/api/news", { cache: "no-store" });
+        const res = await fetchWithTimeout(`/api/news?_t=${Date.now()}`, { cache: "no-store" }, 6000);
         if (!res.ok) return null;
         const data = await res.json();
         if (Array.isArray(data.items) && data.items.length > 0) {
@@ -802,18 +874,18 @@
 
       for (const apiUrl of proxyUrls) {
         try {
-          const res = await fetch(apiUrl, { cache: "no-store" });
+          const res = await fetchWithTimeout(apiUrl, { cache: "no-store" }, 7000);
           if (!res.ok) continue;
 
           if (apiUrl.includes("rss2json")) {
             const data = await res.json();
             if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
-              return data.items.slice(0, 8).map((item, idx) => {
+              return data.items.slice(0, 10).map((item, idx) => {
                 const title = item.title || "News Update";
                 const clean = stripHtml(item.description || item.content || "");
                 const parsedTime = Date.parse(item.pubDate || "");
                 return {
-                  id: safeDocKey(`${feed.source}-${title}-${idx}`),
+                  id: safeDocKey(`${feed.source}-${title}`),
                   isNews: true,
                   group: feed.group,
                   badge: feed.badge,
@@ -821,7 +893,7 @@
                   title,
                   summary: clean.length > 260 ? clean.slice(0, 260) + "..." : clean,
                   link: item.link || "#",
-                  pubDate: item.pubDate || "Latest",
+                  pubDate: formatShortTime(item.pubDate),
                   sortTime: Number.isNaN(parsedTime) ? Date.now() - idx * 1000 : parsedTime
                 };
               });
@@ -873,13 +945,13 @@
       const icon = document.getElementById('refreshNewsIcon');
       const statusEl = document.getElementById('newsSyncStatus');
       if (icon) icon.classList.add('fa-spin');
-      if (statusEl) statusEl.textContent = "Syncing latest posts & media...";
+      if (statusEl) statusEl.textContent = "Syncing real-time web, Google & world media...";
 
       if (forceRefresh && newsItems.length === 0) {
         document.getElementById('postsContainer').innerHTML = `
           <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
             <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-            <p>Fetching latest updates from OBN, OMN, AMN, FBC, BBC & Al Jazeera...</p>
+            <p>Fetching live updates from Google News, OBN, OMN, AMN, FBC, BBC &amp; Al Jazeera...</p>
           </div>
         `;
       }
@@ -891,12 +963,19 @@
       }
 
       if (collected.length > 0) {
-        collected.sort((a, b) => b.sortTime - a.sortTime);
-        newsItems = collected;
+        const seenTitles = new Set();
+        const deduped = collected.filter(item => {
+          const key = (item.title || "").toLowerCase().trim();
+          if (!key || seenTitles.has(key)) return false;
+          seenTitles.add(key);
+          return true;
+        });
+        deduped.sort((a, b) => b.sortTime - a.sortTime);
+        newsItems = deduped;
       }
 
-      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      if (statusEl) statusEl.textContent = `Updated ${nowTime} · Auto-sync every 5m`;
+      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      if (statusEl) statusEl.textContent = `Updated ${nowTime} · Auto-sync every 1m`;
       if (icon) icon.classList.remove('fa-spin');
       renderCurrentFeed();
     };
@@ -907,7 +986,7 @@
         if (currentUser) {
           fetchWorldAndLocalNews(false);
         }
-      }, 5 * 60 * 1000);
+      }, 60 * 1000);
     }
 
     function buildNewsCardHTML(n) {
@@ -1097,7 +1176,7 @@
           (item.authorName && item.authorName.toLowerCase().includes(term));
       });
 
-      if (countBadge) countBadge.textContent = `${newsItems.length} media items`;
+      if (countBadge) countBadge.textContent = `${newsItems.length} live stories`;
       container.innerHTML = filteredCombined.length
         ? filteredCombined.map(item => item.isNews ? buildNewsCardHTML(item) : buildPostCardHTML(item)).join('')
         : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts or news yet.</div>`;
@@ -1298,10 +1377,10 @@
       try {
         const uid = currentUser.uid;
         if (pendingAccountAction === 'deactivate') {
-          await updateDoc(doc(db, "users", uid), {
+          await setDoc(doc(db, "users", uid), {
             deactivated: true,
             deactivatedAt: serverTimestamp()
-          });
+          }, { merge: true });
           closeAccountActionModal();
           await signOut(auth);
         } else if (pendingAccountAction === 'delete') {
@@ -1322,7 +1401,7 @@
           }
         }
       } catch (err) {
-        alert("Action failed: " + err.message);
+        alert("Action failed: " + (err.message || err));
       } finally {
         btn.disabled = false;
       }

@@ -23,6 +23,10 @@
       height: 100vh;
       height: 100dvh;
     }
+    audio {
+      height: 32px;
+      max-width: 210px;
+    }
   </style>
 </head>
 <body class="text-[#050505]">
@@ -184,6 +188,11 @@
             <span>News Feed</span>
           </button>
 
+          <button onclick="selectFeedMode('news')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-globe text-emerald-600 text-lg w-6 text-center"></i>
+            <span>World & Local News</span>
+          </button>
+
           <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-user-group text-[#1877F2] text-lg w-6 text-center"></i>
             <span>Friends & Members</span>
@@ -252,6 +261,21 @@
             </div>
           </div>
 
+          <!-- FEED FILTER BAR: ALL POSTS vs WORLD & LOCAL NEWS -->
+          <div class="bg-white rounded-xl shadow-sm p-2 border border-gray-200 flex items-center justify-between gap-2">
+            <div class="flex gap-1.5 flex-1">
+              <button id="feedMode-all" onclick="selectFeedMode('all')" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-[#1877F2] text-white cursor-pointer transition">
+                <i class="fa-solid fa-house mr-1"></i> Community Feed
+              </button>
+              <button id="feedMode-news" onclick="selectFeedMode('news')" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition">
+                <i class="fa-solid fa-globe mr-1 text-emerald-600"></i> World & Local News
+              </button>
+            </div>
+            <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer">
+              <i id="refreshNewsIcon" class="fa-solid fa-rotate"></i>
+            </button>
+          </div>
+
           <!-- MOBILE/TABLET QUICK LIVE CHAT BAR -->
           <div class="xl:hidden bg-white rounded-xl shadow-sm p-3 border border-gray-200 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -297,10 +321,17 @@
                 <span class="text-gray-500">Select a friend to start chatting</span>
               </div>
               <div id="dmMessagesBox" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-2 bg-[#f0f2f5]/50 text-sm"></div>
-              <form onsubmit="sendDirectMessage(event)" class="p-2.5 border-t flex gap-2 bg-white">
-                <input type="text" id="dmInput" placeholder="Type a message..." class="flex-1 bg-[#f0f2f5] rounded-full px-4 py-2 text-sm focus:outline-none" />
-                <button type="submit" class="bg-[#1877F2] hover:bg-blue-700 text-white px-4 rounded-full font-bold text-sm cursor-pointer">
-                  <i class="fa-solid fa-paper-plane"></i>
+              <div id="dmRecStatus" class="hidden px-3 py-1 bg-red-50 text-red-600 text-xs font-semibold flex items-center justify-between border-t border-red-100">
+                <span><i class="fa-solid fa-record-vinyl animate-pulse mr-1"></i> Recording voice message...</span>
+                <button type="button" onclick="cancelVoiceRecording()" class="underline text-gray-600 cursor-pointer">Cancel</button>
+              </div>
+              <form onsubmit="sendDirectMessage(event)" class="p-2 border-t flex items-center gap-1.5 bg-white">
+                <button type="button" id="dmVoiceBtn" onclick="toggleVoiceRecord('dm')" title="Record Voice" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0 cursor-pointer transition">
+                  <i class="fa-solid fa-microphone text-sm"></i>
+                </button>
+                <input type="text" id="dmInput" placeholder="Type a message..." class="flex-1 bg-[#f0f2f5] rounded-full px-3.5 py-2 text-sm focus:outline-none min-w-0" />
+                <button type="submit" class="bg-[#1877F2] hover:bg-blue-700 text-white w-9 h-9 rounded-full font-bold text-sm flex items-center justify-center shrink-0 cursor-pointer">
+                  <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
               </form>
             </div>
@@ -327,6 +358,19 @@
               <p id="profileBioText" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
                 Write something about yourself...
               </p>
+
+              <!-- FACEBOOK-STYLE ACCOUNT SETTINGS: DEACTIVATE & DELETE -->
+              <div class="mt-5 pt-4 border-t border-gray-200">
+                <h3 class="text-sm font-bold text-gray-800 mb-2">Account Settings & Privacy</h3>
+                <div class="flex flex-wrap gap-2.5">
+                  <button onclick="openAccountActionModal('deactivate')" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-3.5 py-2 rounded-lg text-xs sm:text-sm cursor-pointer transition">
+                    <i class="fa-solid fa-pause-circle mr-1"></i> Deactivate Account
+                  </button>
+                  <button onclick="openAccountActionModal('delete')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-300 font-semibold px-3.5 py-2 rounded-lg text-xs sm:text-sm cursor-pointer transition">
+                    <i class="fa-solid fa-trash mr-1"></i> Delete Account
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div id="myPostsContainer" class="space-y-4"></div>
@@ -340,9 +384,16 @@
             <span class="font-bold text-sm"><i class="fa-solid fa-earth-americas mr-1"></i> Global Live Chat</span>
           </div>
           <div id="globalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2.5 text-sm bg-gray-50"></div>
-          <form onsubmit="sendGlobalMessage(event)" class="p-2 border-t border-gray-200 flex gap-2">
-            <input type="text" id="globalChatInput" placeholder="Write a message..." required class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none" />
-            <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center cursor-pointer">
+          <div id="globalRecStatus" class="hidden px-3 py-1 bg-red-50 text-red-600 text-[11px] font-semibold flex items-center justify-between border-t border-red-100">
+            <span><i class="fa-solid fa-record-vinyl animate-pulse mr-1"></i> Recording voice...</span>
+            <button type="button" onclick="cancelVoiceRecording()" class="underline text-gray-600 cursor-pointer">Cancel</button>
+          </div>
+          <form onsubmit="sendGlobalMessage(event)" class="p-2 border-t border-gray-200 flex items-center gap-1.5 bg-white rounded-b-xl">
+            <button type="button" id="globalVoiceBtn" onclick="toggleVoiceRecord('global')" title="Record Voice" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0 cursor-pointer transition">
+              <i class="fa-solid fa-microphone text-xs"></i>
+            </button>
+            <input type="text" id="globalChatInput" placeholder="Write a message..." class="flex-1 bg-gray-100 rounded-full px-3 py-1.5 text-sm focus:outline-none min-w-0" />
+            <button type="submit" class="bg-[#1877F2] text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 cursor-pointer">
               <i class="fa-solid fa-paper-plane text-xs"></i>
             </button>
           </form>
@@ -373,6 +424,33 @@
 
   <!-- ================= MODALS ================= -->
 
+  <!-- ACCOUNT DEACTIVATE / DELETE CONFIRMATION MODAL -->
+  <div id="accountActionModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 id="accountModalTitle" class="font-bold text-base sm:text-lg text-gray-900">Account Action</h3>
+        <button onclick="closeAccountActionModal()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="p-4 space-y-3">
+        <p id="accountModalDesc" class="text-sm text-gray-600 leading-relaxed"></p>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Type <span class="font-mono text-gray-900">CONFIRM</span> to proceed</label>
+          <input type="text" id="accountConfirmInput" placeholder="CONFIRM" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm uppercase focus:outline-none focus:border-[#1877F2]" />
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button type="button" onclick="closeAccountActionModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2.5 rounded-lg text-sm cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" id="confirmAccountActionBtn" onclick="executeAccountAction()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-lg text-sm cursor-pointer">
+            Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE LIVE CHAT MODAL -->
   <div id="mobileLiveChatModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-2">
     <div class="bg-white rounded-2xl w-full max-w-md h-[82vh] flex flex-col shadow-2xl overflow-hidden">
@@ -381,9 +459,16 @@
         <button onclick="document.getElementById('mobileLiveChatModal').classList.add('hidden')" class="text-white text-lg px-2 cursor-pointer">&times;</button>
       </div>
       <div id="mobileGlobalChatMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm bg-gray-50"></div>
-      <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex gap-2 bg-white">
-        <input type="text" id="mobileGlobalChatInput" placeholder="Write a message..." required class="flex-1 bg-gray-100 rounded-full px-3.5 py-2 text-sm focus:outline-none" />
-        <button type="submit" class="bg-[#1877F2] text-white px-4 rounded-full font-bold text-sm cursor-pointer">Send</button>
+      <div id="mobileRecStatus" class="hidden px-3 py-1 bg-red-50 text-red-600 text-xs font-semibold flex items-center justify-between border-t border-red-100">
+        <span><i class="fa-solid fa-record-vinyl animate-pulse mr-1"></i> Recording voice...</span>
+        <button type="button" onclick="cancelVoiceRecording()" class="underline text-gray-600 cursor-pointer">Cancel</button>
+      </div>
+      <form onsubmit="sendMobileGlobalMessage(event)" class="p-2 border-t flex items-center gap-1.5 bg-white">
+        <button type="button" id="mobileVoiceBtn" onclick="toggleVoiceRecord('mobile')" title="Record Voice" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0 cursor-pointer transition">
+          <i class="fa-solid fa-microphone text-sm"></i>
+        </button>
+        <input type="text" id="mobileGlobalChatInput" placeholder="Write a message..." class="flex-1 bg-gray-100 rounded-full px-3.5 py-2 text-sm focus:outline-none min-w-0" />
+        <button type="submit" class="bg-[#1877F2] text-white px-4 py-2 rounded-full font-bold text-sm shrink-0 cursor-pointer">Send</button>
       </form>
     </div>
   </div>
@@ -514,16 +599,16 @@
     });
   </script>
 
-  <!-- FIREBASE + REAL EMAIL OTP LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + WORLD/LOCAL NEWS LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
       getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile
+      signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile, deleteUser
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import {
       getFirestore, collection, addDoc, onSnapshot, query, orderBy,
-      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc, getDocs
+      doc, updateDoc, deleteDoc, arrayUnion, arrayRemove, serverTimestamp, setDoc, getDocs, getDoc
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -553,12 +638,22 @@
     let currentUserDoc = {};
     let allUsers = [];
     let allPosts = [];
+    let newsItems = [];
+    let feedMode = 'all'; // 'all' | 'news'
     let activeChatPartner = null;
+    let unsubscribeDM = null;
     let editingPostId = null;
+    let pendingAccountAction = null;
 
     let pendingSignup = null;
     let generatedOtp = null;
     let otpExpiresAt = 0;
+
+    // Voice Recording State
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let activeRecTarget = null;
+    let recCancelled = false;
 
     const REACTIONS = [
       { key: 'like', emoji: '👍', label: 'Like' },
@@ -566,6 +661,135 @@
       { key: 'haha', emoji: '😂', label: 'Haha' },
       { key: 'wow', emoji: '😮', label: 'Wow' }
     ];
+
+    const NEWS_FEEDS = [
+      { source: "BBC World News", region: "World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
+      { source: "Addis Standard", region: "Ethiopia", url: "https://addisstandard.com/feed/" }
+    ];
+
+    function stripHtml(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html || "";
+      return (tmp.textContent || tmp.innerText || "").trim();
+    }
+
+    window.selectFeedMode = async (mode) => {
+      feedMode = mode;
+      switchTab('home');
+      const allBtn = document.getElementById('feedMode-all');
+      const newsBtn = document.getElementById('feedMode-news');
+      if (mode === 'all') {
+        allBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-[#1877F2] text-white cursor-pointer transition";
+        newsBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition";
+        renderCurrentFeed();
+      } else {
+        newsBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-emerald-600 text-white cursor-pointer transition";
+        allBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition";
+        if (newsItems.length === 0) {
+          await fetchWorldAndLocalNews(false);
+        } else {
+          renderCurrentFeed();
+        }
+      }
+    };
+
+    window.fetchWorldAndLocalNews = async (forceRefresh = false) => {
+      const icon = document.getElementById('refreshNewsIcon');
+      if (icon) icon.classList.add('fa-spin');
+      if (forceRefresh && feedMode === 'news') {
+        document.getElementById('postsContainer').innerHTML = `
+          <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-emerald-600 mb-2"></i>
+            <p>Fetching latest world & local news...</p>
+          </div>
+        `;
+      }
+
+      const collected = [];
+      for (const feed of NEWS_FEEDS) {
+        try {
+          const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+          const res = await fetch(apiUrl);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const items = (data.items || []).slice(0, 8);
+          items.forEach((item, idx) => {
+            const cleanDesc = stripHtml(item.description || item.content || "");
+            collected.push({
+              id: `news-${feed.region}-${idx}-${encodeURIComponent(item.title || idx)}`,
+              isNews: true,
+              region: feed.region,
+              sourceName: `${feed.source} (${feed.region})`,
+              title: item.title || "News Update",
+              summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
+              link: item.link || "#",
+              pubDate: item.pubDate || "Latest"
+            });
+          });
+        } catch (_) {}
+      }
+
+      newsItems = collected;
+      if (icon) icon.classList.remove('fa-spin');
+      if (feedMode === 'news') {
+        renderCurrentFeed();
+      }
+    };
+
+    function buildNewsCardHTML(n) {
+      return `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-3 sm:p-4 pb-2 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-globe text-sm"></i>
+              </div>
+              <div>
+                <div class="font-bold text-sm text-gray-900">${n.sourceName}</div>
+                <span class="text-xs text-gray-500">${n.pubDate}</span>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${n.region === 'Ethiopia' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}">
+              ${n.region}
+            </span>
+          </div>
+          <div class="px-3 sm:px-4 pb-3 space-y-2">
+            <h3 class="font-bold text-base text-gray-900 leading-snug">${n.title}</h3>
+            ${n.summary ? `<p class="text-sm text-gray-600 leading-relaxed">${n.summary}</p>` : ''}
+            ${n.link && n.link !== '#' ? `
+              <a href="${n.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1877F2] hover:underline pt-1">
+                <span>Read Full Story</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCurrentFeed() {
+      const term = (document.getElementById('searchInput')?.value || '').toLowerCase();
+      if (feedMode === 'news') {
+        const filteredNews = newsItems.filter(n =>
+          !term ||
+          n.title.toLowerCase().includes(term) ||
+          n.summary.toLowerCase().includes(term) ||
+          n.sourceName.toLowerCase().includes(term)
+        );
+        const container = document.getElementById('postsContainer');
+        container.innerHTML = filteredNews.length
+          ? filteredNews.map(buildNewsCardHTML).join('')
+          : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No news articles available right now. Tap refresh to try again.</div>`;
+        return;
+      }
+
+      const filteredPosts = allPosts.filter(p =>
+        !term ||
+        (p.text && p.text.toLowerCase().includes(term)) ||
+        (p.authorName && p.authorName.toLowerCase().includes(term))
+      );
+      renderPosts(filteredPosts);
+    }
 
     function getAvatar(name, photo) {
       return photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=1877F2&color=fff`;
@@ -682,7 +906,14 @@
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        const snap = await getDoc(doc(db, "users", cred.user.uid));
+        if (snap.exists() && snap.data().deactivated) {
+          await updateDoc(doc(db, "users", cred.user.uid), {
+            deactivated: false,
+            reactivatedAt: serverTimestamp()
+          });
+        }
       } catch (err) {
         showAuthError("Invalid email or password!");
       }
@@ -703,12 +934,84 @@
         name: name || user.email.split('@')[0],
         email: user.email,
         emailVerified,
+        deactivated: false,
         avatar: getAvatar(name, avatar),
         lastSeen: serverTimestamp()
       }, { merge: true });
     }
 
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+
+    // ================= ACCOUNT DEACTIVATE & DELETE =================
+    window.openAccountActionModal = (actionType) => {
+      pendingAccountAction = actionType;
+      document.getElementById('accountConfirmInput').value = '';
+      const titleEl = document.getElementById('accountModalTitle');
+      const descEl = document.getElementById('accountModalDesc');
+      const btnEl = document.getElementById('confirmAccountActionBtn');
+
+      if (actionType === 'deactivate') {
+        titleEl.textContent = "Deactivate Account";
+        descEl.textContent = "Your profile and active status will be temporarily hidden. You can log back in anytime with your email and password to reactivate.";
+        btnEl.textContent = "Deactivate Now";
+        btnEl.className = "flex-1 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg text-sm cursor-pointer";
+      } else {
+        titleEl.textContent = "Delete Account Permanently";
+        descEl.textContent = "This will remove your profile, posts, stories, and messages from Gammee APP. This action cannot be undone.";
+        btnEl.textContent = "Delete Forever";
+        btnEl.className = "flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-lg text-sm cursor-pointer";
+      }
+      document.getElementById('accountActionModal').classList.remove('hidden');
+    };
+
+    window.closeAccountActionModal = () => {
+      pendingAccountAction = null;
+      document.getElementById('accountActionModal').classList.add('hidden');
+    };
+
+    window.executeAccountAction = async () => {
+      const typed = document.getElementById('accountConfirmInput').value.trim().toUpperCase();
+      if (typed !== "CONFIRM") {
+        alert("Please type CONFIRM to proceed.");
+        return;
+      }
+      if (!currentUser || !pendingAccountAction) return;
+
+      const btn = document.getElementById('confirmAccountActionBtn');
+      btn.disabled = true;
+
+      try {
+        const uid = currentUser.uid;
+        if (pendingAccountAction === 'deactivate') {
+          await updateDoc(doc(db, "users", uid), {
+            deactivated: true,
+            deactivatedAt: serverTimestamp()
+          });
+          closeAccountActionModal();
+          await signOut(auth);
+        } else if (pendingAccountAction === 'delete') {
+          const userPosts = await getDocs(collection(db, "posts"));
+          for (const d of userPosts.docs) {
+            if (d.data().authorId === uid) await deleteDoc(doc(db, "posts", d.id));
+          }
+          const userStories = await getDocs(collection(db, "stories"));
+          for (const d of userStories.docs) {
+            if (d.data().authorId === uid) await deleteDoc(doc(db, "stories", d.id));
+          }
+          await deleteDoc(doc(db, "users", uid));
+          closeAccountActionModal();
+          try {
+            await deleteUser(currentUser);
+          } catch (_) {
+            await signOut(auth);
+          }
+        }
+      } catch (err) {
+        alert("Action failed: " + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    };
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -727,6 +1030,7 @@
         listenToStories();
         listenToGlobalChat();
         listenToNotifications();
+        fetchWorldAndLocalNews(false);
       } else {
         currentUser = null;
         document.getElementById('mainApp').classList.add('hidden');
@@ -928,18 +1232,15 @@
       const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
       onSnapshot(q, (snap) => {
         allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderPosts(allPosts);
+        if (feedMode === 'all') {
+          renderPosts(allPosts);
+        }
         renderMyPosts();
       });
     }
 
     window.filterPosts = () => {
-      const term = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allPosts.filter(p =>
-        (p.text && p.text.toLowerCase().includes(term)) ||
-        (p.authorName && p.authorName.toLowerCase().includes(term))
-      );
-      renderPosts(filtered);
+      renderCurrentFeed();
     };
 
     function buildPostCardHTML(post) {
@@ -1066,8 +1367,8 @@
 
     function listenToUsers() {
       onSnapshot(collection(db, "users"), (snap) => {
-        allUsers = snap.docs.map(d => d.data());
-        const me = allUsers.find(u => u.uid === currentUser.uid);
+        allUsers = snap.docs.map(d => d.data()).filter(u => !u.deactivated);
+        const me = snap.docs.map(d => d.data()).find(u => u.uid === currentUser.uid);
         if (me) {
           currentUserDoc = me;
           updateHeaderAndSidebarUI(
@@ -1166,6 +1467,27 @@
       `).join('');
     }
 
+    function renderChatMessageBubble(m, isMe, showSenderName = false) {
+      const bubbleClass = isMe
+        ? 'bg-[#1877F2] text-white'
+        : 'bg-white border border-gray-200 text-gray-800';
+
+      const contentHTML = m.audioData
+        ? `<div class="flex items-center gap-2 py-0.5">
+             <audio controls preload="metadata" src="${m.audioData}"></audio>
+           </div>`
+        : `<span>${m.text || ''}</span>`;
+
+      return `
+        <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+          ${showSenderName ? `<span class="text-[10px] text-gray-500 px-1">${m.name || 'Member'}</span>` : ''}
+          <div class="${bubbleClass} px-3 py-1.5 rounded-2xl max-w-[85%] shadow-sm break-words">
+            ${contentHTML}
+          </div>
+        </div>
+      `;
+    }
+
     window.startDM = (partner) => {
       activeChatPartner = partner;
       switchTab('messenger');
@@ -1174,36 +1496,42 @@
         <img src="${getAvatar(partner.name, partner.avatar)}" class="w-8 h-8 rounded-full object-cover" />
         <span>${partner.name}</span>
       `;
+      if (unsubscribeDM) unsubscribeDM();
       const threadId = getDMThreadId(currentUser.uid, partner.uid);
-      const q = query(collection(db, "direct_messages"), orderBy("createdAt", "asc"));
-      onSnapshot(q, (snap) => {
-        const msgs = snap.docs.map(d => d.data()).filter(m => m.threadId === threadId);
+      unsubscribeDM = onSnapshot(collection(db, "direct_messages"), (snap) => {
+        const msgs = snap.docs
+          .map(d => d.data())
+          .filter(m => m.threadId === threadId)
+          .sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
         const box = document.getElementById('dmMessagesBox');
-        box.innerHTML = msgs.map(m => {
-          const isMe = m.senderId === currentUser.uid;
-          return `
-            <div class="flex ${isMe ? 'justify-end' : 'justify-start'}">
-              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3.5 py-2 rounded-2xl max-w-[80%] shadow-sm">
-                ${m.text}
-              </div>
-            </div>
-          `;
-        }).join('');
+        box.innerHTML = msgs.map(m => renderChatMessageBubble(m, m.senderId === currentUser.uid, false)).join('');
         box.scrollTop = box.scrollHeight;
+      }, (err) => {
+        alert("DM load error: " + err.message);
       });
     };
 
     window.sendDirectMessage = async (e) => {
       e.preventDefault();
-      if (!activeChatPartner) return;
+      if (!activeChatPartner) {
+        alert("Select a friend first.");
+        return;
+      }
       const input = document.getElementById('dmInput');
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
-      await addDoc(collection(db, "direct_messages"), {
-        threadId: getDMThreadId(currentUser.uid, activeChatPartner.uid),
-        senderId: currentUser.uid, receiverId: activeChatPartner.uid, text, createdAt: serverTimestamp()
-      });
+      try {
+        await addDoc(collection(db, "direct_messages"), {
+          threadId: getDMThreadId(currentUser.uid, activeChatPartner.uid),
+          senderId: currentUser.uid,
+          receiverId: activeChatPartner.uid,
+          text,
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        alert("Failed to send DM: " + err.message);
+      }
     };
 
     window.openEditProfileModal = () => {
@@ -1228,27 +1556,57 @@
       onSnapshot(q, (snap) => {
         const html = snap.docs.map(d => {
           const m = d.data();
-          const isMe = m.uid === currentUser.uid;
-          return `
-            <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
-              <span class="text-[10px] text-gray-500 px-1">${m.name}</span>
-              <div class="${isMe ? 'bg-[#1877F2] text-white' : 'bg-white border border-gray-200 text-gray-800'} px-3 py-1.5 rounded-2xl max-w-[85%] shadow-sm">
-                ${m.text}
-              </div>
-            </div>
-          `;
+          return renderChatMessageBubble(m, m.uid === currentUser?.uid, true);
         }).join('');
         const dBox = document.getElementById('globalChatMessages');
         const mBox = document.getElementById('mobileGlobalChatMessages');
         if (dBox) { dBox.innerHTML = html; dBox.scrollTop = dBox.scrollHeight; }
         if (mBox) { mBox.innerHTML = html; mBox.scrollTop = mBox.scrollHeight; }
+      }, (err) => {
+        console.error("Global chat error:", err);
       });
     }
 
-    async function postGlobalMsg(text) {
-      if (!text) return;
-      const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
-      await addDoc(collection(db, "global_chat"), { uid: currentUser.uid, name, text, createdAt: serverTimestamp() });
+    async function postGlobalMsg({ text = "", audioData = "" }) {
+      const cleanText = (text || "").trim();
+      if (!cleanText && !audioData) return;
+      if (!currentUser) {
+        alert("Please log in first to send messages.");
+        return;
+      }
+      try {
+        const name = currentUserDoc.name || currentUser.displayName || currentUser.email.split('@')[0];
+        await addDoc(collection(db, "global_chat"), {
+          uid: currentUser.uid,
+          name,
+          text: cleanText,
+          audioData: audioData || "",
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        alert("Failed to send message: " + err.message);
+      }
+    }
+
+    async function postDMMsg({ text = "", audioData = "" }) {
+      if (!activeChatPartner) {
+        alert("Select a friend first.");
+        return;
+      }
+      const cleanText = (text || "").trim();
+      if (!cleanText && !audioData) return;
+      try {
+        await addDoc(collection(db, "direct_messages"), {
+          threadId: getDMThreadId(currentUser.uid, activeChatPartner.uid),
+          senderId: currentUser.uid,
+          receiverId: activeChatPartner.uid,
+          text: cleanText,
+          audioData: audioData || "",
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        alert("Failed to send voice/message: " + err.message);
+      }
     }
 
     window.sendGlobalMessage = async (e) => {
@@ -1256,7 +1614,7 @@
       const input = document.getElementById('globalChatInput');
       const text = input.value.trim();
       input.value = '';
-      await postGlobalMsg(text);
+      await postGlobalMsg({ text });
     };
 
     window.sendMobileGlobalMessage = async (e) => {
@@ -1264,7 +1622,121 @@
       const input = document.getElementById('mobileGlobalChatInput');
       const text = input.value.trim();
       input.value = '';
-      await postGlobalMsg(text);
+      await postGlobalMsg({ text });
+    };
+
+    // ================= VOICE RECORDING CONTROLS =================
+    function setRecordingUI(target, isRecording) {
+      const btnMap = {
+        global: document.getElementById('globalVoiceBtn'),
+        mobile: document.getElementById('mobileVoiceBtn'),
+        dm: document.getElementById('dmVoiceBtn')
+      };
+      const statusMap = {
+        global: document.getElementById('globalRecStatus'),
+        mobile: document.getElementById('mobileRecStatus'),
+        dm: document.getElementById('dmRecStatus')
+      };
+
+      const btn = btnMap[target];
+      const status = statusMap[target];
+      if (btn) {
+        if (isRecording) {
+          btn.classList.remove('bg-gray-100', 'text-gray-700');
+          btn.classList.add('bg-red-600', 'text-white', 'animate-pulse');
+          btn.innerHTML = `<i class="fa-solid fa-stop text-xs"></i>`;
+        } else {
+          btn.classList.remove('bg-red-600', 'text-white', 'animate-pulse');
+          btn.classList.add('bg-gray-100', 'text-gray-700');
+          btn.innerHTML = `<i class="fa-solid fa-microphone text-xs"></i>`;
+        }
+      }
+      if (status) {
+        status.classList.toggle('hidden', !isRecording);
+      }
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    window.toggleVoiceRecord = async (target) => {
+      if (target === 'dm' && !activeChatPartner) {
+        alert("Select a friend in Messenger first.");
+        return;
+      }
+
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        recCancelled = false;
+        mediaRecorder.stop();
+        return;
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Voice recording is not supported on this browser.");
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = [];
+        recCancelled = false;
+        activeRecTarget = target;
+
+        const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "";
+        mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            audioChunks.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = async () => {
+          stream.getTracks().forEach(track => track.stop());
+          const finishedTarget = activeRecTarget;
+          setRecordingUI(finishedTarget, false);
+
+          if (recCancelled || audioChunks.length === 0) {
+            audioChunks = [];
+            activeRecTarget = null;
+            return;
+          }
+
+          const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+          audioChunks = [];
+          activeRecTarget = null;
+
+          if (blob.size > 900 * 1024) {
+            alert("Voice message is too long (keep under ~45 seconds).");
+            return;
+          }
+
+          const base64Audio = await blobToBase64(blob);
+          if (finishedTarget === 'dm') {
+            await postDMMsg({ audioData: base64Audio });
+          } else {
+            await postGlobalMsg({ audioData: base64Audio });
+          }
+        };
+
+        mediaRecorder.start();
+        setRecordingUI(target, true);
+      } catch (err) {
+        alert("Microphone permission denied or unavailable: " + err.message);
+      }
+    };
+
+    window.cancelVoiceRecording = () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        recCancelled = true;
+        mediaRecorder.stop();
+      }
     };
 
     window.switchTab = (tabName) => {

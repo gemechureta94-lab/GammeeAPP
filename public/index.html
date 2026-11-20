@@ -272,7 +272,7 @@
           </div>
 
           <!-- MULTI-MEDIA FEED FILTER BAR -->
-          <div class="bg-white rounded-xl shadow-sm p-2 border border-gray-200 space-y-2">
+          <div class="bg-white rounded-xl shadow-sm p-2 border border-gray-200 space-y-1.5">
             <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar">
               <button id="feedMode-all" onclick="selectFeedMode('all')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-[#1877F2] text-white cursor-pointer shrink-0 transition">
                 All Feed
@@ -286,9 +286,13 @@
               <button id="feedMode-global" onclick="selectFeedMode('global')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
                 BBC & Al Jazeera
               </button>
-              <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News" class="p-1.5 px-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer shrink-0">
+              <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News Now" class="p-1.5 px-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer shrink-0">
                 <i id="refreshNewsIcon" class="fa-solid fa-rotate"></i>
               </button>
+            </div>
+            <div class="px-1 flex items-center justify-between text-[11px] text-gray-500">
+              <span id="newsSyncStatus">Auto-syncing live media every 5m</span>
+              <span id="newsCountBadge" class="font-semibold text-gray-600"></span>
             </div>
           </div>
 
@@ -615,7 +619,7 @@
     });
   </script>
 
-  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + LOCAL & WORLD MEDIA LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + AUTO-SYNC MEDIA LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
@@ -660,6 +664,7 @@
     let unsubscribeDM = null;
     let editingPostId = null;
     let pendingAccountAction = null;
+    let newsAutoSyncTimer = null;
 
     let pendingSignup = null;
     let generatedOtp = null;
@@ -679,7 +684,6 @@
     ];
 
     const NEWS_FEEDS = [
-      // Local / Ethiopian Media (OBN, OMN, AMN, FBC, Walta, Addis Standard, BBC Afaan Oromoo & Amharic)
       { source: "BBC Afaan Oromoo", group: "oromo_eth", badge: "Afaan Oromoo", url: "https://feeds.bbci.co.uk/afaanoromoo/rss.xml" },
       { source: "OBN (Oromia Broadcasting Network)", group: "oromo_eth", badge: "OBN · Oromia", url: "https://obn.et/feed/" },
       { source: "OMN (Oromia Media Network)", group: "oromo_eth", badge: "OMN · Oromia", url: "https://omntv.org/feed/" },
@@ -689,7 +693,6 @@
       { source: "Addis Standard", group: "oromo_eth", badge: "Ethiopia", url: "https://addisstandard.com/feed/" },
       { source: "BBC Amharic", group: "oromo_eth", badge: "Amharic", url: "https://feeds.bbci.co.uk/amharic/rss.xml" },
 
-      // Global Media (BBC World, Al Jazeera)
       { source: "BBC News (World)", group: "global", badge: "BBC World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
       { source: "Al Jazeera", group: "global", badge: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" }
     ];
@@ -698,6 +701,88 @@
       const tmp = document.createElement("div");
       tmp.innerHTML = html || "";
       return (tmp.textContent || tmp.innerText || "").trim();
+    }
+
+    function parseXmlItems(xmlText, feed) {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+      const nodes = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 8);
+      return nodes.map((node, idx) => {
+        const title = node.querySelector("title")?.textContent?.trim() || "News Update";
+        const rawDesc = node.querySelector("description, summary, content")?.textContent || "";
+        const cleanDesc = stripHtml(rawDesc);
+        const linkEl = node.querySelector("link");
+        const link = linkEl?.textContent?.trim() || linkEl?.getAttribute("href") || "#";
+        const pubDate = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "Latest";
+        const parsedTime = Date.parse(pubDate);
+        return {
+          id: `news-${feed.source}-${idx}-${encodeURIComponent(title)}`,
+          isNews: true,
+          group: feed.group,
+          badge: feed.badge,
+          sourceName: feed.source,
+          title,
+          summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
+          link,
+          pubDate,
+          sortTime: Number.isNaN(parsedTime) ? Date.now() - idx * 1000 : parsedTime
+        };
+      });
+    }
+
+    async function fetchFromBackendNewsRoute() {
+      try {
+        const res = await fetch("/api/news", { cache: "no-store" });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          return data.items;
+        }
+      } catch (_) {}
+      return null;
+    }
+
+    async function fetchSingleFeed(feed) {
+      const cacheBuster = `_t=${Date.now()}`;
+      const proxyUrls = [
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&${cacheBuster}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}&${cacheBuster}`,
+        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feed.url)}`
+      ];
+
+      for (const apiUrl of proxyUrls) {
+        try {
+          const res = await fetch(apiUrl, { cache: "no-store" });
+          if (!res.ok) continue;
+
+          if (apiUrl.includes("rss2json")) {
+            const data = await res.json();
+            if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
+              return data.items.slice(0, 8).map((item, idx) => {
+                const clean = stripHtml(item.description || item.content || "");
+                const parsedTime = Date.parse(item.pubDate || "");
+                return {
+                  id: `news-${feed.source}-${idx}-${encodeURIComponent(item.title || idx)}`,
+                  isNews: true,
+                  group: feed.group,
+                  badge: feed.badge,
+                  sourceName: feed.source,
+                  title: item.title || "News Update",
+                  summary: clean.length > 260 ? clean.slice(0, 260) + "..." : clean,
+                  link: item.link || "#",
+                  pubDate: item.pubDate || "Latest",
+                  sortTime: Number.isNaN(parsedTime) ? Date.now() - idx * 1000 : parsedTime
+                };
+              });
+            }
+          } else {
+            const xmlText = await res.text();
+            const parsed = parseXmlItems(xmlText, feed);
+            if (parsed.length > 0) return parsed;
+          }
+        } catch (_) {}
+      }
+      return [];
     }
 
     window.selectFeedMode = async (mode) => {
@@ -716,95 +801,52 @@
       });
 
       if (mode !== 'all' && newsItems.length === 0) {
-        await fetchWorldAndLocalNews(false);
+        await fetchWorldAndLocalNews(true);
       } else {
         renderCurrentFeed();
       }
     };
 
-    async function fetchSingleFeed(feed) {
-      const proxyUrls = [
-        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`
-      ];
-
-      for (const apiUrl of proxyUrls) {
-        try {
-          const res = await fetch(apiUrl);
-          if (!res.ok) continue;
-
-          if (apiUrl.includes("rss2json")) {
-            const data = await res.json();
-            if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
-              return data.items.slice(0, 5).map((item, idx) => ({
-                id: `news-${feed.source}-${idx}-${encodeURIComponent(item.title || idx)}`,
-                isNews: true,
-                group: feed.group,
-                badge: feed.badge,
-                sourceName: feed.source,
-                title: item.title || "News Update",
-                summary: (() => {
-                  const clean = stripHtml(item.description || item.content || "");
-                  return clean.length > 260 ? clean.slice(0, 260) + "..." : clean;
-                })(),
-                link: item.link || "#",
-                pubDate: item.pubDate || "Latest",
-                sortTime: item.pubDate ? Date.parse(item.pubDate) || 0 : 0
-              }));
-            }
-          } else {
-            const xmlText = await res.text();
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-            const nodes = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 5);
-            if (nodes.length > 0) {
-              return nodes.map((node, idx) => {
-                const title = node.querySelector("title")?.textContent?.trim() || "News Update";
-                const rawDesc = node.querySelector("description, summary, content")?.textContent || "";
-                const cleanDesc = stripHtml(rawDesc);
-                const linkEl = node.querySelector("link");
-                const link = linkEl?.textContent?.trim() || linkEl?.getAttribute("href") || "#";
-                const pubDate = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "Latest";
-                return {
-                  id: `news-${feed.source}-${idx}-${encodeURIComponent(title)}`,
-                  isNews: true,
-                  group: feed.group,
-                  badge: feed.badge,
-                  sourceName: feed.source,
-                  title,
-                  summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
-                  link,
-                  pubDate,
-                  sortTime: pubDate ? Date.parse(pubDate) || 0 : 0
-                };
-              });
-            }
-          }
-        } catch (_) {}
-      }
-      return [];
-    }
-
     window.fetchWorldAndLocalNews = async (forceRefresh = false) => {
       const icon = document.getElementById('refreshNewsIcon');
+      const statusEl = document.getElementById('newsSyncStatus');
       if (icon) icon.classList.add('fa-spin');
-      if (forceRefresh && feedMode !== 'all') {
+      if (statusEl) statusEl.textContent = "Syncing latest posts & media...";
+
+      if (forceRefresh && newsItems.length === 0) {
         document.getElementById('postsContainer').innerHTML = `
           <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
             <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-            <p>Fetching latest stories from OBN, OMN, AMN, FBC, BBC & Al Jazeera...</p>
+            <p>Fetching latest updates from OBN, OMN, AMN, FBC, BBC & Al Jazeera...</p>
           </div>
         `;
       }
 
-      const results = await Promise.all(NEWS_FEEDS.map(feed => fetchSingleFeed(feed)));
-      const collected = results.flat();
-      collected.sort((a, b) => b.sortTime - a.sortTime);
-      newsItems = collected;
+      let collected = await fetchFromBackendNewsRoute();
+      if (!collected || collected.length === 0) {
+        const results = await Promise.all(NEWS_FEEDS.map(feed => fetchSingleFeed(feed)));
+        collected = results.flat();
+      }
 
+      if (collected.length > 0) {
+        collected.sort((a, b) => b.sortTime - a.sortTime);
+        newsItems = collected;
+      }
+
+      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      if (statusEl) statusEl.textContent = `Updated ${nowTime} · Auto-sync every 5m`;
       if (icon) icon.classList.remove('fa-spin');
       renderCurrentFeed();
     };
+
+    function startNewsAutoSync() {
+      if (newsAutoSyncTimer) clearInterval(newsAutoSyncTimer);
+      newsAutoSyncTimer = setInterval(() => {
+        if (currentUser) {
+          fetchWorldAndLocalNews(false);
+        }
+      }, 5 * 60 * 1000);
+    }
 
     function buildNewsCardHTML(n) {
       const badgeColor = n.group === 'oromo_eth'
@@ -844,6 +886,7 @@
     function renderCurrentFeed() {
       const term = (document.getElementById('searchInput')?.value || '').toLowerCase();
       const container = document.getElementById('postsContainer');
+      const countBadge = document.getElementById('newsCountBadge');
 
       if (feedMode === 'news' || feedMode === 'oromo_eth' || feedMode === 'global') {
         const subset = feedMode === 'news'
@@ -857,6 +900,7 @@
           n.sourceName.toLowerCase().includes(term)
         );
 
+        if (countBadge) countBadge.textContent = `${filteredNews.length} stories`;
         container.innerHTML = filteredNews.length
           ? filteredNews.map(buildNewsCardHTML).join('')
           : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No news articles found for this filter right now. Tap refresh to reload.</div>`;
@@ -883,6 +927,7 @@
           (item.authorName && item.authorName.toLowerCase().includes(term));
       });
 
+      if (countBadge) countBadge.textContent = `${newsItems.length} media items`;
       container.innerHTML = filteredCombined.length
         ? filteredCombined.map(item => item.isNews ? buildNewsCardHTML(item) : buildPostCardHTML(item)).join('')
         : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts or news yet.</div>`;
@@ -1127,9 +1172,11 @@
         listenToStories();
         listenToGlobalChat();
         listenToNotifications();
-        fetchWorldAndLocalNews(false);
+        await fetchWorldAndLocalNews(true);
+        startNewsAutoSync();
       } else {
         currentUser = null;
+        if (newsAutoSyncTimer) clearInterval(newsAutoSyncTimer);
         document.getElementById('mainApp').classList.add('hidden');
         document.getElementById('authScreen').classList.remove('hidden');
         showAuthScreen('login');
@@ -1418,13 +1465,6 @@
           </div>
         </div>
       `;
-    }
-
-    function renderPosts(postsList) {
-      const container = document.getElementById('postsContainer');
-      container.innerHTML = postsList.length
-        ? postsList.map(buildPostCardHTML).join('')
-        : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts yet. Be the first to post!</div>`;
     }
 
     function renderMyPosts() {

@@ -113,7 +113,7 @@
         </button>
         <div class="relative hidden sm:block">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
-          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Search Gammee APP..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
+          <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Search Gammee APP & News..." class="bg-[#f0f2f5] pl-10 pr-4 py-2 rounded-full text-sm w-44 md:w-64 focus:outline-none focus:ring-2 focus:ring-[#1877F2]" />
         </div>
       </div>
 
@@ -167,7 +167,7 @@
 
     <!-- MOBILE SEARCH BAR -->
     <div id="mobileSearchBar" class="hidden sm:hidden fixed top-14 left-0 right-0 bg-white p-2 border-b z-30">
-      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Search Gammee APP..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
+      <input type="text" id="mobileSearchInput" oninput="syncSearch(this.value)" placeholder="Search Gammee APP & News..." class="w-full bg-[#f0f2f5] px-4 py-2 rounded-full text-sm focus:outline-none" />
     </div>
 
     <!-- MAIN RESPONSIVE CONTAINER -->
@@ -183,14 +183,24 @@
             </div>
           </button>
 
-          <button onclick="switchTab('home')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+          <button onclick="selectFeedMode('all')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-newspaper text-[#1877F2] text-lg w-6 text-center"></i>
-            <span>News Feed</span>
+            <span>All Feed (Posts + News)</span>
           </button>
 
           <button onclick="selectFeedMode('news')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
             <i class="fa-solid fa-globe text-emerald-600 text-lg w-6 text-center"></i>
-            <span>World & Local News</span>
+            <span>All Medias (Local + World)</span>
+          </button>
+
+          <button onclick="selectFeedMode('oromo_eth')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-flag text-amber-600 text-lg w-6 text-center"></i>
+            <span>OBN, OMN, AMN, FBC & ETH</span>
+          </button>
+
+          <button onclick="selectFeedMode('global')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
+            <i class="fa-solid fa-earth-americas text-blue-600 text-lg w-6 text-center"></i>
+            <span>BBC & Al Jazeera</span>
           </button>
 
           <button onclick="switchTab('friends')" class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-200/70 transition text-sm font-semibold cursor-pointer">
@@ -261,19 +271,25 @@
             </div>
           </div>
 
-          <!-- FEED FILTER BAR: ALL POSTS vs WORLD & LOCAL NEWS -->
-          <div class="bg-white rounded-xl shadow-sm p-2 border border-gray-200 flex items-center justify-between gap-2">
-            <div class="flex gap-1.5 flex-1">
-              <button id="feedMode-all" onclick="selectFeedMode('all')" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-[#1877F2] text-white cursor-pointer transition">
-                <i class="fa-solid fa-house mr-1"></i> Community Feed
+          <!-- MULTI-MEDIA FEED FILTER BAR -->
+          <div class="bg-white rounded-xl shadow-sm p-2 border border-gray-200 space-y-2">
+            <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar">
+              <button id="feedMode-all" onclick="selectFeedMode('all')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-[#1877F2] text-white cursor-pointer shrink-0 transition">
+                All Feed
               </button>
-              <button id="feedMode-news" onclick="selectFeedMode('news')" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition">
-                <i class="fa-solid fa-globe mr-1 text-emerald-600"></i> World & Local News
+              <button id="feedMode-news" onclick="selectFeedMode('news')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
+                All Medias
+              </button>
+              <button id="feedMode-oromo_eth" onclick="selectFeedMode('oromo_eth')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
+                OBN · OMN · AMN · ETH
+              </button>
+              <button id="feedMode-global" onclick="selectFeedMode('global')" class="py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition">
+                BBC & Al Jazeera
+              </button>
+              <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News" class="p-1.5 px-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer shrink-0">
+                <i id="refreshNewsIcon" class="fa-solid fa-rotate"></i>
               </button>
             </div>
-            <button onclick="fetchWorldAndLocalNews(true)" title="Refresh News" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs cursor-pointer">
-              <i id="refreshNewsIcon" class="fa-solid fa-rotate"></i>
-            </button>
           </div>
 
           <!-- MOBILE/TABLET QUICK LIVE CHAT BAR -->
@@ -287,11 +303,11 @@
             </button>
           </div>
 
-          <!-- POSTS FEED -->
+          <!-- POSTS & NEWS FEED -->
           <div id="postsContainer" class="space-y-3 sm:space-y-4">
             <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
-              <p>Loading posts...</p>
+              <p>Loading posts & local/world media...</p>
             </div>
           </div>
         </div>
@@ -599,7 +615,7 @@
     });
   </script>
 
-  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + WORLD/LOCAL NEWS LOGIC -->
+  <!-- FIREBASE + REAL EMAIL OTP + VOICE CHAT + ACCOUNT CONTROLS + LOCAL & WORLD MEDIA LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
@@ -639,7 +655,7 @@
     let allUsers = [];
     let allPosts = [];
     let newsItems = [];
-    let feedMode = 'all'; // 'all' | 'news'
+    let feedMode = 'all'; // 'all' | 'news' | 'oromo_eth' | 'global'
     let activeChatPartner = null;
     let unsubscribeDM = null;
     let editingPostId = null;
@@ -663,8 +679,19 @@
     ];
 
     const NEWS_FEEDS = [
-      { source: "BBC World News", region: "World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-      { source: "Addis Standard", region: "Ethiopia", url: "https://addisstandard.com/feed/" }
+      // Local / Ethiopian Media (OBN, OMN, AMN, FBC, Walta, Addis Standard, BBC Afaan Oromoo & Amharic)
+      { source: "BBC Afaan Oromoo", group: "oromo_eth", badge: "Afaan Oromoo", url: "https://feeds.bbci.co.uk/afaanoromoo/rss.xml" },
+      { source: "OBN (Oromia Broadcasting Network)", group: "oromo_eth", badge: "OBN · Oromia", url: "https://obn.et/feed/" },
+      { source: "OMN (Oromia Media Network)", group: "oromo_eth", badge: "OMN · Oromia", url: "https://omntv.org/feed/" },
+      { source: "AMN (Amhara Media)", group: "oromo_eth", badge: "AMN · Ethiopia", url: "https://www.amharaweb.com/feed/" },
+      { source: "FBC (Fana Broadcasting)", group: "oromo_eth", badge: "FBC · Ethiopia", url: "https://www.fanabc.com/english/feed/" },
+      { source: "Walta Media", group: "oromo_eth", badge: "Walta · Ethiopia", url: "https://waltainfo.com/feed/" },
+      { source: "Addis Standard", group: "oromo_eth", badge: "Ethiopia", url: "https://addisstandard.com/feed/" },
+      { source: "BBC Amharic", group: "oromo_eth", badge: "Amharic", url: "https://feeds.bbci.co.uk/amharic/rss.xml" },
+
+      // Global Media (BBC World, Al Jazeera)
+      { source: "BBC News (World)", group: "global", badge: "BBC World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
+      { source: "Al Jazeera", group: "global", badge: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" }
     ];
 
     function stripHtml(html) {
@@ -676,81 +703,128 @@
     window.selectFeedMode = async (mode) => {
       feedMode = mode;
       switchTab('home');
-      const allBtn = document.getElementById('feedMode-all');
-      const newsBtn = document.getElementById('feedMode-news');
-      if (mode === 'all') {
-        allBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-[#1877F2] text-white cursor-pointer transition";
-        newsBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition";
-        renderCurrentFeed();
-      } else {
-        newsBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-emerald-600 text-white cursor-pointer transition";
-        allBtn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer transition";
-        if (newsItems.length === 0) {
-          await fetchWorldAndLocalNews(false);
+
+      const modes = ['all', 'news', 'oromo_eth', 'global'];
+      modes.forEach(m => {
+        const btn = document.getElementById(`feedMode-${m}`);
+        if (!btn) return;
+        if (m === mode) {
+          btn.className = "py-1.5 px-3 rounded-lg text-xs font-bold bg-[#1877F2] text-white cursor-pointer shrink-0 transition";
         } else {
-          renderCurrentFeed();
+          btn.className = "py-1.5 px-3 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer shrink-0 transition";
         }
+      });
+
+      if (mode !== 'all' && newsItems.length === 0) {
+        await fetchWorldAndLocalNews(false);
+      } else {
+        renderCurrentFeed();
       }
     };
+
+    async function fetchSingleFeed(feed) {
+      const proxyUrls = [
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`
+      ];
+
+      for (const apiUrl of proxyUrls) {
+        try {
+          const res = await fetch(apiUrl);
+          if (!res.ok) continue;
+
+          if (apiUrl.includes("rss2json")) {
+            const data = await res.json();
+            if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
+              return data.items.slice(0, 5).map((item, idx) => ({
+                id: `news-${feed.source}-${idx}-${encodeURIComponent(item.title || idx)}`,
+                isNews: true,
+                group: feed.group,
+                badge: feed.badge,
+                sourceName: feed.source,
+                title: item.title || "News Update",
+                summary: (() => {
+                  const clean = stripHtml(item.description || item.content || "");
+                  return clean.length > 260 ? clean.slice(0, 260) + "..." : clean;
+                })(),
+                link: item.link || "#",
+                pubDate: item.pubDate || "Latest",
+                sortTime: item.pubDate ? Date.parse(item.pubDate) || 0 : 0
+              }));
+            }
+          } else {
+            const xmlText = await res.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+            const nodes = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 5);
+            if (nodes.length > 0) {
+              return nodes.map((node, idx) => {
+                const title = node.querySelector("title")?.textContent?.trim() || "News Update";
+                const rawDesc = node.querySelector("description, summary, content")?.textContent || "";
+                const cleanDesc = stripHtml(rawDesc);
+                const linkEl = node.querySelector("link");
+                const link = linkEl?.textContent?.trim() || linkEl?.getAttribute("href") || "#";
+                const pubDate = node.querySelector("pubDate, published, updated")?.textContent?.trim() || "Latest";
+                return {
+                  id: `news-${feed.source}-${idx}-${encodeURIComponent(title)}`,
+                  isNews: true,
+                  group: feed.group,
+                  badge: feed.badge,
+                  sourceName: feed.source,
+                  title,
+                  summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
+                  link,
+                  pubDate,
+                  sortTime: pubDate ? Date.parse(pubDate) || 0 : 0
+                };
+              });
+            }
+          }
+        } catch (_) {}
+      }
+      return [];
+    }
 
     window.fetchWorldAndLocalNews = async (forceRefresh = false) => {
       const icon = document.getElementById('refreshNewsIcon');
       if (icon) icon.classList.add('fa-spin');
-      if (forceRefresh && feedMode === 'news') {
+      if (forceRefresh && feedMode !== 'all') {
         document.getElementById('postsContainer').innerHTML = `
           <div class="bg-white rounded-xl p-8 text-center text-gray-500 shadow-sm border border-gray-200">
-            <i class="fa-solid fa-spinner fa-spin text-2xl text-emerald-600 mb-2"></i>
-            <p>Fetching latest world & local news...</p>
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1877F2] mb-2"></i>
+            <p>Fetching latest stories from OBN, OMN, AMN, FBC, BBC & Al Jazeera...</p>
           </div>
         `;
       }
 
-      const collected = [];
-      for (const feed of NEWS_FEEDS) {
-        try {
-          const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-          const res = await fetch(apiUrl);
-          if (!res.ok) continue;
-          const data = await res.json();
-          const items = (data.items || []).slice(0, 8);
-          items.forEach((item, idx) => {
-            const cleanDesc = stripHtml(item.description || item.content || "");
-            collected.push({
-              id: `news-${feed.region}-${idx}-${encodeURIComponent(item.title || idx)}`,
-              isNews: true,
-              region: feed.region,
-              sourceName: `${feed.source} (${feed.region})`,
-              title: item.title || "News Update",
-              summary: cleanDesc.length > 260 ? cleanDesc.slice(0, 260) + "..." : cleanDesc,
-              link: item.link || "#",
-              pubDate: item.pubDate || "Latest"
-            });
-          });
-        } catch (_) {}
-      }
-
+      const results = await Promise.all(NEWS_FEEDS.map(feed => fetchSingleFeed(feed)));
+      const collected = results.flat();
+      collected.sort((a, b) => b.sortTime - a.sortTime);
       newsItems = collected;
+
       if (icon) icon.classList.remove('fa-spin');
-      if (feedMode === 'news') {
-        renderCurrentFeed();
-      }
+      renderCurrentFeed();
     };
 
     function buildNewsCardHTML(n) {
+      const badgeColor = n.group === 'oromo_eth'
+        ? 'bg-amber-100 text-amber-800'
+        : 'bg-blue-100 text-blue-800';
+
       return `
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div class="p-3 sm:p-4 pb-2 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2.5">
               <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-globe text-sm"></i>
+                <i class="fa-solid fa-newspaper text-sm"></i>
               </div>
               <div>
                 <div class="font-bold text-sm text-gray-900">${n.sourceName}</div>
                 <span class="text-xs text-gray-500">${n.pubDate}</span>
               </div>
             </div>
-            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${n.region === 'Ethiopia' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}">
-              ${n.region}
+            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${badgeColor}">
+              ${n.badge}
             </span>
           </div>
           <div class="px-3 sm:px-4 pb-3 space-y-2">
@@ -769,26 +843,49 @@
 
     function renderCurrentFeed() {
       const term = (document.getElementById('searchInput')?.value || '').toLowerCase();
-      if (feedMode === 'news') {
-        const filteredNews = newsItems.filter(n =>
+      const container = document.getElementById('postsContainer');
+
+      if (feedMode === 'news' || feedMode === 'oromo_eth' || feedMode === 'global') {
+        const subset = feedMode === 'news'
+          ? newsItems
+          : newsItems.filter(n => n.group === feedMode);
+
+        const filteredNews = subset.filter(n =>
           !term ||
           n.title.toLowerCase().includes(term) ||
           n.summary.toLowerCase().includes(term) ||
           n.sourceName.toLowerCase().includes(term)
         );
-        const container = document.getElementById('postsContainer');
+
         container.innerHTML = filteredNews.length
           ? filteredNews.map(buildNewsCardHTML).join('')
-          : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No news articles available right now. Tap refresh to try again.</div>`;
+          : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No news articles found for this filter right now. Tap refresh to reload.</div>`;
         return;
       }
 
-      const filteredPosts = allPosts.filter(p =>
-        !term ||
-        (p.text && p.text.toLowerCase().includes(term)) ||
-        (p.authorName && p.authorName.toLowerCase().includes(term))
-      );
-      renderPosts(filteredPosts);
+      const combined = [
+        ...allPosts.map(p => ({
+          ...p,
+          isNews: false,
+          sortTime: p.createdAt?.toMillis?.() || Date.now()
+        })),
+        ...newsItems
+      ].sort((a, b) => b.sortTime - a.sortTime);
+
+      const filteredCombined = combined.filter(item => {
+        if (!term) return true;
+        if (item.isNews) {
+          return item.title.toLowerCase().includes(term) ||
+            item.summary.toLowerCase().includes(term) ||
+            item.sourceName.toLowerCase().includes(term);
+        }
+        return (item.text && item.text.toLowerCase().includes(term)) ||
+          (item.authorName && item.authorName.toLowerCase().includes(term));
+      });
+
+      container.innerHTML = filteredCombined.length
+        ? filteredCombined.map(item => item.isNews ? buildNewsCardHTML(item) : buildPostCardHTML(item)).join('')
+        : `<div class="bg-white p-8 rounded-xl text-center text-gray-500 shadow-sm border border-gray-200">No posts or news yet.</div>`;
     }
 
     function getAvatar(name, photo) {
@@ -1232,9 +1329,7 @@
       const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
       onSnapshot(q, (snap) => {
         allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (feedMode === 'all') {
-          renderPosts(allPosts);
-        }
+        renderCurrentFeed();
         renderMyPosts();
       });
     }

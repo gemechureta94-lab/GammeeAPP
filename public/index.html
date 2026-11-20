@@ -28,14 +28,76 @@
 </head>
 <body class="text-[#050505]">
 
+  <!-- ================= WELCOME PAGE ================= -->
+  <div id="welcomeScreen" class="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-blue-50 via-[#f0f2f5] to-indigo-100">
+    <div class="max-w-4xl w-full bg-white rounded-3xl shadow-2xl border border-gray-200/80 p-6 sm:p-10 text-center space-y-8">
+      <div class="space-y-3">
+        <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-[#1877F2] text-white font-extrabold text-4xl sm:text-5xl shadow-lg mx-auto">
+          G
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+          Welcome to <span class="text-[#1877F2]">Gammee APP</span>
+        </h1>
+        <p class="text-sm sm:text-base text-gray-600 max-w-xl mx-auto">
+          Baga nagaan gara Gammee APP dhuftan. Fuula itti aanu irratti account keessaniin seenaa ykn haaraa uummadhaa.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-left">
+        <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 space-y-1.5">
+          <div class="w-9 h-9 rounded-xl bg-[#1877F2] text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h3 class="font-bold text-sm text-gray-900">Posts & Reactions</h3>
+          <p class="text-xs text-gray-600">Like, reaction, comment, share, fi story qoodaa.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-1.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <h3 class="font-bold text-sm text-gray-900">Follow & Friends</h3>
+          <p class="text-xs text-gray-600">Hordoftoota horadhaa fi feed "Following" ilaalaa.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 space-y-1.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+          <h3 class="font-bold text-sm text-gray-900">Voice & Text Chat</h3>
+          <p class="text-xs text-gray-600">Global Live Chat fi Direct Message sagaleen & barreeffamaan.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 space-y-1.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-newspaper"></i>
+          </div>
+          <h3 class="font-bold text-sm text-gray-900">Live Media Feed</h3>
+          <p class="text-xs text-gray-600">Oduu OBN, OMN, AMN, FBC, BBC fi Al Jazeera hordofaa.</p>
+        </div>
+      </div>
+
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button type="button" onclick="enterAuthFromWelcome('login')" class="w-full sm:w-auto bg-[#1877F2] hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl text-base shadow-md transition cursor-pointer">
+          Get Started <i class="fa-solid fa-arrow-right ml-1.5"></i>
+        </button>
+        <button type="button" onclick="enterAuthFromWelcome('signup')" class="w-full sm:w-auto bg-[#42b72a] hover:bg-green-600 text-white font-bold px-7 py-3.5 rounded-xl text-base shadow-sm transition cursor-pointer">
+          Create New Account
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= AUTHENTICATION SCREEN ================= -->
-  <div id="authScreen" class="min-h-app-screen min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-8 gap-8 lg:gap-12 max-w-5xl mx-auto">
-    <div class="text-center lg:text-left max-w-md">
-      <div class="inline-flex items-center gap-3 mb-2">
+  <div id="authScreen" class="hidden min-h-app-screen min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-8 gap-8 lg:gap-12 max-w-5xl mx-auto">
+    <div class="text-center lg:text-left max-w-md space-y-3">
+      <button type="button" onclick="showWelcomePage()" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1877F2] hover:underline cursor-pointer">
+        <i class="fa-solid fa-arrow-left"></i> Back to Welcome Page
+      </button>
+      <div class="flex items-center justify-center lg:justify-start gap-3">
         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1877F2] text-white font-extrabold text-3xl sm:text-4xl flex items-center justify-center shadow-lg">G</div>
         <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1877F2] tracking-tight">Gammee APP</h1>
       </div>
-      <p class="text-sm text-gray-600 mt-2">Connect, post, follow creators, chat with voice & text, and read live local & world media.</p>
     </div>
 
     <div class="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
@@ -598,6 +660,19 @@
 
   <!-- UI HELPERS -->
   <script>
+    function showWelcomePage() {
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('authScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    }
+
+    function enterAuthFromWelcome(mode = 'login') {
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('authScreen').classList.remove('hidden');
+      showAuthScreen(mode);
+    }
+
     function showAuthScreen(mode) {
       document.getElementById('authError').classList.add('hidden');
       document.getElementById('authInfo').classList.add('hidden');
@@ -1296,6 +1371,7 @@
         const displayName = user.displayName || user.email.split('@')[0];
         const avatar = getAvatar(displayName, user.photoURL);
 
+        document.getElementById('welcomeScreen').classList.add('hidden');
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
 
@@ -1314,8 +1390,8 @@
         currentUser = null;
         if (newsAutoSyncTimer) clearInterval(newsAutoSyncTimer);
         document.getElementById('mainApp').classList.add('hidden');
-        document.getElementById('authScreen').classList.remove('hidden');
-        showAuthScreen('login');
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('welcomeScreen').classList.remove('hidden');
       }
     });
 

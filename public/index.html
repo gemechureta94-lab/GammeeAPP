@@ -685,7 +685,7 @@
 
     const EMAILJS_PUBLIC_KEY = "bTMttOLrBa11bFIn6";
     const EMAILJS_SERVICE_ID = "service_igsnp4g";
-    const EMAILJS_TEMPLATE_ID = "template_sflmmc8";
+    const EMAILJS_TEMPLATE_ID = "f44t9rf";
 
     if (window.emailjs) {
       window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
@@ -1130,13 +1130,16 @@
         throw new Error("EmailJS library failed to load.");
       }
 
+      const cleanName = (toName || toEmail.split("@")[0] || "User").trim();
       const expiryDate = new Date(Date.now() + 15 * 60 * 1000);
-      const formattedTime = expiryDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const formattedTime = expiryDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        email: toEmail,
         to_email: toEmail,
-        to_name: toName,
+        email: toEmail,
+        to_name: cleanName,
+        from_name: "Gammee APP",
+        app_name: "Gammee APP",
         passcode: otpCode,
         otp_code: otpCode,
         time: formattedTime
